@@ -1,0 +1,23 @@
+TO DO:
+
+- Make the server recognize when a player destroys a crate and react accordingly..
+  DONE!
+
+- Make the simple pathfinding work for the undead
+  DONE!
+
+- Finally start creating weapons and actual gameplay...
+
+------ PROBLEMS ------
+
+- The zombies attack isn't really consistent, and it's hard to predict when the attack actually hits you...
+
+- The collision detection for the staff doesn't work well because there might be disagreements between the server and client whether it hits or not (this is because both the server and client has their own collision detection, but the positions are different because of delay). This problem is atm only seen when you "hit" a zombie and it gets knocked back, but it takes no damage.
+
+- Sometimes the attacks don't register on both clients, when you hold down "W".
+To recreate, just watch both clients simultaneously while attacking with one of the players...
+
+
+------ FIXED ------
+
+- Zombies "lag" a bit when they move.  #### FIXED! but it actually looks better with the lag because their movement appears more "real"

@@ -1,0 +1,86 @@
+============================================================================
+============================= RenetMP - Manual =============================
+============================================================================
+
+
+>>>>>>>>>>>>>>>> Gosu-Client.exe <<<<<<<<<<<<<<<<
+
+This is the client that runs the game.
+In order to start a game, you HAVE to have connection to a server 
+(should be changed later).
+
+After opening the client you will be prompted to enter an IP address
+which is the IP for the server you want to connect to.
+In order to change this you have to restart the client (should also be changed later).
+
+If you press enter with "localhost", which is default, you will connect to your 
+own IP (aka 127.0.0.1)
+
+On Windows you can also leave the IP blank, which will connect to localhost, but on 
+Linux you need to have a string for the IP, or else it won't work.
+
+============ GAME MENU ============
+
+After entering the IP, you have now entered the "game menu" and from here there are a 
+couple of options/controls to note of:
+
+Esc : As always this quits the game and is recommended, because it automatically disconnects your client from the server. (otherwise you'd often have to wait a few seconds for the server to react)
+
+C : This button "connects" with the server, but only if there's a connection to be found.
+
+D : Like before except this disconnects from the server.
+
+ENTER : Use this to type commands/messages to server/other clients
+
+P : Checks the latency between client and server (note this estimates the time it takes the data to both reach the server and back again, which is not the same as ping) (also note that the "time" will be a value which is calculated by the amount of "ticks" it took the data to return, which means its for from 100% precise)
+
+--- COMMANDS ---
+
+Only the host can send commands. The host will always be the client with the ID of 0,
+which is the first client to join the server. (should be changed later)
+
+'<start' : Send this message to start a game in a random room 
+(there are 3 rooms total).
+
+The following commands are mainly used for testing/debugging purposes, but have been kept 
+because I'm too lazy to remove them...
+
+'<start0' : This will start the game in room 0 (programmers way of counting :P )
+'<start1' : This will start the game in room 1
+'<start2' : This will start the game in room 2
+
+============ INGAME ============
+
+Esc : You already know.
+
+Arrow Keys : Controls your wizard
+
+Z, C : Dash ability (your wizard dashes to either side)
+
+E, Q : Select Item/Weapon (atm there's only 1 "weapon", which is a staff)
+
+X : Attack/Use Item (basically this...)
+
+W : Disables all the lighting/shading. Used for testing/debugging purposes only.
+    Utilising this while playing is considered cheating (unless you are the developer!).
+
+
+>>>>>>>>>>>>>>>> Console-Server.exe <<<<<<<<<<<<<<<<
+
+This server has no controls except Esc, which (you guessed it) stops the server.
+
+When starting a game you will most likely see a bunch of random text appear on the console. 
+Dont worry this is still mainly used for testing/debugging purposes and for spamming the user with useless information. 
+
+Despite its name "console-server" we've finally added a window, which atm only has one purpose: To display its FPS. EDIT: It has finally achieved a purpose, which is to show a map of current the game, where you can see the position of each player.
+
+>>>>
+
+Note: "default_ip.txt" is the file that stores the latest IP that you've entered.
+This is also the IP that's displayed when you open the client (to avoid having to re-write the IP every time...) 
+by default this is set to be localhost. 
+
+This file, aswell as these: "room0data.txt", "room1data.txt", "room2data.txt" are all necessary for the game to run. Do not remove them!
+
+Note - Its possible to edit the roomdata txt files to create a custom room, but keep in mind that both server and all connected clients have to agree on the change!
+
