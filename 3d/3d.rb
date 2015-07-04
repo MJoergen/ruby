@@ -118,12 +118,12 @@ class GameWindow < Gosu::Window
 		for n in 1..8
 
             point = @points[n-1]
-            x, y, z = calc_3d(point, @camera)
+            x, y, z, dist = calc_3d(point, @camera)
 
 			# Drawing the circles in each corner
             if z > 0
                 factor = (@SIZE / z / @camera[:zoom])/100.0
-                @circle.draw_rot(x+320, y+240, -z,      # x, y, z
+                @circle.draw_rot(x+320, y+240, -dist,   # x, y, z
                                  0, 0.5, 0.5,           # angle, center_x, center_y
                                  factor, factor)        # factor_x, factor_y
             end
