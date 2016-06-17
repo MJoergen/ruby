@@ -15,32 +15,71 @@ end
 
 print "Velkommen til spillet meyer.\n"
 print "\nJeg starter!\n"
-print "Jeg ryster terningerne, kigger, og jeg melder 62\n"
 
+# Find bare en tilfældig melding
+melding = meyer[rand(meyer.size)]
 aktuelt_slag = gen_slag
-melding = "62"
 
-print "\nDu kan enten skrive løft, ryst, eller retur\n"
-aktion = gets.chomp.encode(Encoding::UTF_8)
-if aktion == "løft"
-	print "\nDu løfter\n"
-	print "Terningerne viser #{aktuelt_slag}\n"
-	if meyer.index(aktuelt_slag) > meyer.index(melding)
-		print "Jeg har tabt\n"
-	else
-		print "Du har tabt\n"
-	end
-elsif aktion == "ryst"
-	print "Du ryster\n"
-	aktuelt_slag = gen_slag
-	print "Terningerne viser nu #{aktuelt_slag}. Hvad vil du gøre?\n"
-	print "Du kan kun lave en melding\n"
+spil_igang = true
+begin
+    print "Jeg ryster terningerne og kigger.\n"
+    print "Jeg melder #{melding}.\n"
 
-	melding = gets.chomp
-	if meyer.include?(melding)
-		print "Du melder #{melding}\n"
-	else
-		print "Det forstår jeg ikke"
-	end
+    print "\nDu kan enten skrive løft eller ryst\n"
+    aktion = gets.chomp.encode(Encoding::UTF_8)
+    if aktion == "løft"
+        print "\nDu løfter\n"
+        print "Terningerne viser #{aktuelt_slag}\n"
+        if meyer.index(aktuelt_slag) > meyer.index(melding)
+            print "Jeg har tabt\n"
+        else
+            print "Du har tabt\n"
+        end
+        spil_igang = false
+    elsif aktion == "ryst"
+        print "\nDu ryster\n"
+        aktuelt_slag = gen_slag
+        print "Terningerne viser nu #{aktuelt_slag}. Hvad vil du melde?\n"
 
-end
+        lovlig_melding = false
+        begin
+            ny_melding = gets.chomp
+            if meyer.include?(ny_melding)
+                print "\nDu melder #{ny_melding}\n"
+                if meyer.index(ny_melding) > meyer.index(melding)
+                    print "Det er ikke lovligt. Prøv igen.\n"
+                else
+                    lovlig_melding = true
+                end
+            else
+                print "Det forstår jeg ikke. Prøv igen.\n"
+            end
+        end while not lovlig_melding
+        melding = ny_melding
+
+        print "Nu er det min tur igen.\n"
+        if rand < 0.4
+            print "Jeg løfter.\n"
+            print "Terningerne viser #{aktuelt_slag}\n"
+            print "Du havde melddt #{melding}\n"
+
+            if meyer.index(aktuelt_slag) > meyer.index(melding)
+                print "Du har tabt\n"
+            else
+                print "Jeg har tabt\n"
+            end
+            spil_igang = false
+        else
+            aktuelt_slag = gen_slag
+
+            if meyer.index(aktuelt_slag) > meyer.index(melding)
+                # Jeg må lyve.
+                antal_lovlige_meldinger = meyer.index(melding) + 1
+                melding = meyer[rand(antal_lovlige_meldinger)]
+            else
+                melding = aktuelt_slag
+            end
+        end
+    end
+end while spil_igang
+
