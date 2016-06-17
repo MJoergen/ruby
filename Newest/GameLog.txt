@@ -1,0 +1,41 @@
+// Vores "fighter" laver 2x bomber når han respawner...? <------ WORKS!!
+// Vores Slow, fra supnimph, virker ikke, hvis target allerede er slowet... <------- FIXED!!
+// Ville gerne gøre sådan at hvis forskellen mellem @directionget og @angle var mindre end 10 så skulle vores "fighter" prioritere afstand frem for @angle!!! <--- DEFEATED!!!
+
+So the game is gonna have somewhat of a storyline... i dont realy know, but ill try to implement one as best as i can! Keep in mind, this is final, 
+so im most likely gonna publish the game, if i can get the ideas working and everything. I just need to do more planning and then i can get to work!
+ATM i seem to have the experience necessary for working with this game and im sure ill get something outta it!! 
+
+
+--- 02-08 ---
+
+-- Patched the fighter "death" so its now completely invisible!! (and it doesn't respawn *A*)
+
+-- 30/08 ---
+
+-- RESET PLAYER methods <------- FIXED!!!
+-- reset FIGHTER METHODS <------- FIXED!!!
+
+-- Rework the timer functions in @fighter <------- FIXED!!!
+
+-- More Optimising...
+
+-- Okay now at this point, I've decided to make it so that you can choose 3 things before starting a fight:
+-----> Primary Weapon
+-----> Secondary Weapon
+-----> Ability
+These 3 things will be your loadout for the battle, so you can choose whatever fits your style or whatever 
+is optimal for that boss specifically...
+The problem is that we need a place to choose from, and thats what im considering at the moment.
+I'd like you to choose your loadout in a menu of its own, so we would definitaly need more menus!
+<--- DONE!!!
+
+--- Kay so from now on I need to things done:
+
+- First of all I need to create the elektricity weapon that shoots out randomly, but the "animation" takes a long time to optimize.
+
+- Second I need to polish the targeting system for "supnimph" in order to enable targeting against even instances, and to make it look better!
+
+--- Kay so I've finished the animation for our elektricity weapon!
+
+
