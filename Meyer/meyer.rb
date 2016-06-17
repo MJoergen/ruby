@@ -62,8 +62,12 @@ def spil_en_runde(min_tur)
         else
             # Det er spillerens tur!
 
-            print "\nDu kan enten skrive løft eller ryst\n"
-            aktion = gets.chomp.encode(Encoding::UTF_8)
+            aktion = "ryst"
+            if melding != "" # Tom streng betyder, at det er første slag
+                print "\nDu kan enten skrive løft eller ryst\n"
+                aktion = gets.chomp.encode(Encoding::UTF_8)
+            end
+
             if aktion == "løft"
                 print "\nDu løfter\n"
                 print "Terningerne viser #{aktuelt_slag}\n"
@@ -84,7 +88,7 @@ def spil_en_runde(min_tur)
                     ny_melding = gets.chomp
                     if $meyer.include?(ny_melding)
                         print "\nDu melder #{ny_melding}\n"
-                        if $meyer.index(ny_melding) > $meyer.index(melding)
+                        if melding != "" and $meyer.index(ny_melding) > $meyer.index(melding)
                             print "Det er ikke lovligt. Prøv igen.\n"
                         else
                             lovlig_melding = true
@@ -120,5 +124,13 @@ while mine_point > 0 and dine_point > 0
         mine_point -= 1
         min_tur = true
     end
+
+end
+
+if mine_point == 0
+    print "TILLYKKE! Du er den nye mester.\n"
+end
+if dine_point == 0
+    print "HAHAHAHA. Jeg tværede dig ud, noob!\n"
 end
 
