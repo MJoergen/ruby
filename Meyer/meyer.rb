@@ -13,53 +13,39 @@ def gen_slag
 	return slag
 end
 
-def spil_en_runde
+def spil_en_runde(min_tur)
     print "=====================\n\n"
 
-    # Find bare en tilfældig melding
-    melding = $meyer[rand($meyer.size)]
-    aktuelt_slag = gen_slag
-
+    melding = "" 
     vinder = 0
-    begin
-        print "Jeg ryster terningerne og kigger.\n"
-        print "Jeg melder #{melding}.\n"
+    while vinder == 0
 
-        print "\nDu kan enten skrive løft eller ryst\n"
-        aktion = gets.chomp.encode(Encoding::UTF_8)
-        if aktion == "løft"
-            print "\nDu løfter\n"
-            print "Terningerne viser #{aktuelt_slag}\n"
-            if $meyer.index(aktuelt_slag) > $meyer.index(melding)
-                print "Jeg har tabt\n\n"
-                vinder = -1
-            else
-                print "Du har tabt\n\n"
-                vinder = 1
-            end
-        elsif aktion == "ryst"
-            print "\nDu ryster\n"
-            aktuelt_slag = gen_slag
-            print "Terningerne viser nu #{aktuelt_slag}. Hvad vil du melde?\n"
+        if min_tur
+            # Det er min tur nu!
+            if melding == "" # Tom streng betyder, at det er første slag
+                print "Jeg ryster terningerne og kigger.\n"
+                aktuelt_slag = gen_slag
 
-            lovlig_melding = false
-            begin
-                ny_melding = gets.chomp
-                if $meyer.include?(ny_melding)
-                    print "\nDu melder #{ny_melding}\n"
-                    if $meyer.index(ny_melding) > $meyer.index(melding)
-                        print "Det er ikke lovligt. Prøv igen.\n"
-                    else
-                        lovlig_melding = true
-                    end
+                # Find bare en tilfældig melding, uafhængig af hvad terningerne viser.
+                melding = $meyer[rand($meyer.size)]
+                print "Jeg melder #{melding}.\n"
+            elsif rand < 0.5 # Vi stoler kun nogle gange på spilleren
+                # Ryst
+                print "Jeg ryster terningerne og kigger.\n"
+                aktuelt_slag = gen_slag
+
+                if $meyer.index(aktuelt_slag) > $meyer.index(melding)
+                    # Øv. Mit nye slag er mindre end det sidst meldte.
+                    # Jeg må lyve.
+                    antal_lovlige_meldinger = $meyer.index(melding) + 1
+                    melding = $meyer[rand(antal_lovlige_meldinger)]
                 else
-                    print "Det forstår jeg ikke. Prøv igen.\n"
+                    # Jeg melder bare det mine terninger viser.
+                    melding = aktuelt_slag
                 end
-            end while not lovlig_melding
-            melding = ny_melding
-
-            print "Nu er det min tur igen.\n"
-            if rand < 0.4
+                print "Jeg melder #{melding}.\n"
+            else
+                # Løft
                 print "Jeg løfter.\n"
                 print "Terningerne viser #{aktuelt_slag}\n"
                 print "Du havde meldt #{melding}\n"
@@ -71,19 +57,49 @@ def spil_en_runde
                     print "Jeg har tabt\n\n"
                     vinder = -1
                 end
-            else
-                aktuelt_slag = gen_slag
+            end
 
+        else
+            # Det er spillerens tur!
+
+            print "\nDu kan enten skrive løft eller ryst\n"
+            aktion = gets.chomp.encode(Encoding::UTF_8)
+            if aktion == "løft"
+                print "\nDu løfter\n"
+                print "Terningerne viser #{aktuelt_slag}\n"
                 if $meyer.index(aktuelt_slag) > $meyer.index(melding)
-                    # Jeg må lyve.
-                    antal_lovlige_meldinger = $meyer.index(melding) + 1
-                    melding = $meyer[rand(antal_lovlige_meldinger)]
+                    print "Jeg har tabt\n\n"
+                    vinder = -1
                 else
-                    melding = aktuelt_slag
+                    print "Du har tabt\n\n"
+                    vinder = 1
                 end
+            elsif aktion == "ryst"
+                print "\nDu ryster\n"
+                aktuelt_slag = gen_slag
+                print "Terningerne viser nu #{aktuelt_slag}. Hvad vil du melde?\n"
+
+                lovlig_melding = false
+                begin
+                    ny_melding = gets.chomp
+                    if $meyer.include?(ny_melding)
+                        print "\nDu melder #{ny_melding}\n"
+                        if $meyer.index(ny_melding) > $meyer.index(melding)
+                            print "Det er ikke lovligt. Prøv igen.\n"
+                        else
+                            lovlig_melding = true
+                        end
+                    else
+                        print "Det forstår jeg ikke. Prøv igen.\n"
+                    end
+                end while not lovlig_melding
+                melding = ny_melding
+
             end
         end
-    end while vinder == 0
+        
+        min_tur = not(min_tur)
+    end # while winder == 0
 
     return vinder
 end
@@ -93,13 +109,16 @@ print "Velkommen til spillet meyer.\n"
 mine_point = 6
 dine_point = 6
 
+min_tur = true
 while mine_point > 0 and dine_point > 0
     print "Aktuel score er: #{mine_point} point til mig og #{dine_point} point til dig.\n"
-    vinder = spil_en_runde
+    vinder = spil_en_runde(min_tur)
     if vinder == 1
         dine_point -= 1
+        min_tur = false
     else
         mine_point -= 1
+        min_tur = true
     end
 end
 
