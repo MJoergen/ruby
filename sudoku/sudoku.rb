@@ -1,4 +1,6 @@
 
+# This reads a text file containing many sudoku problems and returns an
+# array of problems
 def read_problems(fname)
     problems = []
     problem = []
@@ -23,5 +25,10 @@ def read_problems(fname)
     return problems
 end
 
+# This accepts a single problem and attempts to solve it
+def solve_problem(prob)
+    p prob
+end
+
 problems = read_problems('2.txt')
-p problems
+problems.each { |prob| solve_problem(prob) }
