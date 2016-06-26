@@ -1,4 +1,3 @@
-
 # This reads a text file containing many sudoku problems and returns an
 # array of problems
 def read_problems(fname)
@@ -80,6 +79,8 @@ def solve_problem(prob)
     if min_i == 99
         print "Done!\n"
         print_board(prob)
+        val = (prob[0][0] + prob[0][1] + prob[0][2]).to_i
+        $sum += val
         return prob
     end
 
@@ -94,6 +95,9 @@ def solve_problem(prob)
     end
 end
 
-problems = read_problems('2.txt')
-problems.each { |prob| solve_problem(prob) }
+$sum = 0
 
+problems = read_problems('p096_sudoku.txt')
+problems.each { |prob| solve_problem(prob);  }
+
+p $sum
