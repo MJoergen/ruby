@@ -1,0 +1,13 @@
+Pseudo-kode:
+function solve (input = delvist udfyldt opgave)
+    find et ledigt felt
+        # Hvis der ikke er nogle ledige felter, så er opgaven løst!
+    lav en list over alle lovlige tal i dette felt
+        # Hvis der ikke er nogle lovlige tal, så returner
+    for hvert lovligt tal:
+        placer tallet i feltet
+        kald solve med den opdaterede opgave
+        fjern tallet fra feltet
+    end for
+end solve
+
