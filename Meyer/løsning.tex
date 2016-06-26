@@ -113,7 +113,7 @@ $$
 P(m) : \mbox{sandsynligheden for at finde.}
 $$
 
-Til sidst får vi brug for en strategi for, hvornår vi løfter:
+Til sidst får vi brug for at beskrive vores strategi.  Først har vi:
 $$
 R(m) : \mbox{sandsynligheden for, at vi løfter.}
 $$
@@ -123,6 +123,17 @@ P(m) = R(m) P_R(m) + (1-R(m)) P_L(m)
 \label{samlet}
 \ee
 fordi i enhver situation er der kun to mulige handlinger: at løfte eller at ryste.
+Dernæst har vi
+$$
+P_M(M=m | T=t \& S=s)
+$$
+som er sandsynligheden for, at vi afgiver meldingen $m$, givet at terningerne
+nu viser $t$ og den sidste melding var $s$.
+Reglerne i spiller gør, at
+$$
+P_M(m|t,s) = 0 \quad {\rm for} \quad m < s
+$$
+Med andre ord, man må ikke afgive en melding, der er lavere end den sidste.
 
 \subsection{Foreløbige resultater -- sidste melding er $21$}
 Nu vil vi først bestemme værdien af $P_L(m=21)$: Dette svarer til situationen,
@@ -139,7 +150,17 @@ Her har vi benyttet ligning~(\ref{uafhaengighed}), hvor vi altså antager,
 at den forrige spillers melding ikke giver nogen information om, hvad
 terningerns visning er, og at sidstnævnte dermed er helt tilfældige.
 
-Nu vil vi bestemme værdien af $P_R(m=21)$, dvs vi vælger at ryste terningerne oglave en ny melding. Denne nye melding kan kun være $21$, så vi har umiddelbart:
+Nu vil vi bestemme værdien af $P_R(m=21)$, dvs vi vælger at ryste terningerne
+oglave en ny melding. Denne nye melding kan kun være $21$,
+fordi
+$$
+P_M(m|t, s=21) = 0 \quad {\rm hvis} \quad m < 21
+$$
+og
+$$
+P_M(21|t, s=21) = 1
+$$
+Derfor har vi umiddelbart:
 $$
 P_R(21) = 1 - P(21)
 $$
@@ -170,6 +191,72 @@ $$
 Da $2P_L>1$ så ser vi, at dette er en aftagende funktion af $R$, og maksimum
 opnås derfor ved $R(21) = 0$. Så hvis den sidste spiller har meldt $21$, så er
 det bedst at løfte hver gang.
+
+Vi har således fundet frem til, at
+\bas
+R(21) &=& 0 \\
+P(21) &=& 0,9444
+\eas
+
+\subsection{Foreløbige resultater -- sidste melding er $31$}
+Nu vil vi så bestemme værdien af $P_L(m=31)$, altså sandsynligheden for at
+vinde, givet at vi løfter og den sidste spiller har meldt $31$.
+Vi har således:
+\bas
+ && P_L(m=31) \\
+&=& 1 - P(t \ge 31 | m=31) \\
+&=& 1 - P(t \ge 31) \\
+&=& \frac{32}{36} \\
+&=& 0,8888
+\eas
+
+Nu vil vi så bestemme $P_R(m=31)$, dvs sandsynligheden for at vinde, givet at 
+vi ryster terningnerne, og sidste spiller har meldt $31$. Vi kan nu vælge mellem
+at melde $21$ og $31$. Sandsynlighederne for disse betegnes med henholdsvis $M_{21}$
+og $M_{31}$. Der må derfor gælde, at $M_{31} = 1-M_{21}$.
+
+Vi har umiddelbart, at
+$$
+P_R(31) = 1 - M_{21} P(21) - M_{31} P(31)
+$$
+Ligning~(\ref{samlet}) giver igen
+$$
+P(31) = R(31) P_R(31) + \big(1-R(31)\big) P_L(31)
+$$
+Heri indsættes ovenstående udtryk for $P_R(31)$:
+$$
+P(31) = R(31) \big(1 - M_{21} P(21) - M_{31} P(31)\big) + \big(1-R(31)\big) P_L(31)
+$$
+
+Nu indsætter vi $M_{21} = 1-M_{31}$ og $P(21) = 0,9444$ og $P_L(31) = 0,8888$. Dernæst
+dropper vi argumentet $31$ og så kan ovenstående ligning skrives som:
+$$
+P = R\big(1-(1-M)0,9444-MP\big) + \big(1-R\big)0,8888
+$$
+I denne ligning isoleres $P$ og det giver
+$$
+P = 0,9444 - \frac{0,8333 R + 0,0555}{1+RM}
+$$
+
+Vi ønsker nu at maksimere værdien for $P$ givet at $0\le M \le1$ og $0\le R\le 1$.
+For enhver værdi at $R$ bliver $P$ maksimal for $M=1$. Vi indsætter derfor $M=1$ i udtrykket for
+$P$ og omskriver til:
+$$
+P = 0,1111 + \frac{0,777}{1+R}
+$$
+Denne værdi er størst, når $R$ er mindst, dvs $R=0$.
+
+Vi har således fundet frem til følgende optimale værdier:
+\bas
+M_{31} &=& 1 \\
+M_{21} &=& 0 \\
+R(31) &=& 0 \\
+P(31) &=& 0,8888
+\eas
+Det vil sige, at det optimale svar på meldingen $31$ er at løfte uanset hvad.
+
+Bemærk, i denne analyse bruger vi slet ikke værdien af terningerne. 
+Med andre ord, værdien af $M_{31}$ kan godt afhænge af den faktiske værdi af terningerne.
 
 
 
