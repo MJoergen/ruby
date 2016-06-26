@@ -1,0 +1,178 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+\usepackage[utf8]{inputenc} % Lærer LaTeX at forstå unicode - HUSK at filen skal
+% være unicode (UTF-8), standard i Linux, ikke i
+% Win.
+
+\usepackage[danish]{babel} % Så der fx står Figur og ikke Figure, Resumé og ikke
+% Abstract etc. (god at have).
+
+%\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsthm}        % Theorems
+\usepackage{amsmath}
+%\usepackage{hyperref}
+
+%\renewcommand{\mid}[1]{{\rm E}\!\left[#1\right]}
+\newcommand{\bas}{\begin{eqnarray*}}
+\newcommand{\eas}{\end{eqnarray*}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+
+\newtheorem{thm}{Sætning}[section]
+\newtheorem{mydef}[thm]{Definition}
+\newtheorem{eks}[thm]{Eksempel}
+
+\title{Meyer -- matematisk løsning}
+\date{Juni 2016}
+\author{Michael Jørgensen}
+
+\begin{document}
+
+\maketitle
+
+Dette dokument præsenterer en matematisk optimal strategi for at spille spillet
+"Meyer".
+
+\section{Regler}
+
+Først gennemgår jeg kort reglerne for spillet.  I spillet Meyer kaster man to
+terninger (som man kun selv kan se).  Man kigger på terningerne, afgiver en
+melding, og giver de skjulte terninger videre til den næste spiller.
+
+Den næste spiller har nu to muligheder: Enten at "løfte" eller at "ryste". Man
+"løfter" terningerne, hvis man ikke tror på meldingen. Så bliver terningerne
+vist, og hvis de viser det samme som eller bedre end den sidste melding, så har
+spilleren tabt. Hvis de viser mindre end den sidste melding, så har den sidste
+spiller (som har afgivet meldingen) tabt.
+
+Hvis en spiller "ryster", så bliver terningerne rystet, og spilleren kigger på
+terningerne, og afgiver en ny melding. Denne nye melding skal være mindst lige
+så god som den sidste melding.
+
+Spillet fortsætter således med meldinger, som aldrig bliver dårligere, indtil en spiller vælger at løfte.
+
+De to terninger har i alt $6+5+4+3+2+1=21$ forskellige visninger, og
+rækkefølgen er (fra bedst til dårligst):
+\be
+21, 31,
+66, 55, 44, 33, 22, 11,
+65, 64, 63, 62, 61,
+54, 53, 52, 51,
+43, 42, 41,
+32
+\label{udfaldsrum}
+\ee Alle dobbelt-slagene har sandsynligheden $\frac{1}{36}$ for at optræde,
+mens de øvrige slag optræde med sandsynligheden $\frac{2}{36}$. Dermed bliver
+medianen af slagene et sted mellem $61$ og $62$.
+
+\section{Matematisk løsning}
+I dette dokument betragter vi situationen med netop to spillere, som begge
+gør deres bedste for at finde.
+
+\subsection{Betegnelser}
+Vi indfører følgende betegnelser:
+$$
+M : \mbox{den sidste melding}
+$$
+
+$$
+T : \mbox{terningernes aktuelle visning}
+$$
+Således er $M$ og $T$ begge stokastiske variabler med
+udfaldsrummet~(\ref{udfaldsrum}).
+
+Dernæst får vi brug for følgende sandsynligheder:
+$$
+P(T=t| M=m)
+$$
+Dette er sandsynligheden for, at de skjulte terninger viser $t$,
+givet at den sidste melding er $m$.
+$$
+P(T=t) : \mbox{sandsynligheden for, at terningerne viser $t$.}
+$$
+Til at begynde med antager vi, at en melding ikke giver nogen information om
+terningnerne. Derfor antager vi, at
+\be
+P(T=t) = P(T=t | M=m), \quad \mbox{for alle $t$ og $m$.}
+\label{uafhaengighed}
+\ee
+
+Vi indfører følgende sandsynligheder for gevinst ($m$ er den forrige spillers melding):
+$$
+P_L(m) : \mbox{sandsynligheden for at vinde, givet at spilleren vælger at
+løfte.}
+$$
+$$
+P_R(m) : \mbox{sandsynligheden for at vinde, givet at spilleren vælger at
+ryste.}
+$$
+$$
+P(m) : \mbox{sandsynligheden for at finde.}
+$$
+
+Til sidst får vi brug for en strategi for, hvornår vi løfter:
+$$
+R(m) : \mbox{sandsynligheden for, at vi løfter.}
+$$
+Vi har så umiddelbart, at der må gælde
+\be
+P(m) = R(m) P_R(m) + (1-R(m)) P_L(m)
+\label{samlet}
+\ee
+fordi i enhver situation er der kun to mulige handlinger: at løfte eller at ryste.
+
+\subsection{Foreløbige resultater -- sidste melding er $21$}
+Nu vil vi først bestemme værdien af $P_L(m=21)$: Dette svarer til situationen,
+at den forrige spiller har rystet terningerne og meldt $21$. Vi vælger nu at
+løfte, og hvad er så sandsynligheden for, at vi vinder?
+\bas
+ && P_L(m=21) \\
+&=& 1 - P(t=21|m=21) , \quad \mbox{alt undtagen 21 vinder}\\
+&=& 1 - P(t=21) \\
+&=& \frac{34}{36} \\
+&=& 0,9444
+\eas
+Her har vi benyttet ligning~(\ref{uafhaengighed}), hvor vi altså antager,
+at den forrige spillers melding ikke giver nogen information om, hvad
+terningerns visning er, og at sidstnævnte dermed er helt tilfældige.
+
+Nu vil vi bestemme værdien af $P_R(m=21)$, dvs vi vælger at ryste terningerne oglave en ny melding. Denne nye melding kan kun være $21$, så vi har umiddelbart:
+$$
+P_R(21) = 1 - P(21)
+$$
+fordi vi antager, at modstanderen benytter samme strategi som os selv.
+
+Vi benytter nu ligning~(\ref{samlet}) og omskriver:
+\bas
+ && P(21) \\
+&=& R(21) P_R(21) + (1-R(21)) P_L(21) \\ 
+&=& R(21) (1-P(21)) + (1-R(21)) P_L(21)
+\eas
+Vi ønsker at finde den strategi $R(21)$, som ender med at give den største
+sandsynlighed for at vinde, dvs maksimere $P(21)$.
+
+I det følgende dropper vi argumentet $21$, for at gøre notationen enklere.
+Så har vi:
+$$
+P = R(1-P) + (1-R)P_L
+$$
+Vi isolerer $P$ og får
+$$
+P = \frac{R+(1-R)P_L}{1+R},
+$$
+som også kan skrives som
+$$
+P = 1 - P_L + \frac{2P_L-1}{1+R}
+$$
+Da $2P_L>1$ så ser vi, at dette er en aftagende funktion af $R$, og maksimum
+opnås derfor ved $R(21) = 0$. Så hvis den sidste spiller har meldt $21$, så er
+det bedst at løfte hver gang.
+
+
+
+\end{document}
+
+
