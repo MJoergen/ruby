@@ -58,6 +58,25 @@ def count_empty(prob)
     return empty
 end
 
+def popcount(x)
+    b = 0
+    while x > 0
+        x &= x - 1
+        b += 1
+    end
+    return b
+end
+
+def legal_to_s(legal)
+    res = []
+    for i in 0..15
+        if (legal & (2**i)) != 0
+            res << i
+        end
+    end
+    return res
+end
+
 # This accepts a single problem and attempts to solve it
 def solve_problem(prob)
     #print ("\n")
@@ -70,23 +89,30 @@ def solve_problem(prob)
         print ("#{empty}\n\n")
     end
 
-    # Really just initialize to anything with a size larger than 16.
-    min_legal = $legal_vals
-
+    # These variables point to the optimal square
+    min_legal = 99
+    min_legal_moves = 0xFFFF
     min_i = 99
     min_j = 99
+
     # First we loop over the board and find all the legal moves
     # in each position
     for pos in 0..255
         i = pos/16
         j = pos%16
         if prob[i][j] == nil
-            legal_moves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            legal_moves = 0xFFFF
 
             # Remove elements in the current row and column
             for w in 0..15
-                legal_moves -= [prob[w][j]]
-                legal_moves -= [prob[i][w]]
+                val = prob[w][j]
+                if val != nil
+                    legal_moves &= ~(2 ** val)
+                end
+                val = prob[i][w]
+                if val != nil
+                    legal_moves &= ~(2 ** val)
+                end
             end
 
             # Remove elements in the current square block
@@ -94,27 +120,33 @@ def solve_problem(prob)
             bj = (j/4)*4
             for wi in bi..bi+3
                 for wj in bj..bj+3
-                    legal_moves -= [prob[wi][wj]]
+                    val = prob[wi][wj]
+                    if val != nil
+                        legal_moves &= ~(2 ** val)
+                    end
                 end
             end
 
-            #print "#{i},#{j} -> #{legal_moves}\n"
+            num_legal = popcount(legal_moves)
 
-            if legal_moves.size < min_legal.size
-                min_legal = legal_moves
+            #print "#{i},#{j} -> #{legal_to_s(legal_moves)}\n"
+
+            if num_legal < min_legal
+                min_legal = num_legal
+                min_legal_moves = legal_moves
                 min_i = i
                 min_j = j
 
                 # This is an optimization.
                 # If only one move at this square, just play it. Don't bother searching the remaining squares.
                 # If no legal moves at this square, break out immediately, because the board can't be solved.
-                if min_legal.size <= 1
+                if min_legal <= 1
                     break
                 end
             end
         end
     end
-
+    
     if min_i == 99
         print_board(prob)
         exit
@@ -127,12 +159,14 @@ def solve_problem(prob)
     #if min_legal.size > 1
     #    exit
     #end
-    for legal in min_legal
-        #print "Trying #{legal} in position (#{min_i}, #{min_j})\n"
-        prob[min_i][min_j] = legal
-        solve_problem(prob)
-        prob[min_i][min_j] = nil
-        #print "Removing #{legal} from position (#{min_i}, #{min_j})\n"
+    for i in 0..15
+        if (min_legal_moves & (2**i)) != 0
+            #print "Trying #{i} in position (#{min_i}, #{min_j})\n"
+            prob[min_i][min_j] = i
+            solve_problem(prob)
+            prob[min_i][min_j] = nil
+            #print "Removing #{i} from position (#{min_i}, #{min_j})\n"
+        end
     end
 end
 
