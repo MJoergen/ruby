@@ -1,3 +1,6 @@
+$legal_vals = ["1", "2", "3", "4", "5", "6", "7", "8", "9",
+               "A", "B", "C", "D", "E", "F", "G"]
+
 # This reads a text file containing many sudoku problems and returns an
 # array of problems
 def read_problems(fname)
@@ -12,7 +15,7 @@ def read_problems(fname)
             problem = []
         else
             row = l.chomp.split('')
-            problem << row
+            problem << row.map{ |i| $legal_vals.index(i) }
         end
 
         row_num += 1
@@ -33,10 +36,10 @@ def print_board(prob)
             if j>0 and (j%4) == 0
                 print "|"
             end
-            if prob[i][j] == "0"
+            if prob[i][j] == nil
                 print "#"
             else
-                print prob[i][j]
+                print $legal_vals[prob[i][j]]
             end
         end
         print "\n"
@@ -47,7 +50,7 @@ def count_empty(prob)
     empty = 0
     for i in 0..15
         for j in 0..15
-            if prob[i][j] == "0"
+            if prob[i][j] == nil
                 empty += 1
             end
         end
@@ -60,16 +63,16 @@ def solve_problem(prob)
     #print ("\n")
     #print_board(prob)
 
-    #empty = count_empty(prob)
-    #if empty < $min_empty
-    #    $min_empty = empty
-    #    print_board(prob)
-    #    print ("#{empty}\n\n")
-    #end
+    empty = count_empty(prob)
+    if empty < $min_empty
+        $min_empty = empty
+        print_board(prob)
+        print ("#{empty}\n\n")
+    end
 
     # Really just initialize to anything with a size larger than 16.
-    min_legal = ["1", "2", "3", "4", "5", "6", "7", "8", "9",
-                 "A", "B", "C", "D", "E", "F", "G", "H"]
+    min_legal = $legal_vals
+
     min_i = 99
     min_j = 99
     # First we loop over the board and find all the legal moves
@@ -77,9 +80,8 @@ def solve_problem(prob)
     for pos in 0..255
         i = pos/16
         j = pos%16
-        if prob[i][j] == "0"
-            legal_moves = ["1", "2", "3", "4", "5", "6", "7", "8", "9",
-                           "A", "B", "C", "D", "E", "F", "G"]
+        if prob[i][j] == nil
+            legal_moves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
             # Remove elements in the current row and column
             for w in 0..15
@@ -129,7 +131,7 @@ def solve_problem(prob)
         #print "Trying #{legal} in position (#{min_i}, #{min_j})\n"
         prob[min_i][min_j] = legal
         solve_problem(prob)
-        prob[min_i][min_j] = "0"
+        prob[min_i][min_j] = nil
         #print "Removing #{legal} from position (#{min_i}, #{min_j})\n"
     end
 end
