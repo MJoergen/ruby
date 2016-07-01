@@ -11,9 +11,10 @@ class Comp
     # Denne funktion styrer computerens strategi
     # Første argument er en liste over alle kort på computerens hånd.
     # Andet argument er en liste over de resterende kort.
+    # Tredje argument er det kort, som modstanderen lige har spurgt om.
     # Funktionen returnerer to værdier, den ene betyder "gæt", den anden
     # "spørg".
-    def handling(egne, alle)
+    def handling(egne, alle, spurgt)
         gæt = nil
         spørg = nil
 
@@ -34,13 +35,16 @@ class Comp
 end
 
 class Spiller
-    def handling(egne, alle)
+    def handling(egne, alle, spurgt)
         gæt = nil
         spørg = nil
 
         while true
             print("Der er følgende kort i spillet: #{alle}\n")
             print("Du har følgende kort på hånden: #{egne}\n")
+            if spurgt
+                print("Jeg har lige spurgt om kortet: #{spurgt}\n")
+            end
             print("Vil du Gætte eller Spørge?\n")
             valg = gets.chomp
             case valg[0]
@@ -67,7 +71,7 @@ class Spiller
 end
 
 $cards = 11
-def spil_et_spil
+def spil_et_spil(spillere, tur)
     # Bland kortene
     alle = (1..$cards).to_a
     kort = []
@@ -75,12 +79,10 @@ def spil_et_spil
     skjult = (alle - kort[0]).sample
     kort << alle - kort[0] - [skjult]
 
-    spillere = [Spiller.new, Comp.new]
-    tur = 0
     while true
         spiller = spillere[tur]
         navn = spiller.send(:navn)
-        gæt, spørg = spiller.send(:handling, kort[tur], alle)
+        gæt, spørg = spiller.send(:handling, kort[tur], alle, spørg)
         if gæt
             print "#{navn} gætter på #{gæt}\n"
             if gæt == skjult
@@ -95,6 +97,9 @@ def spil_et_spil
             print "#{navn} spørger om kortet #{spørg}\n"
             if kort[1-tur].index(spørg)
                 print "Svaret er ja.\n"
+                kort[1-tur].delete(spørg)
+                alle.delete(spørg)
+                spørg = nil
             else
                 print "Svaret er nej.\n"
             end
@@ -102,7 +107,28 @@ def spil_et_spil
         tur = 1-tur
         print("\n")
     end
+    return vinder
 end
 
-spil_et_spil
+def turnering(spillere, antal_runder)
+    tur = 0
+    points = [0, 0]
+    for i in 1..antal_runder
+        vinder = spil_et_spil(spillere, tur)
+        points[vinder] += 1
+        tur = 1-tur
+    end
+
+    for i in 0..1
+        spiller = spillere[i]
+        navn = spiller.send(:navn)
+        printf("#{navn} : #{points[i]}\n")
+    end
+end
+
+spillere = [Comp.new, Comp.new]
+turnering(spillere, 2)
+
+spillere = [Spiller.new, Comp.new]
+#spil_et_spil
 
