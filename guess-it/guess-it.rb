@@ -10,8 +10,8 @@
 class Comp
     def initialize(id)
         @id = id
-        @limit = id.to_i
     end
+
     # Denne funktion styrer computerens strategi
     # Første argument er en liste over alle kort på computerens hånd.
     # Andet argument er en liste over de resterende kort.
@@ -25,10 +25,10 @@ class Comp
 
         resten = alle - egne
 
-        if egne.size <= @limit
+        if egne.size <= 1 # Hvis vi har 0 eller 1 kort tilbage, så gæt på det skjulte kort.
             gæt = resten[rand(resten.size)]
         else
-            spørg = resten[rand(resten.size)]
+            spørg = alle[rand(alle.size)] # Vi bluffer nogen gange!
         end
 
         return gæt, spørg
