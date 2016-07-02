@@ -8,19 +8,24 @@
 # skal svare (ærligt) om han har det kort eller ej.
 
 class Comp
+    def initialize(id)
+        @id = id
+        @limit = id.to_i
+    end
     # Denne funktion styrer computerens strategi
     # Første argument er en liste over alle kort på computerens hånd.
     # Andet argument er en liste over de resterende kort.
-    # Tredje argument er det kort, som modstanderen lige har spurgt om.
+    # Tredje argument er det kort, som modstanderen lige har spurgt om OG hvor svaret var nej.
     # Funktionen returnerer to værdier, den ene betyder "gæt", den anden
     # "spørg".
     def handling(egne, alle, spurgt)
+        #print "egne=#{egne}, alle=#{alle}, spurgt=#{spurgt}\n"
         gæt = nil
         spørg = nil
 
         resten = alle - egne
 
-        if egne.size > resten.size
+        if egne.size <= @limit
             gæt = resten[rand(resten.size)]
         else
             spørg = resten[rand(resten.size)]
@@ -30,7 +35,7 @@ class Comp
     end
 
     def navn
-        return "Computer"
+        return "Computer " + @id
     end
 end
 
@@ -71,7 +76,7 @@ class Spiller
 end
 
 $cards = 11
-def spil_et_spil(spillere, tur)
+def spil_et_spil(spillere, tur, verbose)
     # Bland kortene
     alle = (1..$cards).to_a
     kort = []
@@ -84,37 +89,51 @@ def spil_et_spil(spillere, tur)
         navn = spiller.send(:navn)
         gæt, spørg = spiller.send(:handling, kort[tur], alle, spørg)
         if gæt
-            print "#{navn} gætter på #{gæt}\n"
+            if verbose
+                print "#{navn} gætter på #{gæt}\n"
+            end
             if gæt == skjult
-                print "Det er rigtigt! #{navn} vinder\n"
+                if verbose
+                    print "Det er rigtigt! #{navn} vinder\n"
+                end
                 vinder = tur
             else
-                print "Det er forkert! #{navn} taber\n"
+                if verbose
+                    print "Det er forkert! #{navn} taber\n"
+                end
                 vinder = 1-tur
             end
             break
         else
-            print "#{navn} spørger om kortet #{spørg}\n"
+            if verbose
+                print "#{navn} spørger om kortet #{spørg}\n"
+            end
             if kort[1-tur].index(spørg)
-                print "Svaret er ja.\n"
+                if verbose
+                    print "Svaret er ja.\n"
+                end
                 kort[1-tur].delete(spørg)
                 alle.delete(spørg)
                 spørg = nil
             else
-                print "Svaret er nej.\n"
+                if verbose
+                    print "Svaret er nej.\n"
+                end
             end
         end
         tur = 1-tur
-        print("\n")
+        if verbose
+            print("\n")
+        end
     end
     return vinder
 end
 
-def turnering(spillere, antal_runder)
+def turnering(spillere, antal_runder, verbose = false)
     tur = 0
     points = [0, 0]
     for i in 1..antal_runder
-        vinder = spil_et_spil(spillere, tur)
+        vinder = spil_et_spil(spillere, tur, verbose)
         points[vinder] += 1
         tur = 1-tur
     end
@@ -126,9 +145,9 @@ def turnering(spillere, antal_runder)
     end
 end
 
-spillere = [Comp.new, Comp.new]
-turnering(spillere, 2)
+spillere = [Comp.new("0"), Comp.new("1")]
+turnering(spillere, 20000)
 
-spillere = [Spiller.new, Comp.new]
+spillere = [Spiller.new, Comp.new("")]
 #spil_et_spil
 
