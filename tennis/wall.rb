@@ -1,6 +1,8 @@
 class Wall
+
   attr_reader :width
   attr_reader :height
+  attr_reader :x, :y
   
   def initialize(window)
     @window = window

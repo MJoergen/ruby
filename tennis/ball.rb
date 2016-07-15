@@ -13,18 +13,63 @@ class Ball
   def move
 	@x += @vel_x
 	@y += @vel_y
-	@vel_y += 0.1
+	@vel_y += 0.1 # Gravity
 	
-	if @x < @radius or @x > (@window.width - @radius)  ## If the ball collides with the LEFT wall OR the RIGHT wall
-		@vel_x = -@vel_x  ## Reverse the horisontal direction
-		@x = [[@radius, @x].max , @window.width - @radius].min     ## Keep the ball inside the room 
+	if @x < @radius or @x > @window.width - @radius  ## If the ball collides with the LEFT wall OR the RIGHT wall
+		@vel_x = -@vel_x  ## Reverse the horizontal direction
 	end
+
+    if @y > @window.height
+        @x = 100
+        @y = 200
+        @vel_x = 0
+        @vel_y = 0
+    end
 	
   end
   
   def update
 	move
-	@window.ball_collision_player(@x, @y, @radius, method(:collision_player))
+
+    # Check for collision with player
+	if Gosu::distance(@window.player.x, @window.player.y, @x, @y) <= @window.player.radius + @radius
+		collision_point(@window.player.x, @window.player.y)
+	end
+
+    # Check for collision with left side of wall
+    if @y > @window.wall.y
+        if @x+@radius > @window.wall.x and @x < @window.wall.x and @vel_x > 0
+            @vel_x = -@vel_x
+        end
+    end
+
+    # Collision with right side of wall
+    if @y > @window.wall.y
+        if @x-@radius < @window.wall.x + @window.wall.width and @x > @window.wall.x + @window.wall.width and @vel_x < 0
+            @vel_x = -@vel_x
+        end
+    end
+
+    # Collision with top of wall
+    if @x > @window.wall.x and @x < @window.wall.x + @window.wall.width
+        if @y+@radius > @window.wall.y and @vel_y > 0
+            @vel_y = -@vel_y
+        end
+    end
+
+    # Collision with left corner
+    if @y < @window.wall.y and @x < @window.wall.x
+        if Gosu::distance(@window.wall.x, @window.wall.y, @x, @y) <= @radius
+            collision_point(@window.wall.x, @window.wall.y)
+        end
+    end
+
+    # Collision with right corner
+    if @y < @window.wall.y and @x > @window.wall.x + @window.wall.width
+        if Gosu::distance(@window.wall.x + @window.wall.width, @window.wall.y, @x, @y) <= @radius
+            collision_point(@window.wall.x + @window.wall.width, @window.wall.y)
+        end
+    end
   end
   
   # Thia returns the dot product of two vectors
@@ -53,22 +98,8 @@ class Ball
       return [scale*vec_b[0], scale*vec_b[1]]
   end
   
-  # This calculates the projection of vector a onto vector b
-  def project(vec_a, vec_b)
-	scale = dotp(vec_a, vec_b) / len2(vec_b)
-	return [scale*vec_b[0], scale*vec_b[1]]
-  end
-
-  # This reflects the vector a in a plane perpendicular to vector b  
-  def reflect(vec_a, vec_b)
-    vect_project = project(vec_a, vec_b)
-	vec_a[0] -= 2*vect_project[0]
-	vec_a[1] -= 2*vect_project[1]
-	return vec_a
-  end
-  
-  def collision_player(player)
-	p2b = [@x - player.x, @y - player.y] # This is a vector frmo the Player to the Ball.
+  def collision_point(x, y)
+	p2b = [@x - x, @y - y] # This is a vector frmo the Player to the Ball.
 	vel = [@vel_x, @vel_y] # This is the balls velocity vector.
 	angle = angle(p2b, vel)
 	
