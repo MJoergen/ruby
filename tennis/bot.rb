@@ -13,7 +13,7 @@ class Bot
     end
 
     def update
-        @vel_x = @window.ball.x - @x
+        @vel_x = @window.ball.x - @x + 5 # Aim slightly to the right of the ball.
         @vel_x = [3, @vel_x].min
         @vel_x = [-3, @vel_x].max
 

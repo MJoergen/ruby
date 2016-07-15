@@ -6,7 +6,7 @@ class Ball
         @window = window
         @image = Gosu::Image.new(@window, "media/bold.png", false)
         @beep   = Gosu::Sample.new("media/beep.wav")
-        @x = 400
+        @x = 100
         @y = 200
         @vel_x = 0
         @vel_y = 0
@@ -32,7 +32,6 @@ class Ball
                 @window.score.dead_bot
                 @timer = 200
             end
-#            @x = 400
             @y = 200
             @vel_x = 0
             @vel_y = 0
@@ -121,8 +120,8 @@ class Ball
             z0 = r * Math.cos(2*Math::PI*u2)
             z1 = r * Math.sin(2*Math::PI*u2)
 
-            @vel_x += z0 * 0.5
-            @vel_y += z1 * 0.5
+            @vel_x += z0 * 0.25
+            @vel_y += z1 * 0.25
         end
     end
 
