@@ -4,31 +4,36 @@ require 'gosu'
 # These are nessecary for THIS code/file to cooperate with the other files/codes
 require_relative 'player.rb'
 require_relative 'ball.rb'
+require_relative 'wall.rb'
 
 # This adds the actual "object" to the game, which in this case works as a controler!	
 class GameWindow < Gosu::Window
   # This is the event that occurs when you start the game, like when the object is "created"
   attr_reader :player
+  attr_reader :wall
   
   def initialize
 	super(640, 400, false)
     self.caption = "Tennis Game"
     
-	@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
+	@font   = Gosu::Font.new(self, Gosu::default_font_name, 16)
 	@player = Player.new(self)
-	@ball = Ball.new(self)
+	@ball   = Ball.new(self)
+	@wall   = Wall.new(self)
   end
 
   # This event is checked 60 times per second.
   def update
 	@player.update
 	@ball.update
+    # No need to call update on wall, since it doesn't move :-)
   end
   
   # This controls the graphics in the game. Also checks around 60 times per second...
   def draw
 	@player.draw
 	@ball.draw
+	@wall.draw
   end
 
   # This checks when you press ESC
@@ -47,3 +52,4 @@ end
 
 window = GameWindow.new
 window.show
+

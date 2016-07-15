@@ -5,23 +5,18 @@ class Player
   def initialize(window)
     @window = window
     @image = Gosu::Image.new(@window, "media/halvmåne.png", false)
+	@radius = @image.height
+    @margin = 10
 	@x = 100
-	@y = 360
-	@radius = 30
+	@y = @window.height - @image.height + @radius - @margin
   end
   
   def move_left
-	@x -= 3
-	if @x < 40
-		@x = 40
-	end
+    @x = [@x-3, @margin + @radius].max
   end
   
   def move_right
-	@x += 3
-	if @x > 600
-		@x = 600
-	end
+    @x = [@x+3, @window.width/2 - @window.wall.width/2 - @radius - @margin].min
   end
   
   def update

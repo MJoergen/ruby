@@ -7,7 +7,7 @@ class Ball
 	@y = 200
 	@vel_x = 0
 	@vel_y = 0
-	@radius = 15
+	@radius = @image.height/2
   end
   
   def move
