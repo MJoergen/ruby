@@ -32,9 +32,14 @@ class Ball
 	return a[0]*b[0] + a[1]*b[1]
   end
   
+  # This returns the length squared of a vector
+  def len2(a)
+    return dotp(a, a)
+  end
+  
   # This returns the length of a vector
   def len(a)
-    return Math.sqrt(dotp(a, a))
+    return Math.sqrt(len2(a))
   end
   
   # This returns the angle between two vectors, in the range 0 .. pi
@@ -46,6 +51,20 @@ class Ball
   def projection(vec_a, vec_b)
       scale = dotp(vec_a, vec_b) / dotp(vec_b, vec_b)
       return [scale*vec_b[0], scale*vec_b[1]]
+  end
+  
+  # This calculates the projection of vector a onto vector b
+  def project(vec_a, vec_b)
+	scale = dotp(vec_a, vec_b) / len2(vec_b)
+	return [scale*vec_b[0], scale*vec_b[1]]
+  end
+
+  # This reflects the vector a in a plane perpendicular to vector b  
+  def reflect(vec_a, vec_b)
+    vect_project = project(vec_a, vec_b)
+	vec_a[0] -= 2*vect_project[0]
+	vec_a[1] -= 2*vect_project[1]
+	return vec_a
   end
   
   def collision_player(player)
