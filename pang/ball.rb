@@ -66,6 +66,11 @@ class Ball
         end
     end
 
+    def points
+        vel = Math.sqrt(@vel_x*@vel_x + @vel_y*@vel_y)
+        return (vel*10+0.5).to_i * 10
+    end
+
     def clicked
         @x = rand(@window.width - 2*@radius) + @radius
         @y = rand(@window.height - 2*@radius) + @radius

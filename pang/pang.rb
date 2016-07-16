@@ -9,6 +9,8 @@ require_relative 'score.rb'
 class GameWindow < Gosu::Window
     # This is the event that occurs when you start the game, like when the object is "created"
 
+    attr_reader :ball
+
     def initialize
         super(640, 400, false)
         self.caption = "Pang Game"
@@ -50,8 +52,8 @@ class GameWindow < Gosu::Window
 
         if id == Gosu::MsLeft
             if Gosu::distance(mouse_x, mouse_y, @ball.x, @ball.y) < @ball.radius
+                @score.hit ( @ball.points)
                 @ball.clicked
-                @score.hit
             end
         end
     end

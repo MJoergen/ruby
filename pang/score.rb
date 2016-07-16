@@ -4,11 +4,11 @@ class Score
         @window    = window
         @font      = Gosu::Font.new(@window, Gosu::default_font_name, 24)
         @score     = 0
-        @timer     = 600
+        @timer     = 60*60 # One minute
     end
 
-    def hit
-        @score += 1
+    def hit(points)
+        @score += points
     end
 
     def update
@@ -20,7 +20,9 @@ class Score
 
     def draw
         @font.draw("Score: #{@score}", @window.width*0.25, 100, 2)
-        @font.draw("Timer: #{@timer/6}", @window.width*0.75, 100, 2)
+        @font.draw("Timer: #{@timer/6}", @window.width*0.50, 100, 2)
+        points = @window.ball.points
+        @font.draw("Points: #{points}", @window.width*0.75, 100, 2)
     end
 
 end
