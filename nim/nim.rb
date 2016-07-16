@@ -23,7 +23,10 @@ while true
     end
     print "\n"
     print "Nu er det min tur.\n"
-    computer = rand(3) + 1
+    computer = antal%4
+    if computer == 0
+        computer = rand(3) + 1
+    end
     if computer > antal
         computer = antal
     end
