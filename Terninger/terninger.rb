@@ -1,9 +1,12 @@
 # Terninger
 
 # Regler:
-# Spillerne skiftes til at kaste en terning et antal gange. Efter hver kast lægges terningens øjne til en midlertidig sum. Hvis terningen
-# viser 1, så slettes den midlertidige sum, og det er den næste spillers tur. Man kan når som helst vælge at stoppe (i stedet for at kaste terningen igen),
-# og så gøres den midlertidige sum permanent, og det er den næste spillers tur. Det gælder om at nå op til (eller passere) 100 point først.
+# Spillerne skiftes til at kaste en terning et antal gange. Efter hvert kast
+# lægges terningens øjne til en midlertidig sum. Hvis terningen viser 1, så
+# slettes den midlertidige sum, og det er den næste spillers tur. Man kan når
+# som helst vælge at stoppe (i stedet for at kaste terningen igen), og så gøres
+# den midlertidige sum permanent, og det er den næste spillers tur. Det gælder
+# om at nå op til (eller passere) 100 point først.
 
 # Dette er den centrale funktion som styrer computerens strategi
 # Hvis den returnerer True, så vælger computeren at kaste med terningen igen.
@@ -40,7 +43,7 @@ def spil_en_tur(spiller, spiller_mangler, modstander_mangler)
 	print "\nDet er nu #{navn}'s tur\n"
 	midlertidig_sum = 0
 	while true
-		fortsæt = spiller.send(:fortsæt, midlertidig_sum, spiller_mangler, modstander_mangler)
+		fortsæt = spiller.fortsæt(midlertidig_sum, spiller_mangler, modstander_mangler)
 		if fortsæt 
 			print "#{navn} fortsætter\n"
 			terning = rand(6) + 1
@@ -63,7 +66,8 @@ end
 
 # Denne funktion spiller en helt spil
 def spil_et_spil(spillere, aktuel_tur)
-	rest_point = [10, 10]
+	rest_point = [30, 30]
+    print "\nNyt spil!\n"
 	
 	while true
 		spiller = spillere[aktuel_tur]
@@ -71,17 +75,15 @@ def spil_et_spil(spillere, aktuel_tur)
 		aktuel_tur = 1-aktuel_tur
 		
 		if rest_point[0] <= 0
-			print "#{spillere[0].send(:navn)} har vundet!\n"
+			print "#{spillere[0].navn} har vundet!\n"
 			break
 		end
 		if rest_point[1] <= 0
-			print "#{spillere[1].send(:navn)} har vundet!\n"
+			print "#{spillere[1].navn} har vundet!\n"
 			break
 		end
 	end
 end
-
-# Dette er den tilsvarende
 
 srand # Nulstil generatoren af tilfældige tal
 print "Velkommen til spillet Terninger\n"

@@ -1,9 +1,12 @@
 # Terninger
 
 # Regler:
-# Spillerne skiftes til at kaste en terning et antal gange. Efter hver kast lægges terningens øjne til en midlertidig sum. Hvis terningen
-# viser 1, så slettes den midlertidige sum, og det er den næste spillers tur. Man kan når som helst vælge at stoppe (i stedet for at kaste terningen igen),
-# og så gøres den midlertidige sum permanent, og det er den næste spillers tur. Det gælder om at nå op til (eller passere) 100 point først.
+# Spillerne skiftes til at kaste en terning et antal gange. Efter hvert kast
+# lægges terningens øjne til en midlertidig sum. Hvis terningen viser 1, så
+# slettes den midlertidige sum, og det er den næste spillers tur. Man kan når
+# som helst vælge at stoppe (i stedet for at kaste terningen igen), og så gøres
+# den midlertidige sum permanent, og det er den næste spillers tur. Det gælder
+# om at nå op til (eller passere) 100 point først.
 
 # Dette er den centrale funktion som styrer computerens strategi
 # Hvis den returnerer True, så vælger computeren at kaste med terningen igen.
@@ -55,9 +58,10 @@ class Comp4
 		return mere >= stop
 	end
 	
-	# Denne funktion giver sandsynligheden for at vinder
+	# Denne funktion giver sandsynligheden for at vinde.
+    # Det er kun en tilnærmet værdi.
 	# Den opfylder følgende:
-	# winProb(0, 100, 100) = 0.5 : I virkeligheden er værdien lidt højere, fordi det er en fordel at starter
+	# winProb(0, 100, 100) = 0.5 : I virkeligheden er værdien lidt højere, fordi det er en fordel at starte
 	# winProb(0,   0, 100) = 1.0 : Spilleren har allerede vundet
 	# winProb(0, 100,   0) = 0.0 : Spilleren har allerede tabt
 	# winProb(100, 0,   0) = 1.0 : Spilleren kan nu vinde
@@ -200,7 +204,7 @@ print "Velkommen til spillet Terninger\n"
 
 spillere = [Comp1.new, Comp2.new, Comp3.new, Comp4.new]
 
-gevinster = spil_turnering(spillere, 2000)
+gevinster = spil_turnering(spillere, 18000)
 
 print "\n"
 for i in 0..spillere.size-1
