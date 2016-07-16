@@ -7,11 +7,9 @@
 # Hvis man spørger, så siger man et kort til den anden spiller, som så 
 # skal svare (ærligt) om han har det kort eller ej.
 
-class Comp
-    def initialize(id)
-        @id = id
-    end
 
+# Denne klasse implementerer en rudimentær bot, som spiller et hæderligt spil.
+class CompBasic
     # Denne funktion styrer computerens strategi
     # Første argument er en liste over alle kort på computerens hånd.
     # Andet argument er en liste over de resterende kort.
@@ -35,7 +33,39 @@ class Comp
     end
 
     def navn
-        return "Computer " + @id
+        return "Basic"
+    end
+end
+
+# Denne klasse implementer en meget mere sofistikeret algoritme.
+class CompBetter
+    # Denne funktion styrer computerens strategi
+    # Første argument er en liste over alle kort på computerens hånd.
+    # Andet argument er en liste over de resterende kort.
+    # Tredje argument er det kort, som modstanderen lige har spurgt om OG hvor svaret var nej.
+    # Funktionen returnerer to værdier, den ene betyder "gæt", den anden
+    # "spørg".
+    def handling(egne, alle, spurgt)
+        #print "egne=#{egne}, alle=#{alle}, spurgt=#{spurgt}\n"
+
+        # Hvis modstanderen har lige har spurgt og fået nej, så skal vi overveje, om
+        # vi vil gætte på det kort, eller om modstanderen har bluffet.
+        gæt = nil
+        spørg = nil
+
+        resten = alle - egne
+
+        if egne.size <= 1 # Hvis vi har 0 eller 1 kort tilbage, så gæt på det skjulte kort.
+            gæt = resten[rand(resten.size)]
+        else
+            spørg = alle[rand(alle.size)] # Vi bluffer nogen gange!
+        end
+
+        return gæt, spørg
+    end
+
+    def navn
+        return "Better"
     end
 end
 
@@ -86,8 +116,8 @@ def spil_et_spil(spillere, tur, verbose)
 
     while true
         spiller = spillere[tur]
-        navn = spiller.send(:navn)
-        gæt, spørg = spiller.send(:handling, kort[tur], alle, spørg)
+        navn = spiller.navn
+        gæt, spørg = spiller.handling(kort[tur], alle, spørg)
         if gæt
             if verbose
                 print "#{navn} gætter på #{gæt}\n"
@@ -140,14 +170,14 @@ def turnering(spillere, antal_runder, verbose = false)
 
     for i in 0..1
         spiller = spillere[i]
-        navn = spiller.send(:navn)
+        navn = spiller.navn
         printf("#{navn} : #{points[i]}\n")
     end
 end
 
-spillere = [Comp.new("0"), Comp.new("1")]
-turnering(spillere, 20000)
+#spillere = [CompBasic.new, CompBetter.new]
+#turnering(spillere, 20000)
 
-spillere = [Spiller.new, Comp.new("")]
-#spil_et_spil
+spillere = [Spiller.new, CompBetter.new]
+spil_et_spil(spillere, 0, true)
 
