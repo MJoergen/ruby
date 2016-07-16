@@ -55,12 +55,6 @@ class GameWindow < Gosu::Window
             close
         end
     end
-
-    def ball_collision_player(bx, by, radius, meth)
-        if Gosu::distance(@player.x, @player.y, bx, by) <= @player.radius + radius
-            meth.call(@player)
-        end
-    end
 end
 
 window = GameWindow.new
