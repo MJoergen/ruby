@@ -3,14 +3,14 @@ ruby
 
 Various ruby programs
 
-# Install:
+## Install:
 * sudo dnf install ruby-devel
 * gem install gosu
 
-# Play tennis:
+## Play tennis:
 * cd tennis
 * ruby tennis.rb
 
-# Play pang:
+## Play pang:
 * cd pang
 * ruby pang.rb
