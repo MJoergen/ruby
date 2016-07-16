@@ -18,6 +18,17 @@ class Ball
         @y += @vel_y
     end
 
+    # Generates two random variables with independent normal distribution
+    def rand_norm
+        # This is the so-called Box-Muller transform
+        u1 = rand
+        u2 = rand
+        r = Math.sqrt(-2.0*Math.log(u1))
+        z0 = r*Math.cos(2*Math::PI*u2)
+        z1 = r*Math.sin(2*Math::PI*u2)
+        return [z0,z1]
+    end
+
     def update
         move
 
@@ -50,6 +61,8 @@ class Ball
         if collision
             #@beep.play
 
+            @vel_x *= 0.95
+            @vel_y *= 0.95
         end
     end
 
@@ -58,8 +71,8 @@ class Ball
         @y = rand(@window.height - 2*@radius) + @radius
         @beep.play
 
-        @vel_x += (@vel_x <=> 0) * rand * 0.3
-        @vel_y += (@vel_y <=> 0) * rand * 0.3
+        @vel_x += (@vel_x <=> 0) * rand * 0.5
+        @vel_y += (@vel_y <=> 0) * rand * 0.5
     end
 
     def draw

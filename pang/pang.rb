@@ -3,6 +3,7 @@ require 'gosu'
 
 # These are nessecary for THIS code/file to cooperate with the other files/codes
 require_relative 'ball.rb'
+require_relative 'score.rb'
 
 # This adds the actual "object" to the game, which in this case works as a controler!	
 class GameWindow < Gosu::Window
@@ -13,6 +14,9 @@ class GameWindow < Gosu::Window
         self.caption = "Pang Game"
 
         @ball      = Ball.new(self)
+        @score     = Score.new(self)
+        @game_over = Gosu::Sample.new("media/game_over.wav")
+        @playing   = true
     end
     
     def needs_cursor?
@@ -21,12 +25,21 @@ class GameWindow < Gosu::Window
 
     # This event is checked 60 times per second.
     def update
-        @ball.update
+        if @playing 
+            @ball.update
+            @score.update
+        end
     end
 
     # This controls the graphics in the game. Also checks around 60 times per second...
     def draw
         @ball.draw
+        @score.draw
+    end
+
+    def game_over
+        @game_over.play
+        @playing = false
     end
 
     # This checks when you press ESC
@@ -38,6 +51,7 @@ class GameWindow < Gosu::Window
         if id == Gosu::MsLeft
             if Gosu::distance(mouse_x, mouse_y, @ball.x, @ball.y) < @ball.radius
                 @ball.clicked
+                @score.hit
             end
         end
     end
