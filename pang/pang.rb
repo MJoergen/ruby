@@ -33,7 +33,8 @@ class GameWindow < Gosu::Window
         end
     end
 
-    # This controls the graphics in the game. Also checks around 60 times per second...
+    # This controls the graphics in the game. Also checks around 60 times per
+    # second...
     def draw
         @ball.draw
         @score.draw
@@ -54,6 +55,8 @@ class GameWindow < Gosu::Window
             if Gosu::distance(mouse_x, mouse_y, @ball.x, @ball.y) < @ball.radius
                 @score.hit ( @ball.points)
                 @ball.clicked
+            else
+                @score.miss
             end
         end
     end
