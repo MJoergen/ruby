@@ -16,7 +16,7 @@ class GameWindow < Gosu::Window
     attr_reader :ball
     attr_reader :bot
     attr_reader :score
-    attr_writer :game_over
+    attr_accessor :game_over
 
     def initialize
         super(640, 400, false)

@@ -47,6 +47,10 @@ class Score
         else
             @font.draw("GAME OVER", @window.width*0.75, 100, 2)
         end
+
+        if @window.game_over
+            @font.draw("Tryk r for at spille igen", @window.width*0.3, 100, 2)
+        end
     end
 
 end
