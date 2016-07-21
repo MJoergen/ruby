@@ -54,6 +54,11 @@ class GameWindow < Gosu::Window
         if id == Gosu::KbEscape
             close
         end
+        if id == Gosu::KbR and @game_over
+            @ball.reset
+            @score.reset
+            @game_over = false
+        end
     end
 end
 

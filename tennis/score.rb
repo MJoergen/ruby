@@ -7,6 +7,10 @@ class Score
         @font      = Gosu::Font.new(@window, Gosu::default_font_name, 24)
         @dead      = Gosu::Sample.new("media/dead.wav")
         @game_over = Gosu::Sample.new("media/game_over.wav")
+        reset
+    end
+
+    def reset
         @player    = 5
         @bot       = 5
     end

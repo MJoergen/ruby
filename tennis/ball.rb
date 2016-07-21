@@ -6,12 +6,16 @@ class Ball
         @window = window
         @image = Gosu::Image.new(@window, "media/bold.png", false)
         @beep   = Gosu::Sample.new("media/beep.wav")
+        @radius = @image.height/2
+        reset
+    end
+
+    def reset
         @x = 100
         @y = 200
         @vel_x = 0
         @vel_y = 0
-        @radius = @image.height/2
-        @timer = 0
+        @timer = 200
     end
 
     def move
@@ -59,12 +63,14 @@ class Ball
 
         # Check for collision with player
         if Gosu::distance(@window.player.x, @window.player.y, @x, @y) <= @window.player.radius + @radius
+            adjust_ball(@window.player.x, @window.player.y, @window.player.radius + @radius)
             collision_point(@window.player.x, @window.player.y)
             collision = true
         end
 
         # Check for collision with bot
         if Gosu::distance(@window.bot.x, @window.bot.y, @x, @y) <= @window.bot.radius + @radius
+            adjust_ball(@window.bot.x, @window.bot.y, @window.bot.radius + @radius)
             collision_point(@window.bot.x, @window.bot.y)
             collision = true
         end
@@ -114,20 +120,34 @@ class Ball
             @beep.play
 
             # Generate two random variables with a normal distribution
-            u1 = rand
-            u2 = rand
-            r = Math.sqrt(-2.0*Math.log(u1))
-            z0 = r * Math.cos(2*Math::PI*u2)
-            z1 = r * Math.sin(2*Math::PI*u2)
+            z0, z1 = randNorm
 
             @vel_x += z0 * 0.25
             @vel_y += z1 * 0.25
         end
     end
 
+    # Move the ball so that it is at the distance d from the point (x,y)
+    def adjust_ball(x, y, d)
+        p2b = [@x - x, @y - y] # This is a vector frmo the Player to the Ball.
+        scale = d / len(p2b)
+        @x = x  + p2b[0]*scale
+        @y = y  + p2b[1]*scale
+    end
+
     # Thia returns the dot product of two vectors
     def dotp(a, b)
         return a[0]*b[0] + a[1]*b[1]
+    end
+
+    # This generates two random variables with a normal distribution
+    def randNorm
+        u1 = rand
+        u2 = rand
+        r = Math.sqrt(-2.0*Math.log(u1))
+        z0 = r * Math.cos(2*Math::PI*u2)
+        z1 = r * Math.sin(2*Math::PI*u2)
+        return [z0, z1]
     end
 
     # This returns the length squared of a vector
@@ -168,9 +188,9 @@ class Ball
     end
 
     def draw
-        if @timer > 0
-            return
-        end
+#        if @timer > 0
+#            return
+#        end
         @image.draw(@x-@radius, @y-@radius, 2)
     end
 
