@@ -6,7 +6,7 @@ class Player
     @window = window
     @image = Gosu::Image.new(@window, "media/halvmåne.png", false)
 	@radius = @image.height
-    @margin = 10
+    @margin = 5
 	@x = 100
 	@y = @window.height - @image.height + @radius - @margin
   end

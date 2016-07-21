@@ -6,7 +6,7 @@ class Bot
         @window = window
         @image = Gosu::Image.new(@window, "media/halvmåne.png", false)
         @radius = @image.height
-        @margin = 10
+        @margin = 5
         @x = 400
         @y = @window.height - @image.height + @radius - @margin
         @vel_x = -3
