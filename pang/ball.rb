@@ -11,6 +11,7 @@ class Ball
         @vel_x = 3
         @vel_y = 3
         @radius = @image.height/2
+        @top_margin = 40
     end
 
     def move
@@ -33,24 +34,28 @@ class Ball
         move
 
         collision = false
+        # Check for collision with left wall
         if @x-@radius < 0 and @vel_x < 0
             @vel_x = -@vel_x
             @x = @radius
             collision = true
         end
 
+        # Check for collision with right wall
         if @x+@radius > @window.width and @vel_x > 0
             @vel_x = -@vel_x
             @x = @window.width - @radius
             collision = true
         end
 
-        if @y-@radius < 0 and @vel_y < 0
+        # Check for collision with top wall
+        if @y-@radius < @top_margin and @vel_y < 0
             @vel_y = -@vel_y
-            @y = @radius
+            @y = @top_margin + @radius
             collision = true
         end
 
+        # Check for collision with bottom wal
         if @y+@radius > @window.height and @vel_y > 0
             @vel_y = -@vel_y
             @y = @window.height - @radius

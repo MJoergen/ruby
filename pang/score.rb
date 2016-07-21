@@ -4,7 +4,7 @@ class Score
         @window    = window
         @font      = Gosu::Font.new(@window, Gosu::default_font_name, 24)
         @score     = 0
-        @timer     = 60*60 # One minute
+        @timer     = (2.9*60*60).to_i # Almost three minutes. This matches the length of the song.
         @miss      = 0
     end
 
@@ -26,11 +26,12 @@ class Score
     end
 
     def draw
-        @font.draw("Miss: #{@miss}", @window.width*0.00, 100, 2)
-        @font.draw("Score: #{@score}", @window.width*0.25, 100, 2)
-        @font.draw("Timer: #{@timer/6}", @window.width*0.50, 100, 2)
         points = @window.ball.points
-        @font.draw("Points: #{points}", @window.width*0.75, 100, 2)
+        @font.draw("Hit: #{points}",     @window.width*0.00,  0, 2)
+        @font.draw("Miss: #{@miss}",     @window.width*0.00, 20, 2)
+
+        @font.draw("Timer: #{@timer/6}", @window.width*0.50,  0, 2)
+        @font.draw("Score: #{@score}",   @window.width*0.75,  0, 2)
     end
 
 end

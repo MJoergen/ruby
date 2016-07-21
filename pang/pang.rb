@@ -17,8 +17,10 @@ class GameWindow < Gosu::Window
 
         @ball      = Ball.new(self)
         @score     = Score.new(self)
+        @music     = Gosu::Sample.new("media/popeye.wav")
         @game_over = Gosu::Sample.new("media/game_over.wav")
         @playing   = true
+        @music.play
     end
     
     def needs_cursor?
