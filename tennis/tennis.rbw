@@ -28,6 +28,9 @@ class GameWindow < Gosu::Window
         @wall      = Wall.new(self)
         @score     = Score.new(self)
         @game_over = false
+		
+        @music     = Gosu::Song.new("media/rick.ogg")
+		@music.play(true)
     end
 
     # This event is checked 60 times per second.

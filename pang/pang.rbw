@@ -12,7 +12,7 @@ class GameWindow < Gosu::Window
     attr_reader :ball
 
     def initialize
-        super(640, 400, false)
+        super(640, 400, false, 2)
         self.caption = "Pang Game"
 
         @ball      = Ball.new(self)
@@ -53,7 +53,7 @@ class GameWindow < Gosu::Window
             close
         end
 
-        if id == Gosu::MsLeft
+        if id == Gosu::MsLeft and @playing
             if Gosu::distance(mouse_x, mouse_y, @ball.x, @ball.y) < @ball.radius
                 @score.hit ( @ball.points)
                 @ball.clicked
