@@ -41,31 +41,40 @@ class Ball
 
   def draw
     ## Shadow
-    @window.circle_img.draw_rot(@x-3+$window_width/2-$camera_x, @y+9+$window_height/2-$camera_y, 1, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0x44000000)
+    @window.circle_img.draw_rot(@x-3+$window_width/2-$camera_x, @y+9+$window_height/2-$camera_y,
+				1, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0x44000000)
 
     ## The ball itself
     if @colliding == false
-      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), @color)
+      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y,
+				  2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), @color)
     else
-      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
+      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y,
+				  2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
       if @collision_point == true
-	@window.circle_img.draw_rot(@collisionPointX+$window_width/2-$camera_x, @collisionPointY+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(5.0/50.0), 1.0*(5.0/50.0), 0xff0000FF)
+	@window.circle_img.draw_rot(@collisionPointX+$window_width/2-$camera_x, @collisionPointY+$window_height/2-$camera_y,
+				    2, @dir, 0.5, 0.5, 1.0*(5.0/50.0), 1.0*(5.0/50.0), 0xff0000FF)
       end
     end
 
     ## Light reflection
-    @window.circle_img.draw_rot(@x+1+$window_width/2-$camera_x, @y-5+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(4.0/50.0), 1.0*(4.0/50.0), 0x66ffffff)
+    @window.circle_img.draw_rot(@x+1+$window_width/2-$camera_x, @y-5+$window_height/2-$camera_y,
+				2, @dir, 0.5, 0.5, 1.0*(4.0/50.0), 1.0*(4.0/50.0), 0x66ffffff)
 
     ## Numbers
     if @color != 0xffFFDDAE
-      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(6.3/50.0), 1.0*(6.3/50.0), 0xffffffff)
+      @window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y,
+				  2, @dir, 0.5, 0.5, 1.0*(6.3/50.0), 1.0*(6.3/50.0), 0xffffffff)
       if @id > 9
-	@window.font_small.draw("#{@id}", @x-6+$window_width/2-$camera_x, @y-6+$window_height/2-$camera_y, 3, 1.0, 1.0, 0xff000000)
+	@window.font_small.draw("#{@id}", @x-6+$window_width/2-$camera_x, @y-6+$window_height/2-$camera_y,
+				3, 1.0, 1.0, 0xff000000)
       else
-	@window.font_small.draw("#{@id}", @x-3+$window_width/2-$camera_x, @y-6+$window_height/2-$camera_y, 3, 1.0, 1.0, 0xff000000)
+	@window.font_small.draw("#{@id}", @x-3+$window_width/2-$camera_x, @y-6+$window_height/2-$camera_y,
+				3, 1.0, 1.0, 0xff000000)
       end
       if @id > 8
-	@window.stripe_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffffffff)
+	@window.stripe_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y,
+				    2, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffffffff)
       end
     end
 
@@ -77,9 +86,11 @@ class Ball
 
       ## Red line to the mouse
       if Gosu::distance(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, @window.mouse_x, @window.mouse_y) < 300
-	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffff0000, @window.mouse_x, @window.mouse_y, 0xffff0000, 2)
+	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffff0000,
+			  @window.mouse_x, @window.mouse_y, 0xffff0000, 2)
       else
-	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffff0000, @x+$window_width/2-$camera_x+Gosu::offset_x(dir-180, 300), @y+$window_height/2-$camera_y+Gosu::offset_y(dir-180, 300), 0xffff0000, 2)
+	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffff0000,
+			  @x+$window_width/2-$camera_x+Gosu::offset_x(dir-180, 300), @y+$window_height/2-$camera_y+Gosu::offset_y(dir-180, 300), 0xffff0000, 2)
       end
 
       ### Find the nearest collision point in $path_blockers
@@ -96,8 +107,10 @@ class Ball
 
 	if closest_int[4] == "ball" ### The cue ball is hitting another ball
 
-	  @window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff, closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, 2)
-	  @window.circle_img.draw_rot(closest_int[2]+$window_width/2-$camera_x, closest_int[3]+$window_height/2-$camera_y, 3, @dir, 0.5, 0.5, 1.0*(3.5/50.0), 1.0*(3.5/50.0), 0xff0000FF)
+	  @window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff,
+			    closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, 2)
+	  @window.circle_img.draw_rot(closest_int[2]+$window_width/2-$camera_x, closest_int[3]+$window_height/2-$camera_y,
+				      3, @dir, 0.5, 0.5, 1.0*(3.5/50.0), 1.0*(3.5/50.0), 0xff0000FF)
 
 	  vel_vec = new_velocity(10, 10, Vector[closest_int[0]-@x, closest_int[1]-@y], Vector[0, 0], Vector[closest_int[0], closest_int[1]], Vector[closest_int[2], closest_int[3]])
 
@@ -106,12 +119,15 @@ class Ball
 
 	  dir = point_direction(closest_int[0], closest_int[1], predicted_response_x, predicted_response_y)
 
-	  @window.draw_line(closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, closest_int[0]+Gosu::offset_x(dir, 40)+$window_width/2-$camera_x, closest_int[1]+Gosu::offset_y(dir, 40)+$window_height/2-$camera_y, 0xffffffff, 3)
+	  @window.draw_line(closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff,
+			    closest_int[0]+Gosu::offset_x(dir, 40)+$window_width/2-$camera_x, closest_int[1]+Gosu::offset_y(dir, 40)+$window_height/2-$camera_y, 0xffffffff, 3)
 
 	else  ### The cue ball is hitting a wall
 
-	  @window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff, closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, 2)
-	  @window.circle_img.draw_rot(closest_int[2]+$window_width/2-$camera_x, closest_int[3]+$window_height/2-$camera_y, 3, @dir, 0.5, 0.5, 1.0*(3.5/50.0), 1.0*(3.5/50.0), 0xff0000FF)
+	  @window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff,
+			    closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, 2)
+	  @window.circle_img.draw_rot(closest_int[2]+$window_width/2-$camera_x, closest_int[3]+$window_height/2-$camera_y,
+				      3, @dir, 0.5, 0.5, 1.0*(3.5/50.0), 1.0*(3.5/50.0), 0xff0000FF)
 
 	  dir = self.point_direction(@window.mouse_x, @window.mouse_y, @x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y)
 
@@ -139,12 +155,14 @@ class Ball
 	    predicted_response_y = closest_int[1] + predicted_vel_y
 	  end
 
-	  @window.draw_line(closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff, predicted_response_x+$window_width/2-$camera_x, predicted_response_y+$window_height/2-$camera_y, 0xffffffff, 3)
+	  @window.draw_line(closest_int[0]+$window_width/2-$camera_x, closest_int[1]+$window_height/2-$camera_y, 0xffffffff,
+			    predicted_response_x+$window_width/2-$camera_x, predicted_response_y+$window_height/2-$camera_y, 0xffffffff, 3)
 
 	end
       else
 	## White line showing the path
-	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff, @x+$window_width/2-$camera_x+Gosu::offset_x(dir, 900), @y+$window_height/2-$camera_y+Gosu::offset_y(dir, 900), 0xffffffff, 2)
+	@window.draw_line(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0xffffffff,
+			  @x+$window_width/2-$camera_x+Gosu::offset_x(dir, 900), @y+$window_height/2-$camera_y+Gosu::offset_y(dir, 900), 0xffffffff, 2)
       end
 
 
