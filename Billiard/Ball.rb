@@ -183,19 +183,19 @@ class Ball
     end
 
     ### Check collision with lines
-    for i in 0..$lines_array.length-1
-      self.check_collision_line($lines_array[i][0], $lines_array[i][1], $lines_array[i][2], $lines_array[i][3])
-    end
+    $lines_array.each {|line|
+      self.check_collision_line(line[0], line[1], line[2], line[3])
+    }
 
     ### Check collision with corners
-    for i in 0..$pocket_coords.length-1
-      self.check_collision_point($pocket_coords[i][0], $pocket_coords[i][1])
-    end
+    $pocket_coords.each {|corner|
+      self.check_collision_point(corner[0], corner[1])
+    }
 
     ### Check collision with pockets
-    for i in 0..$pocket_holes.length-1
-      self.check_collision_pocket($pocket_holes[i][0], $pocket_holes[i][1])
-    end
+    $pocket_holes.each {|hole|
+      self.check_collision_pocket(hole[0], hole[1])
+    }
 
     ### Resistance
     if (@vel_x**2+@vel_y**2) > 0.5**2
