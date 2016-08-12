@@ -3,7 +3,6 @@ class Ball
   attr_reader :x, :y, :dir, :radius, :id, :mass, :vel_x, :vel_y
 
   def initialize(window, x, y, dir, vel, rad, id, color)
-
     @window, @x, @y, @dir, @radius, @id, @color = window, x, y, dir, rad, id, color
 
     @mass = 3.14*(@radius**2)  ### This is the area of the ball
@@ -24,7 +23,6 @@ class Ball
 
     ## Is the ball out of the game? (AKA did the ball reach the pocket yet?)
     @out = false
-
   end
 
   def update
@@ -42,7 +40,6 @@ class Ball
   end
 
   def draw
-
     ## Shadow
     @window.circle_img.draw_rot(@x-3+$window_width/2-$camera_x, @y+9+$window_height/2-$camera_y, 1, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0x44000000)
 
@@ -152,12 +149,9 @@ class Ball
 
 
     end
-
   end
 
   def move
-
-
     ### Move the ball
     @x = @x + @vel_x
     @y = @y + @vel_y
@@ -211,11 +205,9 @@ class Ball
       @vel_x = @vel_x * @resistance_strong
       @vel_y = @vel_y * @resistance_strong
     end
-
   end
 
   def check_collision_pocket(x, y)
-
     dist2 = (x - @x)**2+(y - @y)**2  ## Optimisation
     if dist2 < $pocket_radius**2  ## Optimisation
       ### Collision!
@@ -228,11 +220,9 @@ class Ball
 	self.in_hole
       end
     end
-
   end
 
   def check_collision_line(x1, y1, x2, y2)
-
     vector_x = x2 - x1
     vector_y = y2 - y1
 
@@ -261,7 +251,6 @@ class Ball
       end
 
     end
-
   end
 
   def check_collision_point(x, y)
@@ -350,7 +339,6 @@ class Ball
   end
 
   def collision_wall_path(x1, y1, x2, y2, wall_index)
-
     if @pulled == true  ### Only called for the cue-ball
 
       ##### COLLISION BETWEEN TWO LINE SEGMENTS
@@ -408,11 +396,9 @@ class Ball
       end
 
     end
-
   end
 
   def checkCollision(inst)  ### This method is only called once for each pair of balls
-
     if @x + @radius + inst.radius > inst.x and
       @x < inst.x + @radius + inst.radius and
       @y + @radius + inst.radius > inst.y and
@@ -442,11 +428,9 @@ class Ball
 
     @vel_x = new_vel[0]
     @vel_y = new_vel[1]
-
   end
 
   def new_velocity(m1, m2, v1, v2, c1, c2)
-
     f = (2*m2)/(m1+m2)  ## Number
 
     dv = v1 - v2  ### Vector
@@ -459,7 +443,6 @@ class Ball
     else
       return v_new  ### Vector
     end
-
   end
 
   def get_kin
@@ -482,6 +465,5 @@ class Ball
   def destroy
     @window.destroy_ball(self)
   end
-
 end
 

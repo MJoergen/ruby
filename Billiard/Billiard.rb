@@ -97,7 +97,6 @@ class GameWindow < Gosu::Window
 		  0xff79282E]
 
     self.restart
-
   end
 
   def restart
@@ -123,13 +122,9 @@ class GameWindow < Gosu::Window
       self.create_ball(110+19.10*3, $universe_height/2-11+i*22, 0, 0, 11.0)
     end
     self.create_ball(110+19.10*4, $universe_height/2, 0, 0, 11.0)
-
-
-
   end
 
   def update
-
     $path_blockers = []
 
     self.caption = "Billiard  -  [FPS: #{Gosu::fps.to_s}]"
@@ -157,7 +152,6 @@ class GameWindow < Gosu::Window
     if button_down? Gosu::KbS
       $camera_y = [$camera_y+5, $universe_height/2+400].min
     end
-
   end
 
   def button_up(id)
@@ -184,7 +178,6 @@ class GameWindow < Gosu::Window
   end
 
   def draw
-
     draw_quad(0, 0, 0xffffffff,
 	      $window_width, 0, 0xffffffff,
 	      $window_width, $window_height, 0xffffffff, 
@@ -230,12 +223,9 @@ class GameWindow < Gosu::Window
     # for i in 0..$walls_array_path.length-1
     # draw_line($walls_array_path[i][0]+$window_width/2-$camera_x, $walls_array_path[i][1]+$window_height/2-$camera_y, 0xffffffff, $walls_array_path[i][2]+$window_width/2-$camera_x, $walls_array_path[i][3]+$window_height/2-$camera_y, 0xffffffff, 3)
     # end
-
-
   end
 
   def create_ball(x, y, dir, vel, rad)
-
     for i in 0..199
       if !@ball_ids.include? i
 	id = i
@@ -248,7 +238,6 @@ class GameWindow < Gosu::Window
   end
 
   def check_ball_collision
-
     second_index = 1
 
     for i in 0..$balls.length-2  ## Ignore the last ball, since we have all the collisions checked by then
@@ -260,7 +249,6 @@ class GameWindow < Gosu::Window
       second_index += 1
 
     end
-
   end
 
   def checkPathCollision(x1, y1, x2, y2)
@@ -269,7 +257,6 @@ class GameWindow < Gosu::Window
     for i in 0..$walls_array_path.length-1
       $balls.each     { |inst|  inst.collision_wall_path($walls_array_path[i][0], $walls_array_path[i][1], $walls_array_path[i][2], $walls_array_path[i][3], i)}
     end
-
   end
 
   def needs_cursor?
@@ -289,7 +276,6 @@ class GameWindow < Gosu::Window
   def ball_in_hole
     @balls_in_hole += 1
   end
-
 end
 
 # show the window
