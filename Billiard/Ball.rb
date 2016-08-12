@@ -166,7 +166,7 @@ class Ball
       end
 
 
-    end
+    end # if @pulled == true
   end
 
   def move
@@ -234,7 +234,7 @@ class Ball
 
     vector_product = vector_x * point_to_vector_x + vector_y * point_to_vector_y
 
-    vec_length_squared = vector_x**2 + vector_y**2
+    vec_length_squared = vector_x*vector_x + vector_y*vector_y
 
     ### If the projected point is on the line.
     if vector_product > 0 and vector_product < vec_length_squared
@@ -245,9 +245,11 @@ class Ball
       projected_point_x = projection_factor * vector_x + x1
       projected_point_y = projection_factor * vector_y + y1
 
-      dist_to_player2 = (@x - projected_point_x)**2 + (@y - projected_point_y)**2
+      dx = @x - projected_point_x
+      dy = @y - projected_point_y
+      dist_to_player2 = dx*dx + dy*dy
 
-      if dist_to_player2 < @radius**2
+      if dist_to_player2 < @radius*@radius
 
 	## Collision with projected point!
 	vec = new_velocity(0, 10, Vector[@vel_x, @vel_y], Vector[0, 0],
