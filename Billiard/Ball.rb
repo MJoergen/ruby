@@ -30,10 +30,10 @@ class Ball
     @collision_point = false
     self.move
 
-    ## Direction from mouse to cue ball
-    dir = point_direction(@window.mouse_x, @window.mouse_y, @x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y)
-
     if @pulled == true and @color == 0xffFFDDAE
+      ## Direction from mouse to cue ball
+      dir = point_direction(@window.mouse_x, @window.mouse_y, @x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y)
+
       @window.checkPathCollision(@x, @y, @x+Gosu::offset_x(dir, 900), @y+Gosu::offset_y(dir, 900))
       # p $path_blockers
     end
@@ -207,6 +207,50 @@ class Ball
     end
   end
 
+  def check_collision_line(x1, y1, x2, y2)
+    vector_x = x2 - x1
+    vector_y = y2 - y1
+
+    point_to_vector_x = @x - x1
+    point_to_vector_y = @y - y1
+
+    vector_product = vector_x * point_to_vector_x + vector_y * point_to_vector_y
+
+    vec_length_squared = vector_x**2 + vector_y**2
+
+    ### If the projected point is on the line.
+    if vector_product > 0 and vector_product < vec_length_squared
+
+      ### Projection factor is between 0 and 1.
+      projection_factor = vector_product / vec_length_squared
+
+      projected_point_x = projection_factor * vector_x + x1
+      projected_point_y = projection_factor * vector_y + y1
+
+      dist_to_player2 = (@x - projected_point_x)**2 + (@y - projected_point_y)**2
+
+      if dist_to_player2 < @radius**2
+
+	## Collision with projected point!
+	vec = new_velocity(0, 10, Vector[@vel_x, @vel_y], Vector[0, 0],
+			   Vector[@x, @y], Vector[projected_point_x, projected_point_y])
+	self.collision_response(vec)
+
+      end
+
+    end
+  end
+
+  def check_collision_point(x, y)
+    dist2 = (x - @x)**2 + (y - @y)**2
+    if dist2 < @radius**2
+      ## Collision!
+      vec = new_velocity(0, 10, Vector[@vel_x, @vel_y], Vector[0, 0],
+			 Vector[@x, @y], Vector[x, y])
+      self.collision_response(vec)
+    end
+  end
+
   def check_collision_pocket(x, y)
     dist2 = (x - @x)**2+(y - @y)**2  ## Optimisation
     if dist2 < $pocket_radius**2  ## Optimisation
@@ -219,46 +263,6 @@ class Ball
       else
 	self.in_hole
       end
-    end
-  end
-
-  def check_collision_line(x1, y1, x2, y2)
-    vector_x = x2 - x1
-    vector_y = y2 - y1
-
-    point_to_vector_x = @x - x1
-    point_to_vector_y = @y - y1
-
-    vector_product = vector_x * point_to_vector_x + vector_y * point_to_vector_y
-
-    vec_length_squared = vector_x**2 + vector_y**2
-
-    projection_factor = vector_product / vec_length_squared
-
-    if projection_factor > 0 and projection_factor < 1 ### If the projected point is on the line. Projection factor is between 0 and 1.
-
-      projected_point_x = projection_factor * vector_x + x1
-      projected_point_y = projection_factor * vector_y + y1
-
-      dist_to_player = Gosu::distance(@x, @y, projected_point_x, projected_point_y)
-
-      if dist_to_player < radius
-
-	## Collision with projected point!
-	vec = new_velocity(0, 10, Vector[@vel_x, @vel_y], Vector[0, 0], Vector[@x, @y], Vector[projected_point_x, projected_point_y])
-	self.collision_response(vec)
-
-      end
-
-    end
-  end
-
-  def check_collision_point(x, y)
-    dist2 = (x - @x)**2 + (y - @y)**2
-    if dist2 < @radius**2
-      ## Collision!
-      vec = new_velocity(0, 10, Vector[@vel_x, @vel_y], Vector[0, 0], Vector[@x, @y], Vector[x, y])
-      self.collision_response(vec)
     end
   end
 
