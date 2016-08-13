@@ -31,6 +31,8 @@ class GameWindow < Gosu::Window
     @circle_img = Gosu::Image.new(self, "media/filled_circle.png", true)
     @stripe_img = Gosu::Image.new(self, "media/billiard_circle.png", true)
 
+    $hit_sound = Gosu::Sample.new(self, "media/hit_sound.wav")
+
     @font = Gosu::Font.new(self, Gosu::default_font_name, 16)
     @font_small = Gosu::Font.new(self, Gosu::default_font_name, 12)
 

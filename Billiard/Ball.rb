@@ -439,6 +439,21 @@ class Ball
 	new_vel_self = new_velocity(@mass, inst.mass, Vector[@vel_x, @vel_y], Vector[inst.vel_x, inst.vel_y], Vector[@x, @y], Vector[inst.x, inst.y])
 	new_vel_inst = new_velocity(inst.mass, @mass, Vector[inst.vel_x, inst.vel_y], Vector[@vel_x, @vel_y], Vector[inst.x, inst.y], Vector[@x, @y])
 
+	####### CALCULATE THE HIT SOUND VOLUME #######
+	v1 = Vector[@vel_x, @vel_y]
+	v2 = Vector[inst.vel_x, inst.vel_y]
+	c1 = Vector[@x, @y]
+	c2 = Vector[inst.x, inst.y]
+
+	dv = v1 - v2  ### Vector
+	dc = c1 - c2  ### Vector
+
+	hit_force = dv.inner_product(dc)  ### Number
+
+	if hit_force < 0  ## If the balls are moving towards each other
+	  $hit_sound.play(-hit_force*1.00/100.00)   ### When hit_force = 6 : Volume = 1 : Which means full volume
+	  # puts hit_force
+	end
 
 	self.collision_response(new_vel_self)
 	inst.collision_response(new_vel_inst)
