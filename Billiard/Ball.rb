@@ -216,7 +216,7 @@ class Ball
     }
 
     ### Resistance
-    if (@vel_x**2+@vel_y**2) > 0.5**2
+    if (@vel_x*@vel_x + @vel_y*@vel_y) > 0.5*0.5
       @vel_x = @vel_x * @resistance
       @vel_y = @vel_y * @resistance
     else
