@@ -39,6 +39,7 @@ class GameWindow < Gosu::Window
 
   # This event is checked 60 times per second.
   def update
+    self.caption = "Tennis - [FPS: #{Gosu::fps.to_s}]"
     unless @game_over
       @player.update
       @bot.update
