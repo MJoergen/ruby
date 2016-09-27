@@ -9,12 +9,12 @@
 #   gæt          : true, hvis spilleren vil gætte. false, hvis spilleren vil spørge.
 #   kort         : Det kort, som spilleren vil gætte eller spørge om.
 def spiller_valg(egne_kort, antal_kort, spurgt_kort, spurgt_svar, alle_spurgte)
-    puts ”Du sidder med ” + egne_kort.to_s
+    puts "Du sidder med " + egne_kort.to_s
     # TBD: osv.
-    puts ”Vil du spørge eller gætte?”
+    puts "Vil du spørge eller gætte?"
     # TBD: osv.
-    kort = 0     # TBD: SKAL RETTES
-    gæt  = false # TBD: SKAL RETTES
+    gæt = false # TBD: Dette skal ændres
+    kort = 0    # TBD: Dette skal ændres
     return gæt, kort
 end
 
@@ -50,35 +50,32 @@ spurgt_kort = nil # Det sidste kort, der er spurgt om.
 spurgt_svar = nil # Det sidste svar, der blev givet.
 alle_spurgte = [] # Alle de kort, som der er blevet spurgt om.
 
-p spiller_kort, computer_kort, skjult_kort
-exit
-
 while true
     # Nu er det spillerens tur
     gæt, kort = spiller_valg(spiller_kort, antal_kort, spurgt_kort, spurgt_svar, alle_spurgte)
     if gæt
-        # Har spilleren vundet eller tabt?
-        # TBD: HER SKAL INDSÆTTES NOGET KODE.
-        break
+        # Spilleren vælger at gætte på det skjulte kort.
+        if kort == skjult_kort
+	  puts "Du har vundet!"
+	else
+	  puts "Du har tabt!"
+	end
+        break # Spillet er slut.
     else
         puts "Du spurgte om kortet " + kort.to_s
         spurgt_kort = kort
         spurgt_svar = computer_kort.index(kort) != nil # Har computeren kortet?
+	if spurgt_svar
+	  puts "Svaret er ja!"
+	else
+	  puts "Svaret er nej!"
+	end
         alle_spurgte << kort
     end
 
     # Nu er det computerens tur
-    gæt, kort = computer_valg(computer_kort, antal_kort, spurgt_kort, spurgt_svar, alle_spurgte)
-    if gæt
-        # Har computeren vundet eller tabt?
-        # TBD: HER SKAL INDSÆTTES NOGET KODE.
-        break
-    else
-        puts "Jeg spurgte om kortet " + kort.to_s
-        spurgt_kort = kort
-        spurgt_svar = spiller_kort.index(kort) != nil # Har spilleren kortet?
-        alle_spurgte << kort
-    end
+    gæt, kort = comp_valg(computer_kort, antal_kort, spurgt_kort, spurgt_svar, alle_spurgte)
+    # TBD:
 end
 
 puts "Spillet er slut."
