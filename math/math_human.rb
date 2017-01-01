@@ -1,4 +1,14 @@
+# This file shows how a human could calculate 
+# logarithms and powers, without a calculator
+# This might not be the BEST method,
+# but it is simple to understand.
+
+# Use Newton's method to calculate square roots.
 def msqrt(x)
+    if x < 0
+        return Float::NAN
+    end
+
     res = 1.0;
     begin 
         delta = (x/res - res)*0.5;
@@ -9,18 +19,20 @@ def msqrt(x)
     return res;
 end
 
+# This array contains the numbers
+# 10^0.5, 10^0.25, 10^0.125, etc.
 $pow_10_5 = []
 
 def make_pow_10_5()
-    puts "Yeah!"
     pow = 10.0;
-    pow_2 = (Float::DIG+1)/0.301
+    pow_2 = (Float::DIG+1)/0.301 # Approximately number of bits in the mantissa
     pow_2.to_i.times do
         pow = msqrt(pow);
         $pow_10_5 << pow;
     end
 end
 
+# Calculate 10^x
 def pow_10(x)
     if $pow_10_5.size == 0
         make_pow_10_5
@@ -37,10 +49,12 @@ def pow_10(x)
     i.times do
         res *= 10.0;
     end
-
     x -= i;
+
     # Now x is between 0 and 1
 
+    # Essentially, we're converting the number x
+    # into a binary number.
     $pow_10_5.each {|val|
         if (x >= 0.5)
             res *= val
@@ -52,6 +66,7 @@ def pow_10(x)
     return res;
 end
 
+# Calculate log_10(x)
 def log_10(x)
     if $pow_10_5.size == 0
         make_pow_10_5
@@ -135,3 +150,4 @@ end
 
 test_pow_10
 test_log_10
+

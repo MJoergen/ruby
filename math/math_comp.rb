@@ -1,3 +1,13 @@
+# This file shows how to program a computer to calculate
+# logarithms and powers, without a calculator.
+# The benefit of this method is that it does not 
+# require any multiplications. It can be implemented 
+# entirely with shift and additions. Therefore, it
+# is well suited for a FPGA.
+# TODO: Change the logarithms, so they are base 2 instead of base 20
+# TODO: Change all floating point numbers to fixed point numbers.
+
+# Use Newton's method to calculate square roots.
 def msqrt(x)
     res = 1.0;
     begin 
@@ -9,6 +19,7 @@ def msqrt(x)
     return res;
 end
 
+# This is the method used to calculate the below table of logarithms.
 def make_log_2_5()
     pow = 1.0;
     pow_2 = (Float::DIG+1)/0.301
@@ -18,6 +29,7 @@ def make_log_2_5()
     end
 end
 
+# This table contains log_10(2), log_10(1.5), log_10(1.25), log_10(1.125), etc.
 $log_2_5 = [
 0.3010299956639812,
 0.17609125905568124,
