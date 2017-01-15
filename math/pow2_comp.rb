@@ -69,21 +69,59 @@ $log_pow_2 = [
     0x0000000000000003,
     0x0000000000000001]
 
-def pow(x)
+def pow_2(x)
+    e = x.to_i
+    x -= e
+    if (x<0)
+        x+=1
+        e-=1
+    end
+
     ix = (x*2**64+0.5).to_i
-    puts ix.to_s(16)
     ox = 0x10000000000000000
 
     $log_pow_2.each_with_index {|val, index|
         if (ix >= val)
             ox += ox >> index
             ix -= val
-            puts index, ix.to_s(16)
         end
     }
 
-    puts ox.to_s(16)
-    puts ox/(2.0**64)
+    return ox/(2.0**(64-e))
 end
 
-pow(0.7)
+def test_func(xmin, xmax, xstep, f1, f2)
+    puts "Testing in the range #{xmin} to #{xmax} in steps of #{xstep}"
+    max_diff = 0.0
+    max_x = 0.0
+    (0..((xmax-xmin)/xstep).to_i).each {|i|
+        x = i*xstep + xmin;
+
+        app = method(f1).call(x)
+        re = method(f2).call(x)
+
+        diff = (app - re)/re
+        if diff < 0
+            diff = -diff
+        end
+        if diff > max_diff
+            max_x = x
+            max_diff = diff
+        end
+    }
+
+    return max_x, max_diff
+end
+
+def pow_2_math(x)
+    return 2.0**x
+end
+
+def test_pow_2
+    puts "Testing pow_2"
+    max_x, max_diff = test_func(-5.0, 5.0, 0.001, :pow_2, :pow_2_math)
+    puts "#{max_x}, #{max_diff}"
+end
+
+test_pow_2
+
