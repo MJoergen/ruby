@@ -19,6 +19,8 @@ class Window < Gosu::Window
         @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
        
         @thinking = false
+        @thinking_time = 0
+        @thinking_time_max = 60
         @game_over = false
         @help = false
         
@@ -89,6 +91,10 @@ class Window < Gosu::Window
 
     def update
         if @thinking
+            @thinking_time -= 1
+            if @thinking_time > 0
+                return
+            end
             # It is our turn
             if is_dead?
                 # We won!
@@ -210,6 +216,7 @@ class Window < Gosu::Window
                     @board[row][col] = 1
                     @last_move = [row, col]
                     @thinking = true
+                    @thinking_time = @thinking_time_max
                 end
             end
         end
