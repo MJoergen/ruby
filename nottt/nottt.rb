@@ -12,9 +12,13 @@ class Window < Gosu::Window
         @col_blue  = Gosu::Color.new(0xff8080ff)
 
         @cell_size = 50
-        @size = 4
+        @size = 5
         @board = Array.new(@size) {Array.new(@size)}
         @circle = Gosu::Image.new('filled_circle.png')
+        @open_circle = Gosu::Image.new('circle.png')
+        @blinking = false
+        @blinking_time = 0
+        @blinking_time_max = 10
 
         @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
        
@@ -24,6 +28,7 @@ class Window < Gosu::Window
         @game_over = false
         @help = false
         
+        @selected = []
         @last_move = [0, 0]
         @line = []
 
@@ -90,6 +95,12 @@ class Window < Gosu::Window
     end
 
     def update
+        @blinking_time -= 1
+        if @blinking_time <= 0
+            @blinking_time = @blinking_time_max
+            @blinking = !@blinking
+        end
+
         if @thinking
             @thinking_time -= 1
             if @thinking_time > 0
@@ -161,6 +172,9 @@ class Window < Gosu::Window
                         @circle.draw(col*@cell_size+5, row*@cell_size+5, 0, 0.4, 0.4, @col_green)
                     end
                 end
+                if @selected[0] == row and @selected[1] == col and @blinking
+                    @open_circle.draw(col*@cell_size+5, row*@cell_size+5, 0, 0.4, 0.4, @col_red)
+                end
                 if @help
                     vals = get_line_counts([row, col])
                     if vals[2] > 0
@@ -210,13 +224,20 @@ class Window < Gosu::Window
             @help = !@help
         when Gosu::MsLeft
             if not @thinking
-                col = mouse_x / @cell_size
-                row = mouse_y / @cell_size
+                col = (mouse_x / @cell_size).to_i
+                row = (mouse_y / @cell_size).to_i
                 if row >= 0 and row < @size and col >= 0 and col < @size
-                    @board[row][col] = 1
-                    @last_move = [row, col]
-                    @thinking = true
-                    @thinking_time = @thinking_time_max
+                    if [row, col] == @selected
+                        @board[row][col] = 1
+                        @last_move = [row, col]
+                        @thinking = true
+                        @thinking_time = @thinking_time_max
+                        @selected = []
+                    else
+                        @selected = [row, col]
+                    end
+                else
+                    @selected = []
                 end
             end
         end
