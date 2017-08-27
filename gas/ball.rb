@@ -110,18 +110,21 @@ class Ball
     end
 
 	def draw
-		if @id == 0                 # Den første bold er hvid
+		if @id == 0
+            # Den første bold er hvid
             draw_rot(@circle_img, @x, @y, Gosu::Color::WHITE)
 		else
-			if @colliding == false  # Alle andre bolde er røde!
-                draw_rot(@circle_img, @x, @y, Gosu::Color::RED)
-			else                    # Men hvis de støder sammen, så er de grønne :-)
-                draw_rot(@circle_img, @x, @y, Gosu::Color::GREEN)
-				if @collision_point == true
-                    draw_rot(@circle_img, @collisionPointX, @collisionPointY, Gosu::Color::BLUE, 0.3, 1)
-				end
-			end
-		end
+            # Alle andre bolde er røde!
+            draw_rot(@circle_img, @x, @y, Gosu::Color::RED)
+        end
+
+        # Hvis de støder sammen, så er de grønne :-)
+        if @colliding == true
+            draw_rot(@circle_img, @x, @y, Gosu::Color::GREEN)
+        end
+        if @collision_point == true
+            draw_rot(@circle_img, @collisionPointX, @collisionPointY, Gosu::Color::BLUE, 0.3, 1)
+        end
 	end
 	
 end
