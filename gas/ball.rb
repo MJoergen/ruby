@@ -18,6 +18,7 @@ class Ball
 		@collisionPointX = @x
 		@collisionPointY = @y
 		
+		@circle_img = Gosu::Image.new("media/filled_circle.png")
 	end
 	
 	def update
@@ -34,15 +35,15 @@ class Ball
 	
 	def draw
 		if @id == 0
-			@window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFFFFFF)
+			@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFFFFFF)
 		else
 		
 			if @colliding == false
-				@window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFF0000)
+				@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFF0000)
 			else
-				@window.circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
+				@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
 				if @collision_point == true
-					@window.circle_img.draw_rot(@collisionPointX+$window_width/2-$camera_x, @collisionPointY+$window_height/2-$camera_y, 1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), 0xff0000FF)
+					@circle_img.draw_rot(@collisionPointX+$window_width/2-$camera_x, @collisionPointY+$window_height/2-$camera_y, 1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), 0xff0000FF)
 				end
 			end
 		

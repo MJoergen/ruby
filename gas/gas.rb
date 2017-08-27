@@ -3,16 +3,10 @@ require_relative 'ball'
 
 class GameWindow < Gosu::Window
 	
-	WIDTH = 860
-	HEIGHT = 540
-	TITLE = "Gas"
-	
-	attr_reader :circle_img
-	
 	def initialize
 		
-		super(WIDTH, HEIGHT, false)
-		self.caption = TITLE
+		super(860, 540, false)
+		self.caption = "Gas"
 		
 		## The size of the window
 		$window_width = 860.0
@@ -24,7 +18,6 @@ class GameWindow < Gosu::Window
 		
 		## Only two images are used in this program
 		@point_img = Gosu::Image.new("media/Point2.png")
-		@circle_img = Gosu::Image.new("media/filled_circle.png")
 		
 		## Default font
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
@@ -38,13 +31,6 @@ class GameWindow < Gosu::Window
 
 		## Creates the objects
 		self.restart
-		
-		## Kinetic Energy
-		@kinetic_energy = 0.0
-		@kin_big = 0.0
-		@kin_small = 0.0
-		@kin_dif_array = []
-		
 	end
 	
 	def restart  #### When you press Z, this method gets called
@@ -54,50 +40,21 @@ class GameWindow < Gosu::Window
 		
 		for i in 0..39  ### Repeat 40 times
 			## Create a ball
-			self.create_ball(11.0+rand($universe_width-11.0), 11.0+rand($universe_height-11.0), rand(360), rand(5), 11.0, 3.14*(11.0**2))
+			self.create_ball(11.0+rand($universe_width-2*11.0), 11.0+rand($universe_height-2*11.0),
+                             rand(360), rand(5), 11.0, 3.14*(11.0**2))
 		end
 		
 	end
 	
 	def update
 		
-		@kin_big = 0.0
-		@kin_small = 0.0
-		
 		self.caption = "Elastic Collision  -  [FPS: #{Gosu::fps.to_s}]"
 		
 		if @update_balls == true
-			
-			## Update balls
 			$balls.each     { |inst|  inst.update }
 			## CHECK FOR BALL COLLISION. THIS IS DONE BY THE WINDOW, NOT BY EACH BALL. THE REASON IS OPTIMISATION.
 			self.check_ball_collision
-		
 		end
-		
-		## Kinetic Energy. Currently not used.
-		for i in 0..$balls.length-1
-			
-			if $balls[i].mass > 500.0
-				@kin_big += $balls[i].get_kin
-			else
-				@kin_small += $balls[i].get_kin
-			end
-			
-			# @kinetic_energy += $balls[i].get_kin
-		end
-		
-		# puts "@kin_big : #{@kin_big} ... @kin_small : #{@kin_small}"
-		# puts @kin_big - @kin_small
-		
-		@kin_dif_array << (@kin_big - @kin_small)
-		
-		if @kin_dif_array.length > 500
-			@kin_dif_array.shift
-		end
-		
-		# puts @kinetic_energy
-		
 		
 		### MOVE THE CAMERA
 		if button_down? Gosu::KbLeft
@@ -137,28 +94,21 @@ class GameWindow < Gosu::Window
 		## Display the amount of balls
 		@font.draw("Balls : #{$balls.length}", 10, 10, 1, 1.0, 1.0, 0xffffffff)
 		
-		
-		### Kinetic Energy
-		# draw_line(0, 300, 0xaaffffff, WIDTH, 300, 0xaaffffff, 0)
-		
-		# for i in 0..@kin_dif_array.length-1
-			
-			# y_offset = @kin_dif_array[i]/1000.0
-			
-			# @point_img.draw_rot(50 + i, 300 + y_offset*4, 1, 0, 0.5, 0.5, 0.5, 0.5, 0xffffff00)
-			
-		# end
-		
 		### Draw the universe borders
-		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, $universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, 0)
-		draw_line(0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
+		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
+                  $universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, 0)
+		draw_line(0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff,
+                  $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
 		
-		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, 0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
-		draw_line($universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
+		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
+                  0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
+		draw_line($universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
+                  $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
 		
 		### Draw the instructions
 		@font.draw("Press W to Unpause/Pause", $window_width/2-50, 10, 2)
-		@font.draw("Press Arrow Keys to Move camera", $window_width/2-50, 30, 2)
+		@font.draw("Press Q to single-step", $window_width/2-50, 30, 2)
+		@font.draw("Press Arrow Keys to Move camera", $window_width/2-50, 50, 2)
 		
 	end
 	
