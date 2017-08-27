@@ -17,8 +17,8 @@ class GameWindow < Gosu::Window
 		
 		@font      = Gosu::Font.new(self, Gosu::default_font_name, 16)
 		@smallfont = Gosu::Font.new(self, Gosu::default_font_name, 14)
-		@circle    = Gosu::Image.new(self, "circle-100px.png", true)
-		@point     = Gosu::Image.new(self, "Point2.png", true)
+		@circle    = Gosu::Image.new("circle-100px.png")
+		@point     = Gosu::Image.new("Point2.png")
 		
 		@SIZE = 30           ## Circle size in pixels
 
