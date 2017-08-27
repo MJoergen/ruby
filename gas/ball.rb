@@ -59,7 +59,6 @@ class Ball
 				
 				@collisionPointX = (@x*inst.radius + inst.x*@radius)/sum_radius
 				@collisionPointY = (@y*inst.radius + inst.y*@radius)/sum_radius
-				
 				@collision_point = true
 				
 				new_vel_self = new_velocity(@mass, inst.mass,
@@ -76,17 +75,9 @@ class Ball
 		end
 	end
 	
-	def collision_ball(new_vel)
-		@colliding = true
-		
-		@vel_x = new_vel[0]
-		@vel_y = new_vel[1]
-		
-		# @x = @x + @vel_x
-		# @y = @y + @vel_y
-		
-	end
-	
+    # Beregner den nye hastighed efter sammenstød.
+    # De relevante formler findes nederst i afsnittet her:
+    # https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
 	def new_velocity(m1, m2, v1, v2, c1, c2)
 		f = (2*m2)/(m1+m2)  ## Number
 		
@@ -103,6 +94,13 @@ class Ball
 		end
 	end
 
+	def collision_ball(new_vel)
+		@colliding = true
+		
+		@vel_x = new_vel[0]
+		@vel_y = new_vel[1]
+	end
+	
     def draw_rot(image, x, y, color, scale=1.0, z=0)
         image.draw_rot(x + @window.width/2  - @window.camera_x,
                        y + @window.height/2 - @window.camera_y,
