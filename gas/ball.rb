@@ -13,8 +13,8 @@ class Ball
 		@vel_y = Gosu::offset_y(@dir, vel)
 		
 		@colliding = false
+
 		@collision_point = false
-		
 		@collisionPointX = @x
 		@collisionPointY = @y
 		

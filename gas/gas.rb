@@ -17,6 +17,7 @@ class GameWindow < Gosu::Window
 		## Camera coordinates
 		@camera_x = @universe_width/2
 		@camera_y = @universe_height/2
+        @follow = false
 		
 		## Default font
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
@@ -49,9 +50,14 @@ class GameWindow < Gosu::Window
 			@balls.each     { |inst|  inst.update }
 			self.check_ball_collision
 		end
-		
-		### MOVE THE CAMERA
-		if button_down? Gosu::KbLeft
+
+        if @follow == true
+            @camera_x = @balls[0].x
+            @camera_y = @balls[0].y
+        end
+
+        ### MOVE THE CAMERA
+        if button_down? Gosu::KbLeft
 			@camera_x += -4
 		end
 		if button_down? Gosu::KbRight
@@ -87,6 +93,8 @@ class GameWindow < Gosu::Window
 				self.check_ball_collision
 			when Gosu::KbW
 				@update_balls = !@update_balls
+			when Gosu::KbF
+                @follow = !@follow
 		end
 	end
 	
@@ -117,7 +125,8 @@ class GameWindow < Gosu::Window
 		@font.draw("Press W to Unpause/Pause",        width/2-50, 5, 2)
 		@font.draw("Press Q to single-step",          width/2-50, 20, 2)
 		@font.draw("Press Z to reset",                width/2-50, 35, 2)
-		@font.draw("Press Arrow Keys to Move camera", width/2-50, 50, 2)
+		@font.draw("Press F to follow white ball",    width/2-50, 50, 2)
+		@font.draw("Press Arrow Keys to Move camera", width/2-50, 75, 2)
 	end
 end
 
