@@ -6,55 +6,62 @@ class GUI < Gosu::Window
         super 640, 480
         self.caption = "Lommeregner"
         @font = Gosu::Font.new(20)
-        @pressed = false
-        @size = 60
-        @margin = 10 
-        @buttons = ['7', '8', '9', 'C',
+        @lommeregner = Lommeregner.new
+
+        @knapper = ['7', '8', '9', 'C',
                     '4', '5', '6', '-',
                     '1', '2', '3', '+',
                     '0', '.', '+/-', '=']
-        @lommeregner = Lommeregner.new
+        @pressed = false
+
+        @size = 60          # Størrelsen af hvert felt
+        @margin = 10        # Placeringen af tekst i feltet
+        @offset_x = 40
+        @offset_y = 40
     end
 
     def update
         if button_down?(Gosu::MsLeft)
-            tile_x = (mouse_x - 40) / @size
-            tile_y = (mouse_y - 40) / @size
-            if (tile_x >= 0 and tile_x < 4 and tile_y >= 0 and tile_y < 4 and @pressed == false)
-                index = tile_y.floor * 4 + tile_x.floor
-                button = @buttons[index]
-                @lommeregner.input(button)
-                @pressed = true
+            if @pressed == false
+
+                # Udregn først hvilket felt vi har trykket på
+                felt_x = (mouse_x - @offset_x) / @size
+                felt_y = (mouse_y - @offset_y) / @size
+
+                # Check om vi har ramt et gyldigt felt
+                if (felt_x >= 0 and felt_x < 4 and felt_y >= 0 and felt_y < 4)
+                    index = felt_y.floor * 4 + felt_x.floor
+                    knap = @knapper[index]
+                    @lommeregner.input(knap)
+                end
             end
+            @pressed = true
         else
             @pressed = false
         end
     end
 
-    def draw_rect(x, y, width, height, c, z=0, mode=:default)
-        draw_line(x,       y, c,
-                  x+width, y, c,
-                  z, mode)
-        draw_line(x,       y+height, c,
-                  x+width, y+height, c,
-                  z, mode)
-        draw_line(x, y, c,
-                  x, y+height, c,
-                  z, mode)
-        draw_line(x+width, y, c,
-                  x+width, y+height, c,
-                  z, mode)
+    # Tegn et rektangel
+    def draw_rect(x, y, width, height, color, z=0, mode=:default)
+        draw_line(x,       y,        color,
+                  x+width, y,        color, z, mode)
+        draw_line(x,       y+height, color,
+                  x+width, y+height, color, z, mode)
+        draw_line(x,       y,        color,
+                  x,       y+height, color, z, mode)
+        draw_line(x+width, y,        color,
+                  x+width, y+height, color, z, mode)
     end
 
     def draw
         draw_rect(0, 0, 0 + @size*5, 0 + @size*5, Gosu::Color::YELLOW)
 
         @lommeregner.draw(@font, 20, 10, Gosu::Color::YELLOW)
-        @buttons.each_with_index do |button, index|
-            x = 40 + @size*(index % 4)
-            y = 40 + @size*(index / 4)
+        @knapper.each_with_index do |knap, index|
+            x = @offset_x + @size*(index % 4)
+            y = @offset_y + @size*(index / 4)
             draw_rect(x, y, @size-2*@margin, @size-2*@margin, Gosu::Color::WHITE)
-            @font.draw("#{button}", x+@margin, y+@margin, 0, 1.0, 1.0, Gosu::Color::YELLOW)
+            @font.draw("#{knap}", x+@margin, y+@margin, 0, 1.0, 1.0, Gosu::Color::YELLOW)
         end 
     end
 
@@ -101,3 +108,4 @@ class GUI < Gosu::Window
 end
 
 GUI.new.show
+

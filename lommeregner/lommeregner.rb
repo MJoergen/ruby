@@ -24,40 +24,44 @@ class Lommeregner
         end
     end
 
-    def input(button)
-        if button.to_i.to_s == button
+    def input(knap)
+        if knap.to_i.to_s == knap
             if @clear == true
-                @value = button
+                @value = knap
             else
-                @value = @value + button
+                @value = @value + knap
             end
             @clear = false
 
-        elsif button == '.'
+        elsif knap == '.'
             if @clear == true
                 @value = '0'
             end
-            @value = @value + '.'
+            if @value[-1] != '.'            # Der må højst være ét komma
+                @value = @value + '.'
+            end
+            @clear = false
 
-        elsif button == '+/-'
-            if @value[0] == '-'
-                @value = @value[1..-1]
+        elsif knap == '+/-'
+            if @value[0] == '-'             # Hvis første tegn er et minus ...
+                @value = @value[1..-1]      # ... så slet det.
             else
-                @value = '-' + @value
+                @value = '-' + @value       # Ellers indsæt et minus-tegn foran tallet
             end
 
-        elsif button == '+' or button == '-'
+        elsif knap == '+' or knap == '-'
             calc
             @operand = @value
-            @operator = button
+            @operator = knap
+            @value = ''
             @clear = true
 
-        elsif button == '='
+        elsif knap == '='
             calc
             @operator = ''
             @clear = true
 
-        elsif button == 'C'
+        elsif knap == 'C'
             initialize
 
         end
