@@ -30,14 +30,14 @@ class Ball
 		@y = @y + @vel_y
 		
 		### Check collision with walls
-		if @x > ($universe_width-@radius) and @vel_x > 0
+        if @x > (@window.universe_width-@radius) and @vel_x > 0
 			@vel_x = -@vel_x
 		end
 		if @x < @radius and @vel_x < 0
 			@vel_x = -@vel_x
 		end
 		
-		if @y > ($universe_height-@radius) and @vel_y > 0
+        if @y > (@window.universe_height-@radius) and @vel_y > 0
 			@vel_y = -@vel_y
 		end
 		
@@ -100,21 +100,23 @@ class Ball
 		
 	end
 
+    def draw_rot(image, x, y, color, scale=1.0, z=0)
+        image.draw_rot(x + @window.width/2 - @window.camera_x,
+                       y + @window.height/2 - @window.camera_y,
+                       z, 0, 0.5, 0.5, scale*(@radius/50.0), scale*(@radius/50.0), color)
+    end
+
 	def draw
-		if @id == 0
-            @circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::WHITE)
+		if @id == 0     # Den første bold er hvid
+            draw_rot(@circle_img, @x, @y, Gosu::Color::WHITE)
 		else
 		
-			if @colliding == false
-				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::RED)
-			else
-				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::GREEN)
+			if @colliding == false  # Alle andre bolde er røde
+                draw_rot(@circle_img, @x, @y, Gosu::Color::RED)
+			else                    # Men hvis de støder sammen, så er de grønne
+                draw_rot(@circle_img, @x, @y, Gosu::Color::GREEN)
 				if @collision_point == true
-					@circle_img.draw_rot(@collisionPointX+@window.width/2-$camera_x, @collisionPointY+@window.height/2-$camera_y, 
-                                         1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), Gosu::Color::BLUE)
+                    draw_rot(@circle_img, @collisionPointX, @collisionPointY, Gosu::Color::BLUE, 0.3, 1)
 				end
 			end
 		

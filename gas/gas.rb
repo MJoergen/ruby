@@ -2,6 +2,8 @@ require 'gosu'
 require_relative 'ball'
 
 class GameWindow < Gosu::Window
+    attr_reader :universe_width, :universe_height
+    attr_reader :camera_x, :camera_y
 	
 	def initialize
 		
@@ -9,12 +11,12 @@ class GameWindow < Gosu::Window
 		self.caption = "Gas"
 		
 		## The size of the "universe"
-		$universe_width = width - 60
-		$universe_height = height - 140
+		@universe_width = width - 60
+		@universe_height = height - 140
 		
 		## Camera coordinates
-		$camera_x = $universe_width/2
-		$camera_y = $universe_height/2
+		@camera_x = @universe_width/2
+		@camera_y = @universe_height/2
 		
 		## Default font
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
@@ -31,8 +33,8 @@ class GameWindow < Gosu::Window
 		
 		@balls = []     ### Array containing every ball object.
 		for i in 0..39
-            x = radius + rand($universe_width-2*radius)
-            y = radius + rand($universe_height-2*radius)
+            x = radius + rand(@universe_width-2*radius)
+            y = radius + rand(@universe_height-2*radius)
             dir = rand(360)
             vel = rand(5)
             mass = 3.14*(radius**2)
@@ -50,16 +52,16 @@ class GameWindow < Gosu::Window
 		
 		### MOVE THE CAMERA
 		if button_down? Gosu::KbLeft
-			$camera_x += -4
+			@camera_x += -4
 		end
 		if button_down? Gosu::KbRight
-			$camera_x += 4
+			@camera_x += 4
 		end
 		if button_down? Gosu::KbUp
-			$camera_y += -4
+			@camera_y += -4
 		end
 		if button_down? Gosu::KbDown
-			$camera_y += 4
+			@camera_y += 4
 		end
 	end
 	
@@ -93,8 +95,8 @@ class GameWindow < Gosu::Window
 	end
 
     def draw_universe_line(x1, y1, x2, y2, color)
-        draw_line(x1 + width/2-$camera_x, y1 + height/2-$camera_y, color,
-                  x2 + width/2-$camera_x, y2 + height/2-$camera_y, color)
+        draw_line(x1 + width/2-@camera_x, y1 + height/2-@camera_y, color,
+                  x2 + width/2-@camera_x, y2 + height/2-@camera_y, color)
     end
 	
 	def draw
@@ -103,13 +105,13 @@ class GameWindow < Gosu::Window
 		
 		### Draw the universe borders
         draw_universe_line(0,               0,
-                           $universe_width, 0,                Gosu::Color::WHITE)
-        draw_universe_line(0,               $universe_height,
-                           $universe_width, $universe_height, Gosu::Color::WHITE)
+                           @universe_width, 0,                Gosu::Color::WHITE)
+        draw_universe_line(0,               @universe_height,
+                           @universe_width, @universe_height, Gosu::Color::WHITE)
         draw_universe_line(0,               0,
-                           0,               $universe_height, Gosu::Color::WHITE)
-        draw_universe_line($universe_width, 0,
-                           $universe_width, $universe_height, Gosu::Color::WHITE)
+                           0,               @universe_height, Gosu::Color::WHITE)
+        draw_universe_line(@universe_width, 0,
+                           @universe_width, @universe_height, Gosu::Color::WHITE)
 
 		### Draw the instructions
 		@font.draw("Press W to Unpause/Pause",        width/2-50, 5, 2)
