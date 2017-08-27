@@ -24,16 +24,7 @@ class Ball
 	def update
 		@colliding = false
 		@collision_point = false
-		self.move
-		
-		### Follow ball number 0. The White ball.
-		# if @id == 0
-			# @window.warp_camera(@x, @y)
-		# end
-		
-	end
-	
-	def move
+
 		### Move the ball
 		@x = @x + @vel_x
 		@y = @y + @vel_y
@@ -112,18 +103,18 @@ class Ball
 	def draw
 		if @id == 0
             @circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFFFFFF)
+                                 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::WHITE)
 		else
 		
 			if @colliding == false
 				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFF0000)
+                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::RED)
 			else
 				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
-                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
+                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), Gosu::Color::GREEN)
 				if @collision_point == true
 					@circle_img.draw_rot(@collisionPointX+@window.width/2-$camera_x, @collisionPointY+@window.height/2-$camera_y, 
-                                         1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), 0xff0000FF)
+                                         1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), Gosu::Color::BLUE)
 				end
 			end
 		

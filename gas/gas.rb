@@ -30,13 +30,33 @@ class GameWindow < Gosu::Window
 		
 		$balls = []     ### Array containing every ball object.
 		@ball_ids = []  ### Array used to manage the ball ids. Each ball has a unique number in "@id".
+
+        radius = 11.0
 		
 		for i in 0..39  ### Repeat 40 times
 			## Create a ball
-			self.create_ball(11.0+rand($universe_width-2*11.0), 11.0+rand($universe_height-2*11.0),
-                             rand(360), rand(5), 11.0, 3.14*(11.0**2))
+            x = radius + rand($universe_width-2*radius)
+            y = radius + rand($universe_height-2*radius)
+            dir = rand(360)
+            vel = rand(5)
+            mass = 3.14*(radius**2)
+			self.create_ball(x, y, dir, vel, radius, mass)
 		end
 		
+	end
+
+	def create_ball(x, y, dir, vel, radius, mass)
+		
+		### Maximum of 200 balls when giving them a unique id. 200 is an abitrary number... change it to whatever you like. 
+		for i in 0..199
+			if !@ball_ids.include? i
+				id = i
+				@ball_ids << id
+				inst = Ball.new(self, x, y, dir, vel, radius, id, mass) ### Create the ball
+				$balls << inst  ### And remember the ball in the $balls array
+				break
+			end
+		end
 	end
 	
 	def update
@@ -79,35 +99,15 @@ class GameWindow < Gosu::Window
 		end
 	end
 	
-	def create_ball(x, y, dir, vel, rad, mass)
-		
-		### Maximum of 200 balls when giving them a unique id. 200 is an abitrary number... change it to whatever you like. 
-		for i in 0..199
-			if !@ball_ids.include? i
-				id = i
-				@ball_ids << id
-				inst = Ball.new(self, x, y, dir, vel, rad, id, mass) ### Create the ball
-				$balls << inst  ### And remember the ball in the $balls array
-				break
-			end
-		end
-	end
-	
 	def check_ball_collision  
 		
 		### This method has been optimised to only check each collision ONCE. Therefore the entire collision check is 2x faster.
 		### Thats also the reason why the method is run by the window, not by each ball.
 		
-		second_index = 1
-		
 		for i in 0..$balls.length-2  ## Ignore the last ball, since we have all the collisions checked by then
-			
-			for q in second_index..$balls.length-1  ### Check every ball from second_index
+			for q in (i+1)..$balls.length-1  ### Check every ball from second_index
 				$balls[i].checkCollision($balls[q])
 			end
-			
-			second_index += 1
-			
 		end
 		
 	end
@@ -125,19 +125,15 @@ class GameWindow < Gosu::Window
 		## Draw the balls
 		$balls.each     { |inst|  inst.draw }
 		
-		## Display the amount of balls
-		@font.draw("Balls : #{$balls.length}", 10, 10, 1, 1.0, 1.0, 0xffffffff)
-		
 		### Draw the universe borders
-        draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
-                  $universe_width+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff, 0)
-		draw_line(0+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff,
-                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
-		
-		draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
-                  0+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
-		draw_line($universe_width+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
-                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
+        draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, Gosu::Color::WHITE,
+                  $universe_width+width/2-$camera_x, 0+height/2-$camera_y, Gosu::Color::WHITE, 0)
+		draw_line(0+width/2-$camera_x, $universe_height+height/2-$camera_y, Gosu::Color::WHITE,
+                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, Gosu::Color::WHITE, 0)
+		draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, Gosu::Color::WHITE,
+                  0+width/2-$camera_x, $universe_height+height/2-$camera_y, Gosu::Color::WHITE, 0)
+		draw_line($universe_width+width/2-$camera_x, 0+height/2-$camera_y, Gosu::Color::WHITE,
+                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, Gosu::Color::WHITE, 0)
 		
 		### Draw the instructions
 		@font.draw("Press W to Unpause/Pause", width/2-50, 10, 2)
