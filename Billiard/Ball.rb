@@ -39,6 +39,10 @@ class Ball
         end
     end
 
+    def draw_camera_rot(image, x, y, center_x=0.0, center_y=0.0, scale_x=1.0, scale_y=1.0)
+        image.draw_rot(x + $window_width/2-$camera_x, y + $window_height/2-$camera_y, 1, 0, center_x, center_y, scale_x, scale_y)
+    end
+
     def draw
         ## Shadow
         @window.circle_img.draw_rot(@x-3+$window_width/2-$camera_x, @y+9+$window_height/2-$camera_y,

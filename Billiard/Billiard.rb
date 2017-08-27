@@ -179,6 +179,17 @@ class GameWindow < Gosu::Window
         end
     end
 
+    def draw_camera_rect(x, y, width, height, color, z=0)
+        draw_quad(x         + $window_width/2-$camera_x, y          + $window_height/2-$camera_y, color,
+                  x + width + $window_width/2-$camera_x, y          + $window_height/2-$camera_y, color,
+                  x + width + $window_width/2-$camera_x, y + height + $window_height/2-$camera_y, color,
+                  x         + $window_width/2-$camera_x, y + height + $window_height/2-$camera_y, color, z)
+    end
+
+    def draw_camera_rot(image, x, y, center_x=0.0, center_y=0.0, scale_x=1.0, scale_y=1.0)
+        image.draw_rot(x + $window_width/2-$camera_x, y + $window_height/2-$camera_y, 1, 0, center_x, center_y, scale_x, scale_y)
+    end
+
     def draw
         draw_quad(0, 0, 0xffffffff,
                   $window_width, 0, 0xffffffff,
@@ -186,45 +197,34 @@ class GameWindow < Gosu::Window
                   0, $window_height, 0xffffffff, 0)
 
         brown_wall_size = 40
-
-        draw_quad(0-brown_wall_size+$window_width/2-$camera_x, 0-brown_wall_size+$window_height/2-$camera_y, 0xff773E2F,
-                  $universe_width+brown_wall_size+$window_width/2-$camera_x, 0-brown_wall_size+$window_height/2-$camera_y, 0xff773E2F,
-                  $universe_width+brown_wall_size+$window_width/2-$camera_x, $universe_height+brown_wall_size+$window_height/2-$camera_y, 0xff773E2F, 
-                  0-brown_wall_size+$window_width/2-$camera_x, $universe_height+brown_wall_size+$window_height/2-$camera_y, 0xff773E2F, 0)
+        draw_camera_rect(0-brown_wall_size, 0-brown_wall_size, $universe_width+2*brown_wall_size, $universe_height+2*brown_wall_size, 0xff773E2F)
 
         green_wall_size = 21
-
-        draw_quad(0-green_wall_size+$window_width/2-$camera_x, 0-green_wall_size+$window_height/2-$camera_y, 0xff144429,
-                  $universe_width+green_wall_size+$window_width/2-$camera_x, 0-green_wall_size+$window_height/2-$camera_y, 0xff144429,
-                  $universe_width+green_wall_size+$window_width/2-$camera_x, $universe_height+green_wall_size+$window_height/2-$camera_y, 0xff144429, 
-                  0-green_wall_size+$window_width/2-$camera_x, $universe_height+green_wall_size+$window_height/2-$camera_y, 0xff144429, 0)
+        draw_camera_rect(0-green_wall_size, 0-green_wall_size, $universe_width+2*green_wall_size, $universe_height+2*green_wall_size, 0xff144429)
 
         ### Corner Pockets
         ## Clockwise order
-        @pocket_corner_img.draw_rot(0-brown_wall_size+$window_width/2-$camera_x, 0-brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.0, 0.0)
-        @pocket_corner_img.draw_rot($universe_width+brown_wall_size+$window_width/2-$camera_x, 0-brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.0, 0.0, -1.0, 1.0)
-        @pocket_corner_img.draw_rot($universe_width+brown_wall_size+$window_width/2-$camera_x, $universe_height+brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.0, 0.0, -1.0, -1.0)
-        @pocket_corner_img.draw_rot(0-brown_wall_size+$window_width/2-$camera_x, $universe_height+brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.0, 0.0, 1.0, -1.0)
+        draw_camera_rot(@pocket_corner_img, 0-brown_wall_size,               0-brown_wall_size,                0.0, 0.0,  1.0,  1.0)
+        draw_camera_rot(@pocket_corner_img, $universe_width+brown_wall_size, 0-brown_wall_size,                0.0, 0.0, -1.0,  1.0)
+        draw_camera_rot(@pocket_corner_img, $universe_width+brown_wall_size, $universe_height+brown_wall_size, 0.0, 0.0, -1.0, -1.0)
+        draw_camera_rot(@pocket_corner_img, 0-brown_wall_size,               $universe_height+brown_wall_size, 0.0, 0.0,  1.0, -1.0)
 
         ### Middle Pockets
-        @pocket_middle_img.draw_rot($universe_width/2+$window_width/2-$camera_x, 0-brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.5, 0.0, 1.0, 1.0)
-        @pocket_middle_img.draw_rot($universe_width/2+$window_width/2-$camera_x, $universe_height+brown_wall_size+$window_height/2-$camera_y, 1, 0, 0.5, 0.0, 1.0, -1.0)
+        draw_camera_rot(@pocket_middle_img, $universe_width/2, 0-brown_wall_size, 0.5, 0.0, 1.0, 1.0)
+        draw_camera_rot(@pocket_middle_img, $universe_width/2, $universe_height+brown_wall_size, 0.5, 0.0, 1.0, -1.0)
 
-        draw_quad(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xff38BC73,
-                  $universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xff38BC73,
-                  $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xff38BC73, 
-                  0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xff38BC73, 0)
+        draw_camera_rect(0, 0, $universe_width, $universe_height, 0xff38BC73)
 
         $balls.each     { |inst|  inst.draw }
 
-        # ### Draw the collision hitbox for the pocket holes (white circles)
-        # for i in 0..$pocket_holes.length-1
-        # @circle_img.draw_rot($pocket_holes[i][0]+$window_width/2-$camera_x, $pocket_holes[i][1]+$window_height/2-$camera_y, 2, 0, 0.5, 0.5, 1.0*($pocket_radius/50.0), 1.0*($pocket_radius/50.0))
-        # end
-
-        # for i in 0..$walls_array_path.length-1
-        # draw_line($walls_array_path[i][0]+$window_width/2-$camera_x, $walls_array_path[i][1]+$window_height/2-$camera_y, 0xffffffff, $walls_array_path[i][2]+$window_width/2-$camera_x, $walls_array_path[i][3]+$window_height/2-$camera_y, 0xffffffff, 3)
-        # end
+        ### Draw the collision hitbox for the pocket holes (white circles)
+#        for i in 0..$pocket_holes.length-1
+#            @circle_img.draw_rot($pocket_holes[i][0]+$window_width/2-$camera_x, $pocket_holes[i][1]+$window_height/2-$camera_y, 2, 0, 0.5, 0.5, 1.0*($pocket_radius/50.0), 1.0*($pocket_radius/50.0))
+#        end
+#
+#        for i in 0..$walls_array_path.length-1
+#            draw_line($walls_array_path[i][0]+$window_width/2-$camera_x, $walls_array_path[i][1]+$window_height/2-$camera_y, 0xffffffff, $walls_array_path[i][2]+$window_width/2-$camera_x, $walls_array_path[i][3]+$window_height/2-$camera_y, 0xffffffff, 3)
+#        end
     end
 
     def create_ball(x, y, dir, vel, rad)
@@ -240,16 +240,10 @@ class GameWindow < Gosu::Window
     end
 
     def check_ball_collision
-        second_index = 1
-
         for i in 0..$balls.length-2  ## Ignore the last ball, since we have all the collisions checked by then
-
-            for q in second_index..$balls.length-1  ### Check every ball from second_index
+            for q in (i+1)..$balls.length-1  ### Check every ball from second_index
                 $balls[i].checkCollision($balls[q])
             end
-
-            second_index += 1
-
         end
     end
 
@@ -263,11 +257,6 @@ class GameWindow < Gosu::Window
 
     def needs_cursor?
         true
-    end
-
-    def warp_camera(x, y)
-        $camera_x = x
-        $camera_y = y
     end
 
     def destroy_ball(inst)
