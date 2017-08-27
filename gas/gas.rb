@@ -8,23 +8,16 @@ class GameWindow < Gosu::Window
 		super(860, 540, false)
 		self.caption = "Gas"
 		
-		## The size of the window
-		$window_width = 860.0
-		$window_height = 540.0
-		
 		## The size of the "universe"
-		$universe_width = 800.0
-		$universe_height = 400.0
-		
-		## Only two images are used in this program
-		@point_img = Gosu::Image.new("media/Point2.png")
-		
-		## Default font
-		@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
+		$universe_width = width - 60
+		$universe_height = height - 140
 		
 		## Camera coordinates
 		$camera_x = $universe_width/2
 		$camera_y = $universe_height/2
+		
+		## Default font
+		@font = Gosu::Font.new(self, Gosu::default_font_name, 16)
 		
 		## Game is paused by default. Unpause by pressing W
 		@update_balls = false
@@ -86,32 +79,6 @@ class GameWindow < Gosu::Window
 		end
 	end
 	
-	def draw
-		
-		## Draw the balls
-		$balls.each     { |inst|  inst.draw }
-		
-		## Display the amount of balls
-		@font.draw("Balls : #{$balls.length}", 10, 10, 1, 1.0, 1.0, 0xffffffff)
-		
-		### Draw the universe borders
-		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
-                  $universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff, 0)
-		draw_line(0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff,
-                  $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
-		
-		draw_line(0+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
-                  0+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
-		draw_line($universe_width+$window_width/2-$camera_x, 0+$window_height/2-$camera_y, 0xffffffff,
-                  $universe_width+$window_width/2-$camera_x, $universe_height+$window_height/2-$camera_y, 0xffffffff, 0)
-		
-		### Draw the instructions
-		@font.draw("Press W to Unpause/Pause", $window_width/2-50, 10, 2)
-		@font.draw("Press Q to single-step", $window_width/2-50, 30, 2)
-		@font.draw("Press Arrow Keys to Move camera", $window_width/2-50, 50, 2)
-		
-	end
-	
 	def create_ball(x, y, dir, vel, rad, mass)
 		
 		### Maximum of 200 balls when giving them a unique id. 200 is an abitrary number... change it to whatever you like. 
@@ -152,6 +119,30 @@ class GameWindow < Gosu::Window
 	def warp_camera(x, y)
 		$camera_x = x
 		$camera_y = y
+	end
+	
+	def draw
+		## Draw the balls
+		$balls.each     { |inst|  inst.draw }
+		
+		## Display the amount of balls
+		@font.draw("Balls : #{$balls.length}", 10, 10, 1, 1.0, 1.0, 0xffffffff)
+		
+		### Draw the universe borders
+        draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
+                  $universe_width+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff, 0)
+		draw_line(0+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff,
+                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
+		
+		draw_line(0+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
+                  0+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
+		draw_line($universe_width+width/2-$camera_x, 0+height/2-$camera_y, 0xffffffff,
+                  $universe_width+width/2-$camera_x, $universe_height+height/2-$camera_y, 0xffffffff, 0)
+		
+		### Draw the instructions
+		@font.draw("Press W to Unpause/Pause", width/2-50, 10, 2)
+		@font.draw("Press Q to single-step", width/2-50, 30, 2)
+		@font.draw("Press Arrow Keys to Move camera", width/2-50, 50, 2)
 	end
 	
 end

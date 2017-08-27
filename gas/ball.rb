@@ -33,30 +33,10 @@ class Ball
 		
 	end
 	
-	def draw
-		if @id == 0
-			@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFFFFFF)
-		else
-		
-			if @colliding == false
-				@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFF0000)
-			else
-				@circle_img.draw_rot(@x+$window_width/2-$camera_x, @y+$window_height/2-$camera_y, 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
-				if @collision_point == true
-					@circle_img.draw_rot(@collisionPointX+$window_width/2-$camera_x, @collisionPointY+$window_height/2-$camera_y, 1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), 0xff0000FF)
-				end
-			end
-		
-		end
-	end
-	
 	def move
-		
-		
 		### Move the ball
 		@x = @x + @vel_x
 		@y = @y + @vel_y
-		
 		
 		### Check collision with walls
 		if @x > ($universe_width-@radius) and @vel_x > 0
@@ -73,8 +53,6 @@ class Ball
 		if @y < @radius and @vel_y < 0
 			@vel_y = -@vel_y
 		end
-		
-		
 	end
 	
 	def checkCollision(inst)  ### This method is only called once for each pair of balls
@@ -130,9 +108,26 @@ class Ball
 		end
 		
 	end
-	
-	def get_kin
-		return (@mass * (@vel_x**2+@vel_y**2))
+
+	def draw
+		if @id == 0
+            @circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
+                                 0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFFFFFF)
+		else
+		
+			if @colliding == false
+				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
+                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xffFF0000)
+			else
+				@circle_img.draw_rot(@x+@window.width/2-$camera_x, @y+@window.height/2-$camera_y,
+                                     0, @dir, 0.5, 0.5, 1.0*(@radius/50.0), 1.0*(@radius/50.0), 0xff00FF00)
+				if @collision_point == true
+					@circle_img.draw_rot(@collisionPointX+@window.width/2-$camera_x, @collisionPointY+@window.height/2-$camera_y, 
+                                         1, @dir, 0.5, 0.5, 1.0*(7.0/50.0), 1.0*(7.0/50.0), 0xff0000FF)
+				end
+			end
+		
+		end
 	end
 	
 end
