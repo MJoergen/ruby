@@ -36,19 +36,11 @@ class Score
   end
 
   def draw
-    if @player > 0
-      @font.draw(@player.to_s, @window.width * 0.25, 100, 2)
-    else
-      @font.draw('GAME OVER', @window.width * 0.25, 100, 2)
-    end
-
-    if @bot > 0
-      @font.draw(@bot.to_s, @window.width * 0.75, 100, 2)
-    else
-      @font.draw('GAME OVER', @window.width * 0.75, 100, 2)
-    end
+    @font.draw(@player.to_s, @window.width * 0.25, 100, 2)
+    @font.draw(@bot.to_s, @window.width * 0.75, 100, 2)
 
     if @window.game_over
+      @font.draw('GAME OVER', @window.width * 0.40, 100, 2)
       @font.draw('Tryk R for at spille igen', @window.width * 0.3, 200, 2)
     end
   end
