@@ -13,21 +13,20 @@ class Bot
   end
 
   def update
-    @vel_x = @window.ball.x - @x + 5 # Aim slightly to the right of the ball.
-    @vel_x = [3, @vel_x].min
+    # Calculate movement of the bot.
+    @vel_x = (@window.ball.x + 5) - @x  # Aim slightly to the right of the ball.
+    @vel_x = [3, @vel_x].min            # Limit the speed of the bot.
     @vel_x = [-3, @vel_x].max
 
+    # Move the bot.
     @x += @vel_x
 
-    if @x - @radius < @window.width / 2 + @window.wall.width / 2 + @margin
-      @x = @window.width / 2 + @window.wall.width / 2 + @margin + @radius
-    end
-    if @x + @radius > @window.width - @margin
-      @x = @window.width - @margin - @radius
-    end
+    # Make sure bot stays in the game.
+    @x = [@x, @window.width / 2 + @window.wall.width / 2 + @radius + @margin].max
+    @x = [@x, @window.width - @radius - @margin].min
   end
 
   def draw
-    @image.draw(@x - @radius, @y - @radius, 2)
+    @image.draw(@x - @radius, @y - @radius, 0)
   end
 end
