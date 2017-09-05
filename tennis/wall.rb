@@ -6,7 +6,7 @@ class Wall
 
   def initialize(window)
     @window = window
-    @image = Gosu::Image.new(@window, 'media/bjælke.png', false)
+    @image = Gosu::Image.new('media/bjælke.png')
     @width  = @image.width
     @height = @image.height
 

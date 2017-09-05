@@ -4,7 +4,7 @@ class Player
 
   def initialize(window)
     @window = window
-    @image = Gosu::Image.new(@window, 'media/halvmåne.png', false)
+    @image = Gosu::Image.new('media/halvmåne.png')
     @radius = @image.height
     @margin = 5
     @x = 100

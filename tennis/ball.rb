@@ -7,7 +7,7 @@ class Ball
 
   def initialize(window)
     @window = window
-    @image  = Gosu::Image.new(@window, 'media/bold.png', false)
+    @image  = Gosu::Image.new('media/bold.png')
     @beep   = Gosu::Sample.new('media/beep.wav')
     @radius = @image.height / 2
     reset
