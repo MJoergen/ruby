@@ -10,18 +10,14 @@ require_relative 'wall.rb'
 require_relative 'bot.rb'
 require_relative 'score.rb'
 
-# This adds the actual "object" to the game, which in this case works as a
+# This adds the actual window to the game, which in this case works as a
 # controller!
 class GameWindow < Gosu::Window
-  # This is the event that occurs when you start the game, like when the object
-  # is "created"
-  attr_reader :player
-  attr_reader :wall
-  attr_reader :ball
-  attr_reader :bot
-  attr_reader :score
+  attr_reader :player, :wall, :ball, :bot, :score
   attr_accessor :game_over
 
+  # This is the event that occurs when you start the game, like when the object
+  # is "created"
   def initialize
     super(640, 400, false)
     self.caption = 'Tennis Game'
@@ -40,7 +36,8 @@ class GameWindow < Gosu::Window
   # This event is checked 60 times per second.
   def update
     self.caption = "Tennis - [FPS: #{Gosu::fps.to_s}]"
-    unless @game_over
+    if not @game_over
+      # Move the game objects around.
       @player.update
       @bot.update
       @ball.update
@@ -73,3 +70,4 @@ end
 
 window = GameWindow.new
 window.show
+
