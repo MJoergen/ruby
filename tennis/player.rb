@@ -1,14 +1,16 @@
-# This controls the user input from the player
+# This controls the player
 class Player
   attr_reader :x, :y, :radius
 
   def initialize(window)
     @window = window
     @image = Gosu::Image.new('media/halvmåne.png')
-    @radius = @image.height
-    @margin = 5
+    @radius = @image.height     # Read size of player from the image.
+    @margin = 5                 # Don't go too close to the edge.
     @x = 100
-    @y = @window.height - @image.height + @radius - @margin
+    @y = @window.height - @image.height + @radius - @margin     # This is just a constant.
+
+    # (@x, @y) are the coordinates of the center of the player.
   end
 
   def move_left
@@ -20,6 +22,7 @@ class Player
           @window.width / 2 - @window.wall.width / 2 - @radius - @margin].min
   end
 
+  # This controls the movement of the player
   def update
     if (@window.button_down? Gosu::KbLeft) ||
        (@window.button_down? Gosu::GpLeft)
@@ -33,6 +36,7 @@ class Player
   end
 
   def draw
-    @image.draw(@x - @radius, @y - @radius, 2)
+    @image.draw(@x - @radius, @y - @radius, 0)
   end
 end
+
