@@ -13,9 +13,14 @@ class Bot
   end
 
   def update
+    # Aim slightly to the right of the ball.
+    aim = @window.ball.x + 5
+
     # Calculate movement of the bot.
-    @vel_x = (@window.ball.x + 5) - @x  # Aim slightly to the right of the ball.
-    @vel_x = [3, @vel_x].min            # Limit the speed of the bot.
+    @vel_x = aim - @x
+
+    # Limit the speed of the bot.
+    @vel_x = [3, @vel_x].min
     @vel_x = [-3, @vel_x].max
 
     # Move the bot.
