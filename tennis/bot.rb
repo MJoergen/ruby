@@ -9,7 +9,6 @@ class Bot
     @margin = 5
     @x = 400
     @y = @window.height - @image.height + @radius - @margin
-    @vel_x = -3
   end
 
   def update
