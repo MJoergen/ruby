@@ -10,25 +10,24 @@ class Ball
     @image  = Gosu::Image.new('media/bold.png')
     @beep   = Gosu::Sample.new('media/beep.wav')
     @radius = @image.height / 2
+    @x      = 100
     reset
   end
 
   def reset
-    @x     = 100
     @y     = 200
     @vel_x = 0
     @vel_y = 0
     @timer = 200
+
+    # (@x, @y) are the coordinates of the center of the ball.
   end
 
+  # This moves the ball one small step.
   def move
-    if @timer > 0
-      @timer -= 1
-      return
-    end
     @x += @vel_x
     @y += @vel_y
-    @vel_y += 0.1 # Gravity
+    @vel_y += 0.1       # Gravity pulls the ball down.
 
     # If ball moves out of screen, reset ball and update scores.
     if @y > @window.height
@@ -37,28 +36,30 @@ class Ball
       else
         @window.score.dead_bot
       end
-      @timer = 200
-      @y = 200
-      @vel_x = 0
-      @vel_y = 0
+      reset             # Reset ball position.
     end
   end
 
   def update
+    if @timer > 0       # If timer is positive, ball doesn't move.
+      @timer -= 1
+      return
+    end
+
     move
 
     collision = false
     # Check for collision with left side of screen
-    if @x < @radius
-      @vel_x = -@vel_x
-      @x = @radius
+    if @x < @radius && @vel_x < 0
+      @x = @radius                                          # Move ball back into the game.
+      @vel_x = -@vel_x                                      # Adjust direction.
       collision = true
     end
 
     # Check for collision with right side of screen
-    if @x > @window.width - @radius
-      @vel_x = -@vel_x
-      @x = @window.width - @radius
+    if @x > @window.width - @radius && @vel_x > 0
+      @x = @window.width - @radius                          # Move ball back into the game.
+      @vel_x = -@vel_x                                      # Adjust direction.
       collision = true
     end
 
@@ -66,8 +67,8 @@ class Ball
     if Gosu.distance(@window.player.x, @window.player.y, @x, @y) <=
        @window.player.radius + @radius
       adjust_ball(@window.player.x, @window.player.y,
-                  @window.player.radius + @radius)
-      collision_point(@window.player.x, @window.player.y)
+                  @window.player.radius + @radius)          # Move ball 'out' of the player.
+      collision_point(@window.player.x, @window.player.y)   # Adjust direction.
       collision = true
     end
 
@@ -75,16 +76,16 @@ class Ball
     if Gosu.distance(@window.bot.x, @window.bot.y, @x, @y) <=
        @window.bot.radius + @radius
       adjust_ball(@window.bot.x, @window.bot.y,
-                  @window.bot.radius + @radius)
-      collision_point(@window.bot.x, @window.bot.y)
+                  @window.bot.radius + @radius)             # Move ball 'out' of the bot.
+      collision_point(@window.bot.x, @window.bot.y)         # Adjust direction.
       collision = true
     end
 
     # Check for collision with left side of wall
     if @y > @window.wall.y
       if @x + @radius > @window.wall.x && @x < @window.wall.x && @vel_x > 0
-        @x = @window.wall.x - @radius
-        @vel_x = -@vel_x
+        @x = @window.wall.x - @radius                       # Move ball 'out' of the wall.
+        @vel_x = -@vel_x                                    # Adjust direction.
         collision = true
       end
     end
@@ -93,8 +94,8 @@ class Ball
     if @y > @window.wall.y
       if @x - @radius < @window.wall.x + @window.wall.width &&
          @x > @window.wall.x + @window.wall.width && @vel_x < 0
-        @x = @window.wall.x + @window.wall.width + @radius
-        @vel_x = -@vel_x
+        @x = @window.wall.x + @window.wall.width + @radius  # Move ball 'out' of the wall.
+        @vel_x = -@vel_x                                    # Adjust direction.
         collision = true
       end
     end
@@ -102,8 +103,8 @@ class Ball
     # Collision with top of wall
     if @x > @window.wall.x && @x < @window.wall.x + @window.wall.width
       if @y + @radius > @window.wall.y && @vel_y > 0
-        @y = @window.wall.y - @radius
-        @vel_y = -@vel_y
+        @y = @window.wall.y - @radius                       # Move ball 'out' of the wall.
+        @vel_y = -@vel_y                                    # Adjust direction.
         collision = true
       end
     end
@@ -111,8 +112,8 @@ class Ball
     # Collision with left corner
     if @y < @window.wall.y && @x < @window.wall.x
       if Gosu.distance(@window.wall.x, @window.wall.y, @x, @y) <= @radius
-        adjust_ball(@window.wall.x, @window.wall.y, @radius)
-        collision_point(@window.wall.x, @window.wall.y)
+        adjust_ball(@window.wall.x, @window.wall.y, @radius)    # Move ball 'out' of the wall.
+        collision_point(@window.wall.x, @window.wall.y)         # Adjust direction.
         collision = true
       end
     end
@@ -122,8 +123,9 @@ class Ball
       if Gosu.distance(@window.wall.x + @window.wall.width, @window.wall.y,
                        @x, @y) <= @radius
         adjust_ball(@window.wall.x + @window.wall.width, @window.wall.y,
-                    @radius)
+                    @radius)                                # Move ball 'out' of the wall.
         collision_point(@window.wall.x + @window.wall.width, @window.wall.y)
+                                                            # Adjust direction.
         collision = true
       end
     end
@@ -134,25 +136,26 @@ class Ball
 
       # Generate two random variables with a normal distribution
       z0, z1 = Utils.rand_norm
-      @vel_x += z0 * 0.25
-      @vel_y += z1 * 0.25
+      @vel_x += z0 * 0.25   # Adjust velocity.
+      @vel_y += z1 * 0.25   # Adjust velocity.
     end
   end
 
   # Move the ball so that it is at the distance d from the point (x,y)
   def adjust_ball(x, y, d)
-    p2b = [@x - x, @y - y] # This is a vector frmo the Player to the Ball.
+    p2b = [@x - x, @y - y] # This is a vector from the point (x,y) to the Ball.
     scale = d / Utils.len(p2b)
     @x = x  + p2b[0] * scale
     @y = y  + p2b[1] * scale
   end
 
+  # Adjust the direction of the ball after a collision.
   def collision_point(x, y)
-    p2b = [@x - x, @y - y] # This is a vector frmo the Player to the Ball.
+    p2b = [@x - x, @y - y] # This is a vector from the point to the Ball.
     vel = [@vel_x, @vel_y] # This is the balls velocity vector.
     angle = Utils.angle(p2b, vel)
 
-    # If the ball is already moving out of the player, just leave it alone.
+    # If the ball is already moving away from the point, just leave it alone.
     if angle < Math::PI / 2.0
       return
     end
@@ -166,6 +169,7 @@ class Ball
   end
 
   def draw
-    @image.draw(@x - @radius, @y - @radius, 2)
+    @image.draw(@x - @radius, @y - @radius, 0)
   end
 end
+
