@@ -1,3 +1,4 @@
+#!/bin/env ruby
 # This adds the "gosu" library to the game, which enables various extra
 # features!
 require 'gosu'
