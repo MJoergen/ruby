@@ -1,0 +1,12 @@
+Læs lektier inden timen: https://ruby-doc.org/core-2.2.0/Array.html
+
+1) Giv kagerne en tilfældig fart nedad.
+2) Giv flere point til de hurtige kager.
+3) Giv kagerne en tilfældig farve.
+4) Giv fjenderne tilfældig fart.
+5) Lav en fanfare, når man mister det sidste liv.
+6) Man skal kunne trykke på "R" for at begynde nyt spil.
+7) Gør spillet sværere, f.eks. ved at spillerens fart afhænger af antal liv tilbage.
+8) Gør spillet hurtigere og hurtigere.
+9) Giv minuspoint, når en kage ryger uden for skærmen.
+10) Gør, så der kommer flere og flere fjender.
