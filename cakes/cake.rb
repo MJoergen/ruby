@@ -24,8 +24,10 @@ class Cake
       @beep.play
       @window.score.add(1)
       true # Remove cake
+    elsif y > @window.height # Remove cake if beyond screen
+      true # Remove cake
     else
-      y > @window.height # Remove cake if beyond screen
+      false # Leave the cake alone!
     end
   end
 

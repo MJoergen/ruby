@@ -23,8 +23,10 @@ class Enemy
       @beep.play
       @window.score.dead
       true # Remove enemy
+    elsif y > @window.height # Remove enemy if beyond screen
+      true # Remove enemy
     else
-      y > @window.height # Remove enemy if beyond screen
+      false # Leave the cake alone!
     end
   end
 

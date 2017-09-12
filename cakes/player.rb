@@ -6,7 +6,7 @@ class Player
     @window = window
     @margin = 5                 # Don't go too close to the edge.
 
-    @image = Gosu::Image.new('media/halvmaane.png')
+    @image  = Gosu::Image.new('media/halvmaane.png')
     @radius = @image.height     # Read size of player from the image.
 
     @x = 100
@@ -16,11 +16,17 @@ class Player
   end
 
   def move_left
-    @x = [@x - 6, @margin + @radius].max
+    @x -= 6
+
+    # Make sure player doesn't go off the left side
+    @x = [@x, @margin + @radius].max
   end
 
   def move_right
-    @x = [@x + 6, @window.width - @radius - @margin].min
+    @x += 6
+ 
+    # Make sure player doesn't go off the right side
+    @x = [@x, @window.width - @radius - @margin].min
   end
 
   # This controls the movement of the player
