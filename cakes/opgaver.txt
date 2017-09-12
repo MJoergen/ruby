@@ -10,3 +10,4 @@ Læs lektier inden timen: https://ruby-doc.org/core-2.2.0/Array.html
 8) Gør spillet hurtigere og hurtigere.
 9) Giv minuspoint, når en kage ryger uden for skærmen.
 10) Gør, så der kommer flere og flere fjender.
+11) Find selv på flere forbedringer.
