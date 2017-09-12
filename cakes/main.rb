@@ -20,6 +20,9 @@ class GameWindow < Gosu::Window
   # is "created"
   def initialize
     super(940, 600, false)  # Set size of window
+    
+    @music = Gosu::Song.new("media/Darude - Sandstorm.ogg")
+    @music.play
 
     @cakes = []             # Initially, there are no cakes on the screen
     @enemies = []           # Initially, there are no enemies on the screen
