@@ -20,8 +20,15 @@ class GameWindow < Gosu::Window
   # is "created"
   def initialize
     super(940, 600, false)  # Set size of window
+
+    # List of different songs
+    songs = [ "media/Darude - Sandstorm.ogg",
+              "media/Hampton the Hamster The Hamsterdance Song.ogg",
+              "media/Crazy Frog.ogg",
+              "media/muh.ogg" ]
     
-    @music = Gosu::Song.new("media/Darude - Sandstorm.ogg")
+    srand(Time.now.nsec)    # Set a random seed
+    @music = Gosu::Song.new(songs.sample) # Pick a random song
     @music.play
 
     @cakes = []             # Initially, there are no cakes on the screen
