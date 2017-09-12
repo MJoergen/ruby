@@ -6,7 +6,7 @@ class Player
     @window = window
     @margin = 5                 # Don't go too close to the edge.
 
-    @image = Gosu::Image.new('media/halvmåne.png')
+    @image = Gosu::Image.new('media/halvmaane.png')
     @radius = @image.height     # Read size of player from the image.
 
     @x = 100
