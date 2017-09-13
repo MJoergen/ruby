@@ -12,7 +12,7 @@ class GameWindow < Gosu::Window
         super(940, 600, false)  # Set size of window
         @font   = Gosu::Font.new(self, Gosu.default_font_name, 24)
 
-        @cookie = Cookie.new(100, 100, "media/PerfectCookie.png")
+        @cookie = Cookie.new(self, 100, 100, "media/PerfectCookie.png")
 
         @units = []
         @units.push(Unit.new(self, 400, 50,  "media/CursorIconTransparent.png", "Cursor",   15.0,   0.1))
@@ -54,6 +54,9 @@ class GameWindow < Gosu::Window
     # This draws all the elements in the game. Also checks around 60 times per
     # second...
     def draw
+        @font.draw("Name", 400+100, 20, 0)
+        @font.draw("Cost", 400+200, 20, 0)
+        @font.draw("Time", 400+300, 20, 0)
         @cookie.draw
         @units.each { |inst|  inst.draw }
     end
