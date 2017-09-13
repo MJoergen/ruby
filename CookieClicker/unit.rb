@@ -10,7 +10,8 @@ class Unit
         @window, @x, @y, @img_file, @name, @cost, @cps = window, x, y, img_file, name, cost, cps
 
         @image  = Gosu::Image.new(@img_file)
-        @scale  = 50.0 / @image.height # Make sure all images have the same height (50 pixels).
+        @scale  = 50.0 / @image.height          # Make sure all images on screen
+                                                # have the same height (50 pixels).
         @number = 0
     end
 
@@ -31,8 +32,9 @@ class Unit
     end
 
     def draw
+        # "Zoom in" when mouse is pressed
         if Gosu::button_down?(Gosu::MsLeft) and in_range?(@window.mouse_x, @window.mouse_y)
-            @image.draw(@x-2, @y-2, 0, @scale*1.08, @scale*1.08)
+            @image.draw(@x-2, @y-2, 0, @scale*1.08, @scale*1.08) 
         else
             @image.draw(@x, @y, 0, @scale, @scale)
         end

@@ -37,7 +37,7 @@ class GameWindow < Gosu::Window
     def mouse(x, y)
         # Have we clicked the cookie?
         if @cookie.in_range?(x, y)
-            @cookie.increase(1)
+            @cookie.increase(1) # We gain 1 cookie for each click.
         end
 
         # Have we clicked on a unit?
@@ -61,7 +61,7 @@ class GameWindow < Gosu::Window
         @units.each { |inst|  inst.draw }
     end
 
-    # This checks when you press ESC
+    # This checks when you press ESC or click the mouse
     def button_down(id)
         if id == Gosu::KbEscape
             close
