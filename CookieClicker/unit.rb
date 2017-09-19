@@ -43,3 +43,4 @@ class Unit
         @window.font.draw("#{(cost/@cps).ceil}", @x+300, @y+20, 0)
     end
 end
+

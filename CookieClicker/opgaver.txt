@@ -1,0 +1,4 @@
+Opgaver til Cookie Clicker:
+1) Gør, så man kan toggle kolonnen "Time" til og fra.
+2) Gør, så der en sjælden gang kommer en "Golden Cookie", som man kan klikke på.
+3) 

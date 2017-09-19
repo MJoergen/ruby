@@ -6,9 +6,10 @@ class Cookie
 
     def initialize(window, x, y, img_file)
         @window, @x, @y, @img_file = window, x, y, img_file
-        @image = Gosu::Image.new(@img_file)
-        @scale = 200.0 / @image.height          # Make sure image on screen 
-                                                # has a height of 200 pixels
+        @image   = Gosu::Image.new(@img_file)
+        @radius  = 100.0
+        @scale   = 2 * @radius / @image.height    # Make sure image on screen 
+                                                  # has a height of 200 pixels
         @cookies = 0
     end
 
@@ -19,8 +20,7 @@ class Cookie
 
     # Called whenever the mouse is clicked
     def in_range?(x, y)
-        (x >= @x and x < @x + @image.width*@scale and
-         y >= @y and y < @y + @image.height*@scale)
+        (Gosu::distance(x, y, @x + @radius, @y + @radius) < @radius)
     end
 
     def draw
