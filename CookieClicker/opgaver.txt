@@ -1,4 +1,12 @@
 Opgaver til Cookie Clicker:
-1) Gør, så man kan toggle kolonnen "Time" til og fra.
-2) Gør, så der en sjælden gang kommer en "Golden Cookie", som man kan klikke på.
-3) 
+ 1) Vis også antal Cookies og Cps på skærmen.
+ 1a) Sørg for, at store tal bliver vist på en hensigtsmæssig måde.
+ 2) Tilføj en kolonne, der viser antallet af hver unit man har.
+ 3) Tilføj en kolonne, der viser hver units Cps.
+ 4) Gør, så man kan toggle kolonnen "Time" til og fra.
+ 5) Tilføj flere units.
+ 6) Find på nogle bedre figurer.
+ 7) Lav en "cheat-mode", der automatisk giver flere cookies.
+ 8) Gør, så der en sjælden gang kommer en "Golden Cookie", som man kan klikke på.
+ 9) Opfind nogle upgrades, f.eks. for 100 Cookies fordobles Cps på dine Cursors.
+10) Opfind nogle achievements, f.eks. når du har opnået 1000 Cookies, så udløser det nogle nye upgrades.

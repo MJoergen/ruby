@@ -34,6 +34,7 @@ class GameWindow < Gosu::Window
         self.caption = "Cookie Clicker - [Cookies: #{@cookie.cookies.to_i}, CPS: #{totalCps.round(1)}]"
     end
 
+    # We have clicked the mouse! Now what?
     def mouse(x, y)
         # Have we clicked the cookie?
         if @cookie.in_range?(x, y)
@@ -67,7 +68,7 @@ class GameWindow < Gosu::Window
             close
         end
         if id == Gosu::MsLeft
-            mouse(mouse_x, mouse_y)
+            mouse(mouse_x, mouse_y)     # We have clicked the mouse!
         end
     end
 end
