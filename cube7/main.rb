@@ -16,7 +16,6 @@ class GameWindow < Gosu::Window
   # This event is checked 60 times per second.
   def update
     self.caption = "Cube - [FPS: #{Gosu::fps.to_s}]"
-    @cube.update
   end
 
   # This controls the graphics in the game. Also checks around 60 times per
