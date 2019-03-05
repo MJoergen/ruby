@@ -3,45 +3,65 @@
 require 'gosu'
 
 require_relative 'cube.rb'
+require_relative 'square.rb'
 
 class GameWindow < Gosu::Window
 
-  def initialize
-    super(800, 600, false)
-    self.caption = 'Cube Colouring'
+   attr_reader :colour
 
-    @cube = Cube.new(self)
-  end
+   def initialize
+      super(800, 600, false)
+      self.caption = 'Cube Colouring'
 
-  # This event is checked 60 times per second.
-  def update
-    self.caption = "Cube - [FPS: #{Gosu::fps.to_s}]"
-  end
+      @cube   = Cube.new(self)
+      @square = Square.new(self)
 
-  # This controls the graphics in the game. Also checks around 60 times per
-  # second...
-  def draw
-    @cube.draw
-  end
+      @colour = [
+         Gosu::Color.argb(0xff_ff0000), # Red
+         Gosu::Color.argb(0xff_0000ff), # Blue
+         Gosu::Color.argb(0xff_ffff00), # Yellow
+         Gosu::Color.argb(0xff_ffffff), # White
+         Gosu::Color.argb(0xff_00ff00), # Green
+         Gosu::Color.argb(0xff_ff8000), # Orange
+         Gosu::Color.argb(0xff_004000)  # Dark Green
+      ]
+   end
 
-  # This checks when you press ESC
-  def button_down(id)
-    if id == Gosu::KbEscape
-      close
-    end
-    if id == Gosu::KbLeft
-      @cube.left
-    end
-    if id == Gosu::KbRight
-      @cube.right
-    end
-    if id == Gosu::KbUp
-      @cube.up
-    end
-    if id == Gosu::KbDown
-      @cube.down
-    end
-  end
+   def needs_cursor?
+      true
+   end
+
+   # This event is checked 60 times per second.
+   def update
+      self.caption = "Cube - [FPS: #{Gosu::fps.to_s}]"
+   end
+
+   # This controls the graphics in the game. Also checks around 60 times per
+   # second...
+   def draw
+      @cube.draw
+      @square.draw
+   end
+
+   # This checks when you press ESC
+   def button_down(id)
+      case id
+      when Gosu::KbEscape
+         close
+      when Gosu::KbLeft
+         @cube.left
+      when Gosu::KbRight
+         @cube.right
+      when Gosu::KbUp
+         @cube.up
+      when Gosu::KbDown
+         @cube.down
+      when Gosu::Kb1..Gosu::Kb6
+         @square.num(id - Gosu::Kb1)
+      when Gosu::MsLeft
+         @cube.mouse(mouse_x, mouse_y, @square.colour)
+      end
+   end
 end
 
 window = GameWindow.new
