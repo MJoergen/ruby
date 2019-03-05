@@ -140,6 +140,12 @@ class Cube
       @corners << [4, 6, 0,  5, 6, 6,  3, 0, 0]
    end
 
+   def save
+      for i in 0..5
+         @faces[i].save
+      end
+   end
+
    def draw
       for i in 0..5
          @faces[i].draw(@positions[i])

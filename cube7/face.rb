@@ -9,6 +9,17 @@ class Face
       @pieces[24] = j
    end
 
+   def save
+      for y in 0..6
+         s = ""
+         for x in 0..6
+            s += "#{@pieces[7*y+x]}"
+         end
+         puts s
+      end
+      puts
+   end
+
    def draw(pos)
       for x in 0..6
          for y in 0..6
