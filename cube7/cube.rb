@@ -12,12 +12,12 @@ class Cube
 
       # Initialize positions on screen of the six faces
       @positions = []
-      @positions << {x:@xpos, y:@ypos}
-      @positions << {x:@xpos, y:@ypos - 7*@size - @margin}
-      @positions << {x:@xpos - 7*@size - @margin, y:@ypos}
-      @positions << {x:@xpos + 7*@size + @margin, y:@ypos}
-      @positions << {x:@xpos, y:@ypos + 7*@size + @margin}
-      @positions << {x:@xpos + 2*7*@size + 2*@margin, y:@ypos}
+      @positions << {x:@xpos,                         y:@ypos}
+      @positions << {x:@xpos,                         y:@ypos - (7*@size + @margin)}
+      @positions << {x:@xpos - (7*@size + @margin),   y:@ypos}
+      @positions << {x:@xpos + (7*@size + @margin),   y:@ypos}
+      @positions << {x:@xpos,                         y:@ypos + (7*@size + @margin)}
+      @positions << {x:@xpos + 2*(7*@size + @margin), y:@ypos}
 
       @faces = []
       for i in 0..5
@@ -35,7 +35,7 @@ class Cube
                     Gosu::Color.argb(0xff_ffffff))
       end
 
-      draw_col_count
+      draw_col_count(800, 60)
    end
 
    def get_col_count(c, i, j)
@@ -46,15 +46,34 @@ class Cube
       return count
    end
 
+   def draw_col_count(x, y)
+      xpos = x
+      for c in 0..5
+         @image.draw(xpos+30*c, 60, 0, @size/225.0, @size/225.0,
+                     @window.colour[c])
+         ypos =  y
+         for i in 0..2
+            for j in i..3
+               ypos += 40
+               count = get_col_count(c, i, j)
+               @font.draw("#{count}", xpos + 30*c, ypos, 2, 1.0, 1.0,
+                          Gosu::Color.argb(0xff_ffffff))
+            end
+         end
+      end
+   end
+
    def check_col_count(i, j)
+      if i != j and j != 3
+         exp = 8
+      else
+         exp = 4
+      end
+
       errors = 0
       for c in 0..5
          count = get_col_count(c, i, j)
-         if i != j and count > 8
-            errors += 1
-         end
-
-         if i == j and count > 4
+         if count > exp
             errors += 1
          end
       end
@@ -69,23 +88,6 @@ class Cube
          end
       end
       return (errors == 0)
-   end
-
-   def draw_col_count
-      xpos = 800
-      for c in 0..5
-         @image.draw(xpos+30*c, 60, 0, @size/225.0, @size/225.0,
-                     @window.colour[c])
-         ypos =  60
-         for i in 0..2
-            for j in i..3
-               ypos += 40
-               count = get_col_count(c, i, j)
-               @font.draw("#{count}", xpos + 30*c, ypos, 2, 1.0, 1.0,
-                          Gosu::Color.argb(0xff_ffffff))
-            end
-         end
-      end
    end
 
    def mouse(x, y, colour)
