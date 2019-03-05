@@ -123,8 +123,8 @@ class Cube
       end
 
       if not legal?
-         @font.draw("Illegal", 10, 45, 2, 1.0, 1.0,
-                    Gosu::Color.argb(0xff_ffffff))
+         @font.draw_text("Illegal", 10, 45, 2, 1.0, 1.0,
+                         Gosu::Color.argb(0xff_ffffff))
       end
 
       draw_colour_count(800, 60)
