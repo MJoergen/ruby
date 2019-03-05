@@ -10,7 +10,7 @@ class GameWindow < Gosu::Window
    attr_reader :colour
 
    def initialize
-      super(800, 600, false)
+      super(1000, 600, false)
       self.caption = 'Cube Colouring'
 
       @cube   = Cube.new(self)
@@ -56,10 +56,9 @@ class GameWindow < Gosu::Window
          @cube.up
       when Gosu::KbDown
          @cube.down
-      when Gosu::Kb1..Gosu::Kb6
-         @square.num(id - Gosu::Kb1)
       when Gosu::MsLeft
          @cube.mouse(mouse_x, mouse_y, @square.colour)
+         @square.mouse(mouse_x, mouse_y)
       end
    end
 end

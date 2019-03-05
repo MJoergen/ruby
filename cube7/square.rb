@@ -15,9 +15,11 @@ class Square
                   @window.colour[@colour])
    end
 
-   def num(num)
-      @colour = num
+   def mouse(x, y)
+      if x >= @xpos and x < @xpos + @size and
+         y >= @ypos and y < @ypos + @size
+         @colour = (@colour+1) % 6
+      end
    end
-
 end
 

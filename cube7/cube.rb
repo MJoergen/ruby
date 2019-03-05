@@ -36,8 +36,44 @@ class Cube
       end
    end
 
+   def verify_and_show(disp_x, disp_y, i, j)
+      errors = 0
+      for c in 0..5
+         count = 0
+         for f in 0..5
+            count += @faces[f].count_col(c, i, j)
+         end
+         @font.draw("#{count}", disp_x + 30*c, disp_y, 2, 1.0, 1.0,
+                    Gosu::Color.argb(0xff_ffffff))
+         if i != j and count > 8
+            errors += 1
+         end
+
+         if i == j and count > 4
+            errors += 1
+         end
+
+      end
+
+      return errors
+   end
+
    def legal?
-      false
+      ypos = 100
+      errors = 0
+
+      for c in 0..5
+         @image.draw(800+30*c, 60, 0, @size/225.0, @size/225.0,
+                     @window.colour[c])
+      end
+
+      for i in 0..2
+         for j in i..3
+            errors += verify_and_show(800, ypos, i, j)
+            ypos += 40
+         end
+      end
+      return (errors == 0)
    end
 
    def mouse(x, y, colour)
