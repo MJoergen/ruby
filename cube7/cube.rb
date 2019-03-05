@@ -4,6 +4,7 @@ class Cube
    def initialize(window)
       @window = window
       @image  = Gosu::Image.new('square.png')
+      @font   = Gosu::Font.new(48)
       @size   = 25
       @margin = 10
       @xpos   = 200
@@ -28,6 +29,15 @@ class Cube
       for i in 0..5
          @faces[i].draw(@positions[i])
       end
+
+      if not legal?
+         @font.draw("Illegal", 10, 45, 2, 1.0, 1.0,
+                    Gosu::Color.argb(0xff_ffffff))
+      end
+   end
+
+   def legal?
+      false
    end
 
    def mouse(x, y, colour)
