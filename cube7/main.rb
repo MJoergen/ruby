@@ -19,9 +19,9 @@ class GameWindow < Gosu::Window
       @colour = [
          Gosu::Color.argb(0xff_ff0000), # Red
          Gosu::Color.argb(0xff_0000ff), # Blue
-         Gosu::Color.argb(0xff_ffff00), # Yellow
          Gosu::Color.argb(0xff_ffffff), # White
-         Gosu::Color.argb(0xff_00ff00), # Green
+         Gosu::Color.argb(0xff_ffff00), # Yellow
+         Gosu::Color.argb(0xff_00C000), # Green
          Gosu::Color.argb(0xff_ff8000), # Orange
          Gosu::Color.argb(0xff_004000)  # Dark Green
       ]

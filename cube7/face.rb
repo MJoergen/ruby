@@ -37,7 +37,7 @@ class Face
          r += 1
       end
 
-      if x != y
+      if x != y and y != 3
          if @pieces[7*x+y] == c
             r += 1
          end
