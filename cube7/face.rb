@@ -5,10 +5,7 @@ class Face
       @size   = 25
 
       # Initialize colour placement
-      @pieces = []
-      for i in 0..48
-         @pieces += [6]
-      end
+      @pieces = [6]*49
       @pieces[24] = j
    end
 
@@ -22,7 +19,11 @@ class Face
       end
    end
 
-   def count_col(c, x, y)
+   def get_col(x, y)
+      return @pieces[7*y+x]
+   end
+
+   def count_colour(c, x, y)
       r = 0
       if @pieces[7*y+x] == c
          r += 1
