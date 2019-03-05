@@ -56,8 +56,14 @@ class GameWindow < Gosu::Window
          @cube.up
       when Gosu::KbDown
          @cube.down
+      when Gosu::KbF
+         @cube.full
+      when Gosu::KbC
+         @cube.clear
       when Gosu::KbS
          @cube.save
+      when Gosu::KbL
+         @cube.load
       when Gosu::MsLeft
          @cube.mouse(mouse_x, mouse_y, @square.colour)
          @square.mouse(mouse_x, mouse_y)

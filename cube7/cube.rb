@@ -140,10 +140,32 @@ class Cube
       @corners << [4, 6, 0,  5, 6, 6,  3, 0, 0]
    end
 
-   def save
+   def clear
       for i in 0..5
-         @faces[i].save
+         @faces[i].clear
       end
+   end
+
+   def full
+      for i in 0..5
+         @faces[i].full
+      end
+   end
+
+   def save
+      f = File.open("cube.txt", "w")
+      for i in 0..5
+         @faces[i].save(f)
+      end
+      f.close()
+   end
+
+   def load
+      f = File.open("cube.txt", "r")
+      for i in 0..5
+         @faces[i].load(f)
+      end
+      f.close()
    end
 
    def draw

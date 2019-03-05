@@ -9,15 +9,37 @@ class Face
       @pieces[24] = j
    end
 
-   def save
+   def clear
+      tmp = @pieces[24]
+      @pieces = [6]*49
+      @pieces[24] = tmp
+   end
+
+   def full
+      tmp = @pieces[24]
+      @pieces = [tmp]*49
+   end
+
+   def save(f)
       for y in 0..6
          s = ""
          for x in 0..6
             s += "#{@pieces[7*y+x]}"
          end
-         puts s
+         s += "\n"
+         f.write(s)
       end
-      puts
+      f.write("\n")
+   end
+
+   def load(f)
+      for y in 0..6
+         line = f.gets
+         for x in 0..6
+            @pieces[7*y+x] = line[x].to_i
+         end
+      end
+      line = f.gets
    end
 
    def draw(pos)
