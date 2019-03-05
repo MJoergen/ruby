@@ -11,6 +11,11 @@ class Cube
       @ypos   = 200
 
       # Initialize positions on screen of the six faces
+      #
+      #     1
+      #   2 0 3 5
+      #     4
+      #
       @positions = []
       @positions << {x:@xpos,                         y:@ypos}
       @positions << {x:@xpos,                         y:@ypos - (7*@size + @margin)}
@@ -105,7 +110,7 @@ class Cube
       @edges3 << [3, 6, 3,  5, 0, 3]
       @edges3 << [4, 3, 6,  5, 3, 6]
 
-      # 8 corner pieces
+      # 24 corner pieces (incl rotations)
       @corners = []
       @corners << [0, 6, 0,  3, 0, 0,  1, 6, 6]
       @corners << [0, 0, 0,  1, 0, 6,  2, 6, 0]
@@ -115,6 +120,24 @@ class Cube
       @corners << [5, 0, 0,  2, 6, 0,  1, 0, 6]
       @corners << [5, 0, 6,  4, 0, 0,  2, 6, 6]
       @corners << [5, 6, 6,  3, 0, 0,  4, 6, 0]
+
+      @corners << [3, 0, 0,  1, 6, 6,  0, 6, 0]
+      @corners << [1, 0, 6,  2, 6, 0,  0, 0, 0]
+      @corners << [2, 6, 6,  4, 0, 0,  0, 0, 6]
+      @corners << [4, 6, 0,  3, 0, 0,  0, 6, 6]
+      @corners << [1, 6, 6,  3, 0, 0,  5, 6, 0]
+      @corners << [2, 6, 0,  1, 0, 6,  5, 0, 0]
+      @corners << [4, 0, 0,  2, 6, 6,  5, 0, 6]
+      @corners << [3, 0, 0,  4, 6, 0,  5, 6, 6]
+
+      @corners << [1, 6, 6,  0, 6, 0,  3, 0, 0]
+      @corners << [2, 6, 0,  0, 0, 0,  1, 0, 6]
+      @corners << [4, 0, 0,  0, 0, 6,  2, 6, 6]
+      @corners << [3, 0, 0,  0, 6, 6,  4, 6, 0]
+      @corners << [3, 0, 0,  5, 6, 0,  1, 6, 6]
+      @corners << [1, 0, 6,  5, 0, 0,  2, 6, 0]
+      @corners << [2, 6, 6,  5, 0, 6,  4, 0, 0]
+      @corners << [4, 6, 0,  5, 6, 6,  3, 0, 0]
    end
 
    def draw
@@ -205,7 +228,7 @@ class Cube
       errors = 0
       exp = [0]*216
       obs = [0]*216
-      for c in 0..7
+      for c in 0..23
          corner = @corners[c]
          col1 = @faces[corner[0]].get_col(corner[1], corner[2])
          col2 = @faces[corner[3]].get_col(corner[4], corner[5])
