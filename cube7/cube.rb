@@ -2,13 +2,13 @@ require_relative 'face.rb'
 
 class Cube
    def initialize(window)
-      @window = window
-      @image  = Gosu::Image.new('square.png')
-      @font   = Gosu::Font.new(48)
-      @size   = 25
-      @margin = 10
-      @xpos   = 200
-      @ypos   = 200
+      @window   = window
+      @image    = Gosu::Image.new('square.png')
+      @font     = Gosu::Font.new(48)
+      @size     = 25
+      @margin   = 10
+      @xpos     = 200
+      @ypos     = 200
 
       # Initialize positions on screen of the six faces
       #
@@ -152,16 +152,16 @@ class Cube
       end
    end
 
-   def save
-      f = File.open("cube.txt", "w")
+   def save(filename)
+      f = File.open(filename, "w")
       for i in 0..5
          @faces[i].save(f)
       end
       f.close()
    end
 
-   def load
-      f = File.open("cube.txt", "r")
+   def load(filename)
+      f = File.open(filename, "r")
       for i in 0..5
          @faces[i].load(f)
       end
@@ -240,7 +240,6 @@ class Cube
    def check_corners
       errors = 0
       exp = [0]*216
-      obs = [0]*216
       for c in 0..23
          corner = @corners[c]
          col1 = @faces[corner[0]].get_col(corner[1], corner[2])
@@ -248,6 +247,14 @@ class Cube
          col3 = @faces[corner[6]].get_col(corner[7], corner[8])
          exp_colour_pair = 36*corner[0] + 6*corner[3] + corner[6]
          exp[exp_colour_pair] += 1
+      end
+
+      obs = [0]*216
+      for c in 0..23
+         corner = @corners[c]
+         col1 = @faces[corner[0]].get_col(corner[1], corner[2])
+         col2 = @faces[corner[3]].get_col(corner[4], corner[5])
+         col3 = @faces[corner[6]].get_col(corner[7], corner[8])
          if col1 < 6 and col2 < 6 and col3 < 6
             colour_pair = 36*col1 + 6*col2 + col3
             obs[colour_pair] += 1

@@ -52,11 +52,27 @@ class Face
       end
    end
 
+   def draw_line(x1, y1, x2, y2, thickness, col)
+      if x1 < x2
+         @window.draw_quad(x1+thickness, y1,           col,
+                           x1,           y1+thickness, col,
+                           x2,           y2-thickness, col,
+                           x2-thickness, y2,           col)
+      else
+         @window.draw_quad(x1-thickness, y1,           col,
+                           x1,           y1+thickness, col,
+                           x2,           y2-thickness, col,
+                           x2+thickness, y2,           col)
+      end
+   end
+
    def draw_illegal(pos, x, y)
-      @window.draw_line(pos[:x] + @size*x,         pos[:y] + @size*y,         @window.error_col,
-                        pos[:x] + @size*(x+1) - 4, pos[:y] + @size*(y+1) - 4, @window.error_col)
-      @window.draw_line(pos[:x] + @size*(x+1) - 4, pos[:y] + @size*y,         @window.error_col,
-                        pos[:x] + @size*x,         pos[:y] + @size*(y+1) - 4, @window.error_col)
+      draw_line(pos[:x] + @size*x,         pos[:y] + @size*y,
+                pos[:x] + @size*(x+1) - 4, pos[:y] + @size*(y+1) - 4,
+                @size/4, @window.error_col)
+      draw_line(pos[:x] + @size*(x+1) - 4, pos[:y] + @size*y,
+                pos[:x] + @size*x,         pos[:y] + @size*(y+1) - 4,
+                @size/4, @window.error_col)
    end
 
    def get_col(x, y)
