@@ -66,6 +66,36 @@ class Face
       end
    end
 
+   def draw_illegal_face(pos, x, y, c)
+      if @pieces[7*y+x] == c
+         draw_illegal(pos, x, y)
+      end
+      if @pieces[7*(6-x)+y] == c
+         draw_illegal(pos, y, 6-x)
+      end
+      if @pieces[7*(6-y)+(6-x)] == c
+         draw_illegal(pos, 6-x, 6-y)
+      end
+      if @pieces[7*x+(6-y)] == c
+         draw_illegal(pos, 6-y, x)
+      end
+
+      if x != y and y != 3
+         if @pieces[7*x+y] == c
+            draw_illegal(pos, y, x)
+         end
+         if @pieces[7*(6-y)+x] == c
+            draw_illegal(pos, x, 6-y)
+         end
+         if @pieces[7*(6-x)+(6-y)] == c
+            draw_illegal(pos, 6-y, 6-x)
+         end
+         if @pieces[7*y+(6-x)] == c
+            draw_illegal(pos, 6-x, y)
+         end
+      end
+   end
+
    def draw_illegal(pos, x, y)
       draw_line(pos[:x] + @size*x,         pos[:y] + @size*y,
                 pos[:x] + @size*(x+1) - 4, pos[:y] + @size*(y+1) - 4,

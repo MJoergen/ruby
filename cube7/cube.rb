@@ -179,31 +179,6 @@ class Cube
       end
    end
 
-   def get_colour_count(c, i, j)
-      count = 0
-      for f in 0..5
-         count += @faces[f].count_colour(c, i, j)
-      end
-      return count
-   end
-
-   def check_colour_count(i, j)
-      if i != j and j != 3
-         exp = 8
-      else
-         exp = 4
-      end
-
-      errors = 0
-      for c in 0..5
-         count = get_colour_count(c, i, j)
-         if count > exp
-            errors += 1
-         end
-      end
-      return errors
-   end
-
    def check_edges(edges)
       errors = 0
       # Check edges close to the corner
@@ -270,18 +245,37 @@ class Cube
       return errors
    end
 
-   def legal?
+   def check_faces
       errors = 0
       for i in 0..2
          for j in i..3
-            errors += check_colour_count(i, j)
+            if i != j and j != 3
+               exp = 8
+            else
+               exp = 4
+            end
+            for c in 0..5
+               count = 0
+               for f in 0..5
+                  count += @faces[f].count_colour(c, i, j)
+               end
+               if count > exp
+                  for g in 0..5
+                     @faces[g].draw_illegal_face(@positions[g], i, j, c)
+                  end
+                  errors += 1
+               end
+            end
          end
       end
+      return errors
+   end
 
+   def legal?
+      errors  = check_faces
       errors += check_edges(@edges1)
       errors += check_edges(@edges2)
       errors += check_edges(@edges3)
-
       errors += check_corners
 
       return (errors == 0)
