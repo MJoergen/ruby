@@ -177,8 +177,6 @@ class Cube
          @font.draw_text("Illegal", 10, 45, 2, 1.0, 1.0,
                          Gosu::Color.argb(0xff_ffffff))
       end
-
-      draw_colour_count(800, 60)
    end
 
    def get_colour_count(c, i, j)
@@ -187,23 +185,6 @@ class Cube
          count += @faces[f].count_colour(c, i, j)
       end
       return count
-   end
-
-   def draw_colour_count(x, y)
-      xpos = x
-      for c in 0..5
-         @image.draw(xpos+30*c, 60, 0, @size/225.0, @size/225.0,
-                     @window.colour[c])
-         ypos =  y
-         for i in 0..2
-            for j in i..3
-               ypos += 40
-               count = get_colour_count(c, i, j)
-               @font.draw_text("#{count}", xpos + 30*c, ypos, 2, 1.0, 1.0,
-                               Gosu::Color.argb(0xff_ffffff))
-            end
-         end
-      end
    end
 
    def check_colour_count(i, j)
@@ -226,6 +207,17 @@ class Cube
    def check_edges(edges)
       errors = 0
       # Check edges close to the corner
+      exp = []
+      for col1 in 0..5
+         for col2 in 0..5
+            colour_pair = 6*col1 + col2
+            if col1==col2 or col1+col2==5 
+               exp[colour_pair] = 0
+            else
+               exp[colour_pair] = 1
+            end
+         end
+      end
       pairs = [0]*36
       for i in 0..23
          edge = edges[i]
@@ -234,16 +226,9 @@ class Cube
          if col1 < 6 and col2 < 6
             colour_pair = 6*col1 + col2
             pairs[colour_pair] += 1
-         end
-      end
-      for c1 in 0..5
-         for c2 in 0..5
-            if c1==c2 or c1+c2==5 
-               exp = 0
-            else
-               exp = 1
-            end
-            if pairs[c1*6+c2] > exp
+            if pairs[colour_pair] > exp[colour_pair]
+               @faces[edge[0]].draw_illegal(@positions[edge[0]], edge[1], edge[2])
+               @faces[edge[3]].draw_illegal(@positions[edge[3]], edge[4], edge[5])
                errors += 1
             end
          end
@@ -266,11 +251,12 @@ class Cube
          if col1 < 6 and col2 < 6 and col3 < 6
             colour_pair = 36*col1 + 6*col2 + col3
             obs[colour_pair] += 1
-         end
-      end
-      for c in 0..215
-         if obs[c] > exp[c]
-            errors += 1
+            if obs[colour_pair] > exp[colour_pair]
+               @faces[corner[0]].draw_illegal(@positions[corner[0]], corner[1], corner[2])
+               @faces[corner[3]].draw_illegal(@positions[corner[3]], corner[4], corner[5])
+               @faces[corner[6]].draw_illegal(@positions[corner[6]], corner[7], corner[8])
+               errors += 1
+            end
          end
       end
 

@@ -8,13 +8,17 @@ require_relative 'square.rb'
 class GameWindow < Gosu::Window
 
    attr_reader :colour
+   attr_reader :error_col
 
    def initialize
-      super(1000, 600, false)
+      super(1300, 600, false)
       self.caption = 'Cube Colouring'
 
       @cube   = Cube.new(self)
       @square = Square.new(self)
+      @font   = Gosu::Font.new(24)
+
+      @error_col = Gosu::Color.argb(0xff_ff80FF) # Cyan
 
       @colour = [
          Gosu::Color.argb(0xff_ff0000), # Red
@@ -41,6 +45,14 @@ class GameWindow < Gosu::Window
    def draw
       @cube.draw
       @square.draw
+      @font.draw_text("<Esc> : Quit program",       800,  50, 0)
+      @font.draw_text("   F  : Fill board",         800,  80, 0)
+      @font.draw_text("   C  : Clear board",        800, 110, 0)
+      @font.draw_text("   S  : Save to cube.txt",   800, 140, 0)
+      @font.draw_text("   L  : Load from cube.txt", 800, 170, 0)
+      @font.draw_text("Use left mouse button to change individual tiles.", 800, 200, 0)
+      @font.draw_text("Click on large tile to change default colour.",     800, 230, 0)
+      @font.draw_text("Use arrow keys to turn entire cube.",               800, 260, 0)
    end
 
    # This checks when you press ESC

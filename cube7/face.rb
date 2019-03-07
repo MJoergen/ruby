@@ -52,6 +52,13 @@ class Face
       end
    end
 
+   def draw_illegal(pos, x, y)
+      @window.draw_line(pos[:x] + @size*x,         pos[:y] + @size*y,         @window.error_col,
+                        pos[:x] + @size*(x+1) - 4, pos[:y] + @size*(y+1) - 4, @window.error_col)
+      @window.draw_line(pos[:x] + @size*(x+1) - 4, pos[:y] + @size*y,         @window.error_col,
+                        pos[:x] + @size*x,         pos[:y] + @size*(y+1) - 4, @window.error_col)
+   end
+
    def get_col(x, y)
       return @pieces[7*y+x]
    end
