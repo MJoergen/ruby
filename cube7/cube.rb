@@ -328,6 +328,9 @@ class Cube
    end
 
    def up
+      @faces[5].rotate
+      @faces[5].rotate
+
       @faces[2].rotate
       @faces[2].rotate
       @faces[2].rotate
@@ -337,9 +340,15 @@ class Cube
       @faces[1] = @faces[0]
       @faces[0] = @faces[4]
       @faces[4] = tmp
+
+      @faces[5].rotate
+      @faces[5].rotate
    end
 
    def down
+      @faces[5].rotate
+      @faces[5].rotate
+
       @faces[2].rotate
       @faces[3].rotate
       @faces[3].rotate
@@ -349,6 +358,9 @@ class Cube
       @faces[4] = @faces[0]
       @faces[0] = @faces[1]
       @faces[1] = tmp
+
+      @faces[5].rotate
+      @faces[5].rotate
    end
 
 end
