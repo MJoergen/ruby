@@ -12,7 +12,7 @@ class Square
 
    def draw
       @image.draw(@xpos, @ypos, 0, @size/225.0, @size/225.0,
-                  @window.colour[@colour])
+                  @window.get_col(@colour))
    end
 
    def mouse(x, y)

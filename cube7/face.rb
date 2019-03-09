@@ -47,7 +47,7 @@ class Face
          for y in 0..6
             @image.draw(pos[:x] + @size*x, pos[:y] + @size*y, 0, 
                         (@size-4.0)/225, (@size-4.0)/225,
-                        @window.colour[@pieces[7*y+x]])
+                        @window.get_col(@pieces[7*y+x]))
          end
       end
    end
