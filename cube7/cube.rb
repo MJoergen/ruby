@@ -29,113 +29,68 @@ class Cube
          @faces << Face.new(window, i)
       end
 
-      # 24 edge pieces close to the corner
-      @edges1 = []
-      @edges1 << [0, 0, 5,  2, 6, 5]
-      @edges1 << [0, 1, 0,  1, 1, 6]
-      @edges1 << [0, 5, 6,  4, 5, 0]
-      @edges1 << [0, 6, 1,  3, 0, 1]
-      @edges1 << [1, 0, 5,  2, 5, 0]
-      @edges1 << [1, 1, 0,  5, 5, 0]
-      @edges1 << [1, 5, 6,  0, 5, 0]
-      @edges1 << [1, 6, 1,  3, 5, 0]
-      @edges1 << [2, 0, 5,  5, 6, 5]
-      @edges1 << [2, 1, 0,  1, 0, 1]
-      @edges1 << [2, 5, 6,  4, 0, 1]
-      @edges1 << [2, 6, 1,  0, 0, 1]
-      @edges1 << [3, 0, 5,  0, 6, 5]
-      @edges1 << [3, 1, 0,  1, 6, 5]
-      @edges1 << [3, 5, 6,  4, 6, 5]
-      @edges1 << [3, 6, 1,  5, 0, 1]
-      @edges1 << [4, 0, 5,  2, 1, 6]
-      @edges1 << [4, 1, 0,  0, 1, 6]
-      @edges1 << [4, 5, 6,  5, 1, 6]
-      @edges1 << [4, 6, 1,  3, 1, 6]
-      @edges1 << [5, 0, 5,  3, 6, 5]
-      @edges1 << [5, 1, 0,  1, 5, 0]
-      @edges1 << [5, 5, 6,  4, 1, 6]
-      @edges1 << [5, 6, 1,  2, 0, 1]
-
-      # 24 edge pieces close to the centre
-      @edges2 = []
-      @edges2 << [0, 0, 4,  2, 6, 4]
-      @edges2 << [0, 2, 0,  1, 2, 6]
-      @edges2 << [0, 4, 6,  4, 4, 0]
-      @edges2 << [0, 6, 2,  3, 0, 2]
-      @edges2 << [1, 0, 4,  2, 4, 0]
-      @edges2 << [1, 2, 0,  5, 4, 0]
-      @edges2 << [1, 4, 6,  0, 4, 0]
-      @edges2 << [1, 6, 2,  3, 4, 0]
-      @edges2 << [2, 0, 4,  5, 6, 4]
-      @edges2 << [2, 2, 0,  1, 0, 2]
-      @edges2 << [2, 4, 6,  4, 0, 2]
-      @edges2 << [2, 6, 2,  0, 0, 2]
-      @edges2 << [3, 0, 4,  0, 6, 4]
-      @edges2 << [3, 2, 0,  1, 6, 4]
-      @edges2 << [3, 4, 6,  4, 6, 4]
-      @edges2 << [3, 6, 2,  5, 0, 2]
-      @edges2 << [4, 0, 4,  2, 2, 6]
-      @edges2 << [4, 2, 0,  0, 2, 6]
-      @edges2 << [4, 4, 6,  5, 2, 6]
-      @edges2 << [4, 6, 2,  3, 2, 6]
-      @edges2 << [5, 0, 4,  3, 6, 4]
-      @edges2 << [5, 2, 0,  1, 4, 0]
-      @edges2 << [5, 4, 6,  4, 2, 6]
-      @edges2 << [5, 6, 2,  2, 0, 2]
-
-      # 12 edge pieces at the centre (and swapped)
-      @edges3 = []
-      @edges3 << [0, 0, 3,  2, 6, 3]
-      @edges3 << [0, 3, 0,  1, 3, 6]
-      @edges3 << [0, 3, 6,  4, 3, 0]
-      @edges3 << [0, 6, 3,  3, 0, 3]
-      @edges3 << [1, 0, 3,  2, 3, 0]
-      @edges3 << [1, 3, 0,  5, 3, 0]
-      @edges3 << [1, 3, 6,  0, 3, 0]
-      @edges3 << [1, 6, 3,  3, 3, 0]
-      @edges3 << [2, 0, 3,  5, 6, 3]
-      @edges3 << [2, 3, 0,  1, 0, 3]
-      @edges3 << [2, 3, 6,  4, 0, 3]
-      @edges3 << [2, 6, 3,  0, 0, 3]
-      @edges3 << [3, 0, 3,  0, 6, 3]
-      @edges3 << [3, 3, 0,  1, 6, 3]
-      @edges3 << [3, 3, 6,  4, 6, 3]
-      @edges3 << [3, 6, 3,  5, 0, 3]
-      @edges3 << [4, 0, 3,  2, 3, 6]
-      @edges3 << [4, 3, 0,  0, 3, 6]
-      @edges3 << [4, 3, 6,  5, 3, 6]
-      @edges3 << [4, 6, 3,  3, 3, 6]
-      @edges3 << [5, 0, 3,  3, 6, 3]
-      @edges3 << [5, 3, 0,  1, 3, 0]
-      @edges3 << [5, 3, 6,  4, 3, 6]
-      @edges3 << [5, 6, 3,  2, 0, 3]
+      @edges0 = make_edge_list(0)
+      @edges1 = make_edge_list(1)
+      @edges2 = make_edge_list(2)
+      @edges3 = make_edge_list(3)
 
       # 24 corner pieces (incl rotations)
       @corners = []
       @corners << [0, 0, 0,  1, 0, 6,  2, 6, 0]
       @corners << [0, 0, 6,  2, 6, 6,  4, 0, 0]
       @corners << [0, 6, 0,  3, 0, 0,  1, 6, 6]
-      @corners << [0, 6, 6,  4, 6, 0,  3, 0, 0]
+      @corners << [0, 6, 6,  4, 6, 0,  3, 0, 6]
+      @corners << [1, 0, 0,  5, 6, 0,  2, 0, 0]
       @corners << [1, 0, 6,  2, 6, 0,  0, 0, 0]
-      @corners << [1, 0, 6,  5, 0, 0,  2, 6, 0]
+      @corners << [1, 6, 0,  3, 6, 0,  5, 0, 0]
       @corners << [1, 6, 6,  0, 6, 0,  3, 0, 0]
-      @corners << [1, 6, 6,  3, 0, 0,  5, 6, 0]
+      @corners << [2, 0, 0,  1, 0, 0,  5, 6, 0]
+      @corners << [2, 0, 6,  5, 6, 6,  4, 0, 6]
       @corners << [2, 6, 0,  0, 0, 0,  1, 0, 6]
-      @corners << [2, 6, 0,  1, 0, 6,  5, 0, 0]
       @corners << [2, 6, 6,  4, 0, 0,  0, 0, 6]
-      @corners << [2, 6, 6,  5, 0, 6,  4, 0, 0]
-      @corners << [3, 0, 0,  0, 6, 6,  4, 6, 0]
       @corners << [3, 0, 0,  1, 6, 6,  0, 6, 0]
-      @corners << [3, 0, 0,  4, 6, 0,  5, 6, 6]
-      @corners << [3, 0, 0,  5, 6, 0,  1, 6, 6]
+      @corners << [3, 0, 6,  0, 6, 6,  4, 6, 0]
+      @corners << [3, 6, 0,  5, 0, 0,  1, 6, 0]
+      @corners << [3, 6, 6,  4, 6, 6,  5, 0, 6]
       @corners << [4, 0, 0,  0, 0, 6,  2, 6, 6]
-      @corners << [4, 0, 0,  2, 6, 6,  5, 0, 6]
-      @corners << [4, 6, 0,  3, 0, 0,  0, 6, 6]
-      @corners << [4, 6, 0,  5, 6, 6,  3, 0, 0]
-      @corners << [5, 0, 0,  2, 6, 0,  1, 0, 6]
-      @corners << [5, 0, 6,  4, 0, 0,  2, 6, 6]
-      @corners << [5, 6, 0,  1, 6, 6,  3, 0, 0]
-      @corners << [5, 6, 6,  3, 0, 0,  4, 6, 0]
+      @corners << [4, 0, 6,  2, 0, 6,  5, 6, 6]
+      @corners << [4, 6, 0,  3, 0, 6,  0, 6, 6]
+      @corners << [4, 6, 6,  5, 0, 6,  3, 6, 6]
+      @corners << [5, 0, 0,  1, 6, 0,  3, 6, 0]
+      @corners << [5, 0, 6,  3, 6, 6,  4, 6, 6]
+      @corners << [5, 6, 0,  2, 0, 0,  1, 0, 0]
+      @corners << [5, 6, 6,  4, 0, 6,  2, 0, 6]
+   end
+
+   def make_edge_list(i)
+      j = 6-i
+      edges = []
+      edges << [0, 0, j,  2, 6, j]
+      edges << [0, i, 0,  1, i, 6]
+      edges << [0, j, 6,  4, j, 0]
+      edges << [0, 6, i,  3, 0, i]
+      edges << [1, 0, j,  2, j, 0]
+      edges << [1, i, 0,  5, j, 0]
+      edges << [1, j, 6,  0, j, 0]
+      edges << [1, 6, i,  3, j, 0]
+      edges << [2, 0, j,  5, 6, j]
+      edges << [2, i, 0,  1, 0, i]
+      edges << [2, j, 6,  4, 0, i]
+      edges << [2, 6, i,  0, 0, i]
+      edges << [3, 0, j,  0, 6, j]
+      edges << [3, i, 0,  1, 6, j]
+      edges << [3, j, 6,  4, 6, j]
+      edges << [3, 6, i,  5, 0, i]
+      edges << [4, 0, j,  2, i, 6]
+      edges << [4, i, 0,  0, i, 6]
+      edges << [4, j, 6,  5, i, 6]
+      edges << [4, 6, i,  3, i, 6]
+      edges << [5, 0, j,  3, 6, j]
+      edges << [5, i, 0,  1, j, 0]
+      edges << [5, j, 6,  4, i, 6]
+      edges << [5, 6, i,  2, 0, i]
+
+      return edges
    end
 
    def clear
@@ -179,27 +134,27 @@ class Cube
 
    def check_edges(edges)
       errors = 0
-      # Check edges close to the corner
-      exp = []
-      for col1 in 0..5
-         for col2 in 0..5
+      exp = [0]*36
+      obs = [0]*36
+      for i in 0..23
+         edge = edges[i]
+         col1 = @faces[edge[0]].get_col(edge[1], edge[2])
+         col2 = @faces[edge[3]].get_col(edge[4], edge[5])
+         exp_colour_pair = 6*edge[3] + edge[0]
+         exp[exp_colour_pair] += 1
+         if col1 < 6 and col2 < 6
             colour_pair = 6*col1 + col2
-            if col1==col2 or col1+col2==5 
-               exp[colour_pair] = 0
-            else
-               exp[colour_pair] = 1
-            end
+            obs[colour_pair] += 1
          end
       end
-      pairs = [0]*36
+
       for i in 0..23
          edge = edges[i]
          col1 = @faces[edge[0]].get_col(edge[1], edge[2])
          col2 = @faces[edge[3]].get_col(edge[4], edge[5])
          if col1 < 6 and col2 < 6
             colour_pair = 6*col1 + col2
-            pairs[colour_pair] += 1
-            if pairs[colour_pair] > exp[colour_pair]
+            if obs[colour_pair] > exp[colour_pair]
                @faces[edge[0]].draw_illegal(@positions[edge[0]], edge[1], edge[2])
                @faces[edge[3]].draw_illegal(@positions[edge[3]], edge[4], edge[5])
                errors += 1
@@ -213,6 +168,7 @@ class Cube
    def check_corners
       errors = 0
       exp = [0]*216
+      obs = [0]*216
       for c in 0..23
          corner = @corners[c]
          col1 = @faces[corner[0]].get_col(corner[1], corner[2])
@@ -220,9 +176,12 @@ class Cube
          col3 = @faces[corner[6]].get_col(corner[7], corner[8])
          exp_colour_pair = 36*corner[0] + 6*corner[3] + corner[6]
          exp[exp_colour_pair] += 1
+         if col1 < 6 and col2 < 6 and col3 < 6
+            colour_pair = 36*col1 + 6*col2 + col3
+            obs[colour_pair] += 1
+         end
       end
 
-      obs = [0]*216
       for c in 0..23
          corner = @corners[c]
          col1 = @faces[corner[0]].get_col(corner[1], corner[2])
@@ -230,7 +189,6 @@ class Cube
          col3 = @faces[corner[6]].get_col(corner[7], corner[8])
          if col1 < 6 and col2 < 6 and col3 < 6
             colour_pair = 36*col1 + 6*col2 + col3
-            obs[colour_pair] += 1
             if obs[colour_pair] > exp[colour_pair]
                @faces[corner[0]].draw_illegal(@positions[corner[0]], corner[1], corner[2])
                @faces[corner[3]].draw_illegal(@positions[corner[3]], corner[4], corner[5])
@@ -247,17 +205,12 @@ class Cube
       errors = 0
       for i in 0..2
          for j in i..3
-            if i != j and j != 3
-               exp = 8
-            else
-               exp = 4
-            end
             for c in 0..5
                count = 0
                for f in 0..5
                   count += @faces[f].count_colour(c, i, j)
                end
-               if count > exp
+               if count > 4
                   for g in 0..5
                      @faces[g].draw_illegal_face(@positions[g], i, j, c)
                   end
@@ -271,6 +224,7 @@ class Cube
 
    def legal?
       errors  = check_faces
+      errors += check_edges(@edges0)
       errors += check_edges(@edges1)
       errors += check_edges(@edges2)
       errors += check_edges(@edges3)

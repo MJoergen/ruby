@@ -124,21 +124,6 @@ class Face
          r += 1
       end
 
-      if x != y and y != 3
-         if @pieces[7*x+y] == c
-            r += 1
-         end
-         if @pieces[7*(6-y)+x] == c
-            r += 1
-         end
-         if @pieces[7*(6-x)+(6-y)] == c
-            r += 1
-         end
-         if @pieces[7*y+(6-x)] == c
-            r += 1
-         end
-      end
-
       return r
    end
 
