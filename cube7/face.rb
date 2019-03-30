@@ -79,21 +79,6 @@ class Face
       if @pieces[7*x+(6-y)] == c
          draw_illegal(pos, 6-y, x)
       end
-
-      if x != y and y != 3
-         if @pieces[7*x+y] == c
-            draw_illegal(pos, y, x)
-         end
-         if @pieces[7*(6-y)+x] == c
-            draw_illegal(pos, x, 6-y)
-         end
-         if @pieces[7*(6-x)+(6-y)] == c
-            draw_illegal(pos, 6-y, 6-x)
-         end
-         if @pieces[7*y+(6-x)] == c
-            draw_illegal(pos, 6-x, y)
-         end
-      end
    end
 
    def draw_illegal(pos, x, y)

@@ -204,7 +204,7 @@ class Cube
    def check_faces
       errors = 0
       for i in 0..2
-         for j in i..3
+         for j in 0..3
             for c in 0..5
                count = 0
                for f in 0..5
